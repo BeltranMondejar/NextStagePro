@@ -1,0 +1,39 @@
+<header *ngIf="!isLogged" class="header-container">
+  <div class="logo">
+    <img src="assets/logo.png" class="logo-img" />
+    NextStage<span>Pro</span>
+  </div>
+
+  <nav class="menu">
+    <a>Home</a>
+    <a>Network</a>
+    <a>Jobs</a>
+    <a>Events</a>
+  </nav>
+
+  <div class="right">
+    <button class="discord-btn" (click)="loginWithDiscord()">
+      <img src="assets/icons/discord.svg" class="icon" /> Login with Discord
+    </button>
+  </div>
+</header>
+<header *ngIf="isLogged" class="header-container">
+  <div class="logo">LinkedIn <span>Gaming</span></div>
+
+  <nav class="menu">
+    <a>Feed</a>
+    <a>Network</a>
+    <a>Jobs</a>
+    <a>Events</a>
+    <a>Messages</a>
+  </nav>
+
+  <div class="right">
+    <div class="notif">
+      <span class="badge">3</span>
+      🔔
+    </div>
+
+    <img class="avatar" [src]="user.avatar" [alt]="user.name" (click)="logout()" />
+  </div>
+</header>
