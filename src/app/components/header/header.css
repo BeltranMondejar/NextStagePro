@@ -1,140 +1,165 @@
+* {
+  font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
+}
+/* === HEADER GENERAL === */
 .header-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 75px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 85%;
+  height: 70px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 1.8rem;
 
-  padding: 0 2rem;
-  box-sizing: border-box;
+  background: rgba(20, 20, 35, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
-  background: #0f0f0f;
-  border-bottom: 1px solid #222;
+  border-radius: 40px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
+
   color: white;
-
   z-index: 1000;
 }
+
 body {
-  padding-top: 75px;
+  padding-top: 110px;
 }
 
-/* LOGO */
+/* === LOGO === */
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 1.6rem;
+  gap: 0.55rem;
+  font-size: 1.3rem;
   font-weight: 700;
   white-space: nowrap;
+  opacity: 0.95;
+  background: transparent !important;
 }
 
 .logo-img {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
 }
 
 .logo span {
-  color: #3B82F6;
+  color: #3b82f6;
+  
 }
 
-/* MENU */
+/* === MENÚ CENTRADO === */
 .menu {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2rem;
+  gap: 2.2rem;
+  background: transparent !important;
 }
 
 .menu a {
   cursor: pointer;
-  font-size: 1.08rem;
-  opacity: 0.85;
-  transition: 0.2s;
+  font-size: 1rem;
+  opacity: 0.75;
+  transition: 0.25s;
   white-space: nowrap;
+  background: transparent !important;
+}
+
+.menu fa-icon {
+  font-size: 18px;
+  vertical-align: middle;
 }
 
 .menu a:hover {
   opacity: 1;
+  transform: translateY(-1px);
 }
 
+/* === LADO DERECHO === */
 .right {
   display: flex;
   align-items: center;
-  gap: 1.3rem;
+  gap: 1.1rem;
   white-space: nowrap;
+  background: transparent !important;
 }
 
-/* DISCORD BUTTON */
+/* === BOTÓN DISCORD === */
 .discord-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
 
-  padding: 0.6rem 1rem;
-  background: linear-gradient(90deg, #3B82F6, #60A5FA);
+  padding: 0.55rem 1.1rem;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
   border: none;
-  border-radius: 8px;
 
+  border-radius: 20px;
   color: white;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.2s;
+  font-size: 0.95rem;
+
+  transition: 0.25s;
   white-space: nowrap;
 }
 
 .discord-btn:hover {
-  opacity: 0.85;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.55);
+  transform: translateY(-1px);
 }
 
 .discord-btn .icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
 }
 
-/* NOTIFICATIONS */
+/* === NOTIFICACIONES === */
 .notif {
   position: relative;
   cursor: pointer;
   font-size: 1.4rem;
+  background: transparent !important;
 }
 
 .badge {
   position: absolute;
   top: -6px;
   right: -10px;
+
   background: #ff3b3b;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 50%;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
+  font-weight: bold;
 }
 
-/* AVATAR */
+/* === AVATAR === */
 .avatar {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid #6d5dfc;
+
+  border: 2px solid #3b82f6;
   transition: 0.2s;
 }
 
 .avatar:hover {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
-/* RESPONSIVE */
+/* === RESPONSIVE === */
 @media (max-width: 1050px) {
   .menu {
-    gap: 1.2rem;
-  }
-
-  .search {
-    width: 180px;
+    gap: 1.3rem;
   }
 }
 
@@ -142,8 +167,12 @@ body {
   .menu {
     display: none;
   }
+}
 
-  .search {
-    display: none;
-  }
+/* --- BORRAR CUALQUIER FONDO DENTRO DEL HEADER --- */
+.header-container span {
+  background: transparent !important;
+}
+.header-container img {
+  background: transparent !important;
 }

@@ -5,10 +5,12 @@
   </div>
 
   <nav class="menu">
-    <a>Home</a>
-    <a>Network</a>
-    <a>Jobs</a>
-    <a>Events</a>
+    <a><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
+    <a><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
+    <a><fa-icon [icon]="faUser"></fa-icon> Perfil</a>
+    <a><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
+    <a><fa-icon [icon]="faSackDollar"></fa-icon> Suscripciones</a>
+    <a><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
   </nav>
 
   <div class="right">
@@ -18,20 +20,24 @@
   </div>
 </header>
 <header *ngIf="isLogged" class="header-container">
-  <div class="logo">NextStage<span>Pro</span></div>
+  <div class="logo">
+    <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
+    NextStage<span>Pro</span>
+  </div>
 
   <nav class="menu">
-    <a>Feed</a>
-    <a>Network</a>
-    <a>Jobs</a>
-    <a>Events</a>
-    <a>Messages</a>
+    <a><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
+    <a><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
+    <a><fa-icon [icon]="faUser"></fa-icon> Perfil</a>
+    <a><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
+    <a><fa-icon [icon]="faSackDollar"></fa-icon> Suscripciones</a>
+    <a><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
   </nav>
 
   <div class="right">
     <div class="notif">
       <span class="badge">3</span>
-      🔔
+      <fa-icon [icon]="faBell"></fa-icon>
     </div>
 
     <img class="avatar" [src]="user.avatar" [alt]="user.name" (click)="logout()" />

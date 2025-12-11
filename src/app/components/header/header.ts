@@ -1,14 +1,27 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faHome, faCircleInfo, faUser, faSearch, faSackDollar, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
 export class HeaderComponent {
+
+  // Iconos FontAwesome
+  faHome = faHome;
+  faCircleInfo = faCircleInfo;
+  faUser = faUser;
+  faSearch = faSearch;
+  faSackDollar = faSackDollar;
+  faEnvelope = faEnvelope;
+  faBell = faBell;
+  faDiscord = faDiscord;
 
   // Simula login. Luego lo reemplazamos con un AuthService real.
   isLogged = false;

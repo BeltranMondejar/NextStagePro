@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header';
 
@@ -7,10 +8,11 @@ import { HeaderComponent } from './components/header/header';
   standalone: true,
   imports: [
     RouterOutlet,
+    FontAwesomeModule,
     HeaderComponent
   ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App {
   protected readonly title = signal('NextStagePro');
