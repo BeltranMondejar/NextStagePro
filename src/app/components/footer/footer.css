@@ -1,15 +1,5 @@
-:host {
-  display: block;
-  width: 100%;
-}
-
-* {
-  font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
-}
-
-/* Para que el contenido no quede oculto por el footer */
-main, body {
-  padding-bottom: 220px; /* Ajustar según la altura real del footer */
+*:not(.footer-container) {
+  background: transparent !important;
 }
 
 /* FOOTER */
@@ -18,14 +8,17 @@ main, body {
   left: 0;
   bottom: 0;
   width: 100%;
-  background: rgba(20, 20, 35, 0.95); /* más sólido, más bonito */
+  background: rgba(20, 20, 35, 0.75);
   color: #c9c9d1;
-  padding: 40px 70px 25px 70px;
+  padding: 40px 50px 20px 50px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 1000;
 
   border-radius: 40px 40px 0 0;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+
+  font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
 }
 
 /* Contenido interior */
@@ -84,7 +77,7 @@ main, body {
 
 .footer-bottom {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 10px;
   border-top: 1px solid #c9c9d1;
   padding-top: 15px;
   font-size: 0.85rem;

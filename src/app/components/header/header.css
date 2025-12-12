@@ -1,6 +1,3 @@
-* {
-  font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
-}
 /* === HEADER GENERAL === */
 .header-container {
   position: fixed;
@@ -25,6 +22,8 @@
 
   color: white;
   z-index: 1000;
+
+  font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
 }
 
 body {
