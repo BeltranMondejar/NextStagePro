@@ -1,0 +1,92 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+* {
+  font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
+}
+
+/* Para que el contenido no quede oculto por el footer */
+main, body {
+  padding-bottom: 220px; /* Ajustar según la altura real del footer */
+}
+
+/* FOOTER */
+.footer-container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(20, 20, 35, 0.95); /* más sólido, más bonito */
+  color: #c9c9d1;
+  padding: 40px 70px 25px 70px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1000;
+
+  border-radius: 40px 40px 0 0;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Contenido interior */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Secciones */
+.footer-section h3 {
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: #c9c9d1;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-section ul li a:hover {
+  color: #3b82f6;
+}
+
+/* Logo + nombre */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.brand-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 25px;
+  border-top: 1px solid #c9c9d1;
+  padding-top: 15px;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
