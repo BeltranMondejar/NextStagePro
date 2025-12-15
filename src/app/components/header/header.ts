@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faHome, faCircleInfo, faUser, faSearch, faSackDollar, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons';
-import { faDiscord } from '@fortawesome/free-brands-svg-icons';
+import { faHome, faCircleInfo, faUser, faSearch, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faDiscord,faSketch } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +19,7 @@ export class HeaderComponent {
   faCircleInfo = faCircleInfo;
   faUser = faUser;
   faSearch = faSearch;
-  faSackDollar = faSackDollar;
+  faSketch = faSketch;
   faEnvelope = faEnvelope;
   faBell = faBell;
   faDiscord = faDiscord;
