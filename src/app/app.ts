@@ -8,10 +8,10 @@ import { Footer } from './components/footer/footer';
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
     FontAwesomeModule,
     HeaderComponent,
-    Footer
+    Footer,
+    RouterOutlet
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']

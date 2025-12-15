@@ -1,0 +1,27 @@
+/* === ESTRUCTURA GENERAL === */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* fuerza que el contenedor principal ocupe toda la pantalla */
+}
+
+/* Main ocupa todo el espacio disponible entre header y footer */
+.main-content {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  margin-top: 70px;
+  box-sizing: border-box;
+}
+
+/* Footer siempre abajo */
+app-footer {
+  width: 100%;
+}
+
+footer {
+  background: rgba(20, 20, 35, 0.85);
+  color: white;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+}

@@ -1,17 +1,16 @@
 <header *ngIf="!isLogged" class="header-container">
-  <div class="logo">
-    <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
-    NextStage<span>Pro</span>
-  </div>
+  <div class="logo" routerLink="/home" style="cursor:pointer;">
+  <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
+  NextStage<span>Pro</span>
+</div>
 
   <nav class="menu">
-    <a><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
-    <a><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
-    <a><fa-icon [icon]="faUser"></fa-icon> Perfil</a>
-    <a><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
-    <a><fa-icon [icon]="faSackDollar"></fa-icon> Suscripciones</a>
-    <a><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
-  </nav>
+  <a routerLink="/about" routerLinkActive="active"><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
+  <a routerLink="/profile" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon> Perfil</a>
+  <a routerLink="/players" routerLinkActive="active"><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
+  <a routerLink="/subscriptions" routerLinkActive="active"><fa-icon [icon]="faSackDollar"></fa-icon> Suscripciones</a>
+  <a routerLink="/contact" routerLinkActive="active"><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
+</nav>
 
   <div class="right">
     <button class="discord-btn" (click)="loginWithDiscord()">
@@ -19,20 +18,21 @@
     </button>
   </div>
 </header>
+
 <header *ngIf="isLogged" class="header-container">
-  <div class="logo">
-    <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
-    NextStage<span>Pro</span>
-  </div>
+  <div class="logo" routerLink="/home" style="cursor:pointer;">
+  <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
+  NextStage<span>Pro</span>
+</div>
+
 
   <nav class="menu">
-    <a><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
-    <a><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
-    <a><fa-icon [icon]="faUser"></fa-icon> Perfil</a>
-    <a><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
-    <a><fa-icon [icon]="faSackDollar"></fa-icon> Suscripciones</a>
-    <a><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
-  </nav>
+  <a routerLink="/about" routerLinkActive="active"><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
+  <a routerLink="/profile" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon> Perfil</a>
+  <a routerLink="/players" routerLinkActive="active"><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
+  <a routerLink="/subscriptions" routerLinkActive="active"><fa-icon [icon]="faSackDollar"></fa-icon> Suscripciones</a>
+  <a routerLink="/contact" routerLinkActive="active"><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
+</nav>
 
   <div class="right">
     <div class="notif">
