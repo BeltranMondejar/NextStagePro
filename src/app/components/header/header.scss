@@ -39,16 +39,17 @@ body {
   font-weight: 700;
   white-space: nowrap;
   opacity: 0.95;
+  
+  .brand-name {
+    color: #3b82f6;
+  }
+
 }
 
 .logo-img {
   width: 34px;
   height: 34px;
   object-fit: contain;
-}
-
-.logo span {
-  color: #3b82f6;
 }
 
 /* === MENÚ CENTRADO === */
@@ -165,10 +166,4 @@ body {
   .menu {
     display: none;
   }
-}
-
-/* --- BORRAR CUALQUIER FONDO DENTRO DEL HEADER --- */
-.header-container span,
-.header-container img {
-  background: transparent !important;
 }

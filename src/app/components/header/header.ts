@@ -10,7 +10,7 @@ import { faDiscord,faSketch } from '@fortawesome/free-brands-svg-icons';
   standalone: true,
   imports: [CommonModule, FontAwesomeModule, RouterModule],
   templateUrl: './header.html',
-  styleUrls: ['./header.css']
+  styleUrls: ['./header.scss']
 })
 export class HeaderComponent {
 

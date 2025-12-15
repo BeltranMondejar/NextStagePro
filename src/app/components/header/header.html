@@ -1,39 +1,32 @@
-<header *ngIf="!isLogged" class="header-container">
-  <div class="logo" routerLink="/home" style="cursor:pointer;">
-  <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
-  NextStage<span>Pro</span>
-</div>
-
+<header class="header-container">
+  <div class="logo" routerLink="/home" style="cursor: pointer">
+    <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
+    <span>NextStage<span class="brand-name">Pro</span></span>
+  </div>
   <nav class="menu">
-  <a routerLink="/about" routerLinkActive="active"><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
-  <a routerLink="/players" routerLinkActive="active"><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
-  <a routerLink="/subscriptions" routerLinkActive="active"><fa-icon [icon]="faSketch"></fa-icon> Suscripciones</a>
-  <a routerLink="/contact" routerLinkActive="active"><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
-</nav>
+    <a routerLink="/about" routerLinkActive="active"
+      ><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre Nosotros</a
+    >
+    <a *ngIf="isLogged" routerLink="/profile" routerLinkActive="active"
+      ><fa-icon [icon]="faUser"></fa-icon> Perfil</a
+    >
+    <a routerLink="/players" routerLinkActive="active"
+      ><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a
+    >
+    <a routerLink="/subscriptions" routerLinkActive="active"
+      ><fa-icon [icon]="faSketch"></fa-icon> Suscripciones</a
+    >
+    <a routerLink="/contact" routerLinkActive="active"
+      ><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a
+    >
+  </nav>
 
-  <div class="right">
+  <div *ngIf="!isLogged" class="right">
     <button class="discord-btn" (click)="loginWithDiscord()">
       <img src="icons/discord.svg" class="icon" /> Login with Discord
     </button>
   </div>
-</header>
-
-<header *ngIf="isLogged" class="header-container">
-  <div class="logo" routerLink="/home" style="cursor:pointer;">
-  <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
-  NextStage<span>Pro</span>
-</div>
-
-
-  <nav class="menu">
-  <a routerLink="/about" routerLinkActive="active"><fa-icon [icon]="faCircleInfo"></fa-icon> Sobre mí</a>
-  <a routerLink="/profile" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon> Perfil</a>
-  <a routerLink="/players" routerLinkActive="active"><fa-icon [icon]="faSearch"></fa-icon> Búsqueda Jugadores</a>
-  <a routerLink="/subscriptions" routerLinkActive="active"><fa-icon [icon]="faSketch"></fa-icon> Suscripciones</a>
-  <a routerLink="/contact" routerLinkActive="active"><fa-icon [icon]="faEnvelope"></fa-icon> Contacto</a>
-</nav>
-
-  <div class="right">
+<div *ngIf="isLogged" class="right">
     <div class="notif">
       <span class="badge">3</span>
       <fa-icon [icon]="faBell"></fa-icon>

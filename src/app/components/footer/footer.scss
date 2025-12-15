@@ -1,10 +1,5 @@
-*:not(.footer-container) {
-  background: transparent !important;
-}
-
 /* FOOTER */
 .footer-container {
-  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -64,14 +59,18 @@
 }
 
 .logo-img {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   margin-right: 10px;
 }
 
 .brand-name {
   font-size: 1.4rem;
   font-weight: bold;
+  color: #ffffff;
+}
+
+.brand-namesuffix {
   color: #3b82f6;
 }
 
