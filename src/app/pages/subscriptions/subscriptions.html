@@ -1,16 +1,25 @@
 <section class="pricing-wrapper">
+
   <!-- TABLE -->
   <div class="pricing-table">
+
     <!-- LEFT INFO COLUMN -->
     <div class="col info">
-      <div class="plan-header info-header">
+      <div class="plan-header">
         <div class="logo vertical">
-          <img src="logos/Logo_NSPro.gg_Oficial_SF.png" alt="NextStagePro" class="logo-img" />
-          <span>NextStagePro</span>
+          <img
+            src="logos/Logo_NSPro.gg_Oficial_SF.png"
+            alt="NextStagePro"
+            class="logo-img"
+          />
+          <span class="brand-name">
+            NextStage<span class="brand-name-suffix">Pro</span>
+          </span>
         </div>
       </div>
 
       <div class="row">Player profile creation</div>
+      <div class="row">Team profile creation</div>
       <div class="row">Team visibility</div>
       <div class="row">Scout access</div>
       <div class="row">Featured placement</div>
@@ -21,13 +30,13 @@
     <!-- PLAN BÁSICO -->
     <div class="col">
       <div class="plan-header">
-        <div class="icon-box">
-        </div>
-        <h4>Básico</h4>
-        <p class="price">GRATIS</p>
+        <div class="icon-box-none"></div>
+        <h4>Basic</h4>
+        <p class="price">FREE</p>
       </div>
 
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
@@ -41,65 +50,68 @@
         <div class="icon-box">
           <fa-icon [icon]="faUser"></fa-icon>
         </div>
-        <h4>Jugador</h4>
+        <h4>Player</h4>
         <p class="price">$5<span>/month</span></p>
       </div>
 
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
     </div>
 
-    <!-- Plan Jugador PRO -->
+    <!-- PLAN JUGADOR PRO -->
     <div class="col popular">
       <div class="ribbon">POPULAR</div>
 
       <div class="plan-header">
-       <div class="icon-box">
+        <div class="icon-box">
           <fa-icon [icon]="faUserPlus"></fa-icon>
         </div>
-        <h4>Jugador PRO</h4>
-        <p class="price">10€<span>/mes</span></p>
+        <h4>Player PRO</h4>
+        <p class="price">10€<span>/month</span></p>
       </div>
 
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
     </div>
 
-    <!-- Plan Equipo -->
+    <!-- PLAN EQUIPO -->
     <div class="col">
       <div class="plan-header">
         <div class="icon-box">
           <fa-icon [icon]="faUsers"></fa-icon>
         </div>
-        <h4>Equipo</h4>
-        <p class="price">25€<span>/mes</span></p>
+        <h4>Team</h4>
+        <p class="price">25€<span>/month</span></p>
       </div>
 
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
-      <div class="row"><i class="fa-solid fa-check"></i></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
+      <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
     </div>
-  </div>
-  
 
-  <!-- BUTTONS OUTSIDE TABLE -->
+  </div>
+
+  <!-- BUTTONS -->
   <div class="pricing-buttons">
     <div></div>
-
+    <div></div>
     <a href="#" class="btn">Choose plan</a>
-    <a href="#" class="btn">Choose plan</a>
-    <a href="#" class="btn white popular-btn">Choose plan</a>
+    <a href="#" class="btn popular-btn">Choose plan</a>
     <a href="#" class="btn">Choose plan</a>
   </div>
+
 </section>
