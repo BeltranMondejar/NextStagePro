@@ -7,11 +7,10 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './home.html',
-  styleUrls: ['./home.css'] 
+  styleUrls: ['./home.scss'] 
 
 })
 export class HomeComponent {
-  // Ejemplo de datos dinámicos
   title = 'NextStagePro';
   subtitle = 'Your gateway to esports recruitment and player discovery.';
 }
