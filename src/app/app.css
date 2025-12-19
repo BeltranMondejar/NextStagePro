@@ -7,10 +7,8 @@
 
 /* Main ocupa todo el espacio disponible entre header y footer */
 .main-content {
-  flex: 1;
-  padding: 1.5rem 2rem;
-  margin-top: 70px;
-  box-sizing: border-box;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
 }
-
-

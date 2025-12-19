@@ -3,3 +3,7 @@ body{
   background: linear-gradient(90deg,rgba(3, 0, 46, 1) 0%, rgba(2, 0, 54, 1) 50%, rgba(2, 0, 71, 1) 100%);
   font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
 }
+html, body {
+  height: 100%;
+  margin: 0;
+}

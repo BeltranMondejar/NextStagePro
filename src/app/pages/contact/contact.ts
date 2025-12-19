@@ -1,11 +1,50 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPhone, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
+
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  template: `
-    <h1>Contact</h1>
-    <p>Contact us for any questions or support.</p>
-  `
+  imports: [
+    CommonModule,
+    RouterModule,
+    FontAwesomeModule,
+    ReactiveFormsModule
+  ],
+  templateUrl: './contact.html',
+  styleUrls: ['./contact.scss'],
 })
-export class ContactComponent {}
+export class ContactComponent {
+  contactForm!: FormGroup;
+  
+  faEnvelope = faEnvelope;
+  faPhone = faPhone;
+  faDiscord = faDiscord;
+
+
+  constructor(private fb: FormBuilder) {
+    this.contactForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      discord: ['', Validators.required],
+      message: ['', Validators.required],
+    });
+  }
+
+  submit() {
+    if (this.contactForm.valid) {
+      console.log(this.contactForm.value);
+    }
+  }
+}
