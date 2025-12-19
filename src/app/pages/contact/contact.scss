@@ -43,6 +43,7 @@
 
   border-radius: 26px;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
 
   background: rgba(20, 20, 35, 0.75);
 }
@@ -166,7 +167,7 @@
 
 .contact-form button:hover {
   background: linear-gradient(90deg, #2563eb, #3b82f6);
-  box-shadow: 0 16px 40px rgba(124, 77, 216, 0.55);
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.55);
   transform: translateY(-1px);
 }
 
