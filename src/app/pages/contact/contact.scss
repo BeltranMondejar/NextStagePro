@@ -65,6 +65,25 @@
   color: #c9c9d1;
 }
 
+/* INFO VALUE + COPY */
+.info-value-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.copy-icon {
+  cursor: pointer;
+  font-size: 0.95rem;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.copy-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 /*FORM WRAPPER */
 .contact-form-wrapper {
   width: 100%;

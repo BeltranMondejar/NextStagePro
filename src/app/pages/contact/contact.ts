@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPhone, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faEnvelope, faCopy} from '@fortawesome/free-solid-svg-icons';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 import {
@@ -29,8 +29,12 @@ export class ContactComponent {
   
   faEnvelope = faEnvelope;
   faPhone = faPhone;
+  faCopy = faCopy;
   faDiscord = faDiscord;
 
+  copyToClipboard(text: string) {
+  navigator.clipboard.writeText(text);
+}
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({

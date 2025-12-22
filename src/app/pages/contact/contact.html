@@ -5,37 +5,57 @@
       Have questions or need solutions? Let us know by filling out the form, and we’ll be in touch!
     </p>
   </div>
-    <!-- INFO CARDS -->
-    <div class="contact-info">
-      <div class="info-card">
-        <fa-icon [icon]="faEnvelope"></fa-icon>
-        <div>
-          <div class="info-label">E-mail</div>
-          <div class="info-value">nextstageprogg.info@gmail.com</div>
-        </div>
-      </div>
+  <!-- INFO CARDS -->
+  <div class="contact-info">
+    <div class="info-card">
+      <fa-icon [icon]="faEnvelope"></fa-icon>
+      <div>
+        <div class="info-label">E-mail</div>
 
-      <div class="info-card">
-        <fa-icon [icon]="faDiscord"></fa-icon>
-        <div>
-          <div class="info-label">Discord</div>
-          <div class="info-value">https://discord.gg/y2YWB6KQ3F</div>
+        <div class="info-value-wrapper">
+          <span class="info-value">nextstageprogg.info@gmail.com</span>
+          <span
+            class="copy-icon"
+            (click)="copyToClipboard('nextstageprogg.info@gmail.com')"
+            title="Copy"
+          >
+            <fa-icon [icon]="faCopy"></fa-icon>
+          </span>
         </div>
       </div>
     </div>
 
-    <!-- FORM CONTAINER -->
-    <div class="contact-form-wrapper">
-      <form class="contact-form">
-        <input type="text" placeholder="First Name" />
-        <input type="text" placeholder="Last Name" />
+    <div class="info-card">
+      <fa-icon [icon]="faDiscord"></fa-icon>
+      <div>
+        <div class="info-label">Discord</div>
 
-        <input type="email" placeholder="Email" />
-        <input type="text" placeholder="Discord" />
-
-        <textarea placeholder="Hi, I am Jane. I want help with..."></textarea>
-
-        <button type="submit">Submit Form</button>
-      </form>
+        <div class="info-value-wrapper">
+          <span class="info-value">https://discord.gg/y2YWB6KQ3F</span>
+          <span
+            class="copy-icon"
+            (click)="copyToClipboard('https://discord.gg/y2YWB6KQ3F')"
+            title="Copy"
+          >
+            <fa-icon [icon]="faCopy"></fa-icon>
+          </span>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- FORM CONTAINER -->
+  <div class="contact-form-wrapper">
+    <form class="contact-form">
+      <input type="text" placeholder="First Name" />
+      <input type="text" placeholder="Last Name" />
+
+      <input type="email" placeholder="Email" />
+      <input type="text" placeholder="Discord" />
+
+      <textarea placeholder="Hi, I am Jane. I want help with..."></textarea>
+
+      <button type="submit">Submit Form</button>
+    </form>
+  </div>
 </section>
