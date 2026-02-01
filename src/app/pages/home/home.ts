@@ -7,10 +7,15 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './home.html',
-  styleUrls: ['./home.scss'] 
+  styleUrls: ['./home.scss']
 
 })
 export class HomeComponent {
-  title = 'NextStagePro';
-  subtitle = 'Your gateway to esports recruitment and player discovery.';
+  teams = ['G2 ESPORTS','KOI','TEAM HERETICS','FNATIC','MAD LIONS','GIANTS'];
+  
+  players = [
+    { name: 'Marcus "Nova"', role: 'Valorant - IGL | Radiant' },
+    { name: 'Sara "Ghost"', role: 'LoL - Midlane | Grandmaster' },
+    { name: 'Viktor K.', role: 'CS2 - AWPer | Faceit 10' }
+  ];
 }
