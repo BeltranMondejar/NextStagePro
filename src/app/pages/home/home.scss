@@ -110,7 +110,7 @@
   .carousel-track {
     display: flex;
     width: max-content;
-    animation: scroll 30s linear infinite; /* más rápido y fluido */
+    animation: scroll 30s linear infinite;
     gap: 2rem;
   }
 
@@ -330,13 +330,13 @@
         font-size: 1rem;
         transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 
-        &.btn-primary { background: var(--accent-blue); color: #fff; }
+        &.btn-primary { background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%); color: #fff; }
         &.btn-secondary { border: 1px solid var(--text-dim); color: #fff; }
 
         &:hover {
           transform: translateY(-3px);
           box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
-          background: linear-gradient(135deg, var(--accent-blue), var(--accent-light));
+          background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
         }
       }
     }

@@ -180,7 +180,7 @@ fa-icon[ng-reflect-icon*="circle-xmark"] {
   top: 0;
   right: 0;
 
-  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
   color: #ffffff;
 
   padding: 0.45rem 0.9rem;
@@ -218,13 +218,13 @@ fa-icon[ng-reflect-icon*="circle-xmark"] {
 }
 
 .btn:hover {
-  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
   box-shadow: 0 0 18px rgba(59, 130, 246, 0.55);
 }
 
 /* ===== POPULAR BUTTON ===== */
 .popular-btn {
-  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
 }
 
 /* ===== RESPONSIVE LAPTOP ===== */
@@ -345,7 +345,7 @@ fa-icon[ng-reflect-icon*="circle-xmark"] {
     font-weight: 600;
     color: #ffffff;
 
-    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
   }
 }
 

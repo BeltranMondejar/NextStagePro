@@ -1,9 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-body{
-  background: linear-gradient(90deg,rgba(3, 0, 46, 1) 0%, rgba(2, 0, 54, 1) 50%, rgba(2, 0, 71, 1) 100%);
-  font-family: "Bahnschrift SemiBold", Bahnschrift, sans-serif;
+body {
+  background: linear-gradient(
+    90deg,
+    rgba(1, 0, 20, 1) 0%,
+    rgba(3, 0, 35, 1) 50%,
+    rgba(5, 0, 45, 1) 100%
+  );
+  background-attachment: fixed;
+  font-family: 'Bahnschrift SemiBold', Bahnschrift, sans-serif;
 }
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
