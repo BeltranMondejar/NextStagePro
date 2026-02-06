@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  template: `
-    <h1>Profile</h1>
-    <p>Your profile information will appear here.</p>
-  `
+  imports: [CommonModule, FormsModule],
+  templateUrl: './profile.html',
+  styleUrls: ['./profile.scss']
 })
 export class ProfileComponent {}
