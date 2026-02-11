@@ -10,7 +10,7 @@
 /* ===== TABLE ===== */
 .pricing-table {
   display: grid;
-  grid-template-columns: 260px repeat(4, 1fr);
+  grid-template-columns: 260px repeat(3, 1fr);
   width: 100%;
   max-width: 1250px;
 
@@ -193,7 +193,7 @@ fa-icon[ng-reflect-icon*="circle-xmark"] {
 /* ===== BUTTONS ===== */
 .pricing-buttons {
   display: grid;
-  grid-template-columns: 260px repeat(4, 1fr);
+  grid-template-columns: 260px repeat(3, 1fr);
   max-width: 1250px;
   width: 100%;
   margin-top: 28px;
