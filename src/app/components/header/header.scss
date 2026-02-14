@@ -31,10 +31,12 @@
   font-weight: 700;
   white-space: nowrap;
 }
+
 .brand-name {
   color: #3b82f6;
   font-size: 1.3rem;
 }
+
 .logo-img {
   width: 32px;
   height: 32px;
@@ -47,6 +49,7 @@
   gap: 1.5rem;
   align-items: center;
 }
+
 .menu a {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.75);
@@ -56,6 +59,7 @@
   gap: 0.4rem;
   transition: 0.3s;
 }
+
 .menu a:hover,
 .menu a.active {
   color: #3b82f6;
@@ -83,6 +87,7 @@
   white-space: nowrap;
   font-size: 0.95rem;
 }
+
 .discord-btn .icon {
   width: 16px;
   filter: brightness(0) invert(1);
@@ -140,18 +145,17 @@
   backdrop-filter: blur(20px);
   border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 28px;
-  padding: 1.8rem; /* Aumentado */
+  padding: 1.8rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-
   display: flex;
   flex-direction: column;
   gap: 20px;
-
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .mobile-dropdown.open {
   opacity: 1;
   transform: translateY(0);
@@ -179,7 +183,7 @@
 }
 
 .link-item fa-icon {
-  color: #3b82f6;
+  color: rgba(255, 255, 255, 0.75);
   width: 24px;
   text-align: center;
   font-size: 1.1rem;
@@ -214,6 +218,7 @@
   gap: 10px;
   cursor: pointer;
 }
+
 .discord-btn-mobile .icon {
   width: 18px;
   filter: brightness(0) invert(1);
@@ -236,9 +241,11 @@
   .desktop-only {
     display: none;
   }
+
   .hamburger-btn {
     display: flex;
   }
+
   .header-container {
     width: 92%;
   }
@@ -248,6 +255,7 @@
   .logo span {
     font-size: 1.3rem;
   }
+  
   .mobile-dropdown {
     width: 250px;
     right: 5px;

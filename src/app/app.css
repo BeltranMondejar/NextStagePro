@@ -1,8 +1,9 @@
-/* === ESTRUCTURA GENERAL === */
+/* Estructura General */
 :host {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* fuerza que el contenedor principal ocupe toda la pantalla */
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Main ocupa todo el espacio disponible entre header y footer */
