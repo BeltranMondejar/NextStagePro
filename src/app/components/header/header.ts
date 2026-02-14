@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faHome, faCircleInfo, faUser, faSearch, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faCircleInfo, faUser, faSearch, faEnvelope, faBell, faBars, faTimes} from '@fortawesome/free-solid-svg-icons';
 import { faDiscord,faSketch } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
@@ -23,10 +23,13 @@ export class HeaderComponent {
   faEnvelope = faEnvelope;
   faBell = faBell;
   faDiscord = faDiscord;
+  faBars = faBars;
+  faTimes = faTimes;
 
-  // Simula login. Luego lo reemplazamos con un AuthService real.
+  //Variables
   isLogged = false;
-
+  menuOpen: boolean = false;
+  
   user = {
     name: 'Alex Chen',
     avatar: 'https://i.pravatar.cc/300' // avatar temporal
@@ -39,5 +42,9 @@ export class HeaderComponent {
 
   logout() {
     this.isLogged = false;
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 }

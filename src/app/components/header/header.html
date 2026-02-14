@@ -3,6 +3,7 @@
     <img src="logos/Logo_NSPro.gg_Oficial_SF.png" class="logo-img" />
     <span>NextStage<span class="brand-name">Pro</span></span>
   </div>
+
   <nav class="menu">
     <a routerLink="/about" routerLinkActive="active"
       ><fa-icon [icon]="faCircleInfo"></fa-icon> About us</a
@@ -21,17 +22,52 @@
     >
   </nav>
 
-  <div *ngIf="!isLogged" class="right">
-    <button class="discord-btn" (click)="loginWithDiscord()">
-      <img src="icons/discord.svg" class="icon" /> Login with Discord
+  <div class="right">
+    <ng-container *ngIf="!isLogged">
+      <button class="discord-btn desktop-only" (click)="loginWithDiscord()">
+        <img src="icons/discord.svg" class="icon" /> Login with Discord
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="isLogged">
+      <div class="notif desktop-only">
+        <span class="badge">3</span>
+        <fa-icon [icon]="faBell"></fa-icon>
+      </div>
+      <img class="avatar desktop-only" [src]="user.avatar" [alt]="user.name" (click)="logout()" />
+    </ng-container>
+
+    <button class="hamburger-btn" (click)="toggleMenu()" [class.active]="menuOpen">
+      <fa-icon [icon]="menuOpen ? faTimes : faBars"></fa-icon>
     </button>
   </div>
-<div *ngIf="isLogged" class="right">
-    <div class="notif">
-      <span class="badge">3</span>
-      <fa-icon [icon]="faBell"></fa-icon>
-    </div>
 
-    <img class="avatar" [src]="user.avatar" [alt]="user.name" (click)="logout()" />
+  <div class="mobile-dropdown" [class.open]="menuOpen">
+    <nav class="mobile-nav-list">
+      <a routerLink="/about" (click)="toggleMenu()">
+        <div class="link-item"><fa-icon [icon]="faCircleInfo"></fa-icon><span>About us</span></div>
+      </a>
+      <a *ngIf="isLogged" routerLink="/profile" (click)="toggleMenu()">
+        <div class="link-item"><fa-icon [icon]="faUser"></fa-icon><span>Profile</span></div>
+      </a>
+      <a routerLink="/players" (click)="toggleMenu()">
+        <div class="link-item">
+          <fa-icon [icon]="faSearch"></fa-icon><span>Search Players</span>
+        </div>
+      </a>
+      <a routerLink="/subscriptions" (click)="toggleMenu()">
+        <div class="link-item"><fa-icon [icon]="faSketch"></fa-icon><span>Subscriptions</span></div>
+      </a>
+      <a routerLink="/contact" (click)="toggleMenu()">
+        <div class="link-item"><fa-icon [icon]="faEnvelope"></fa-icon><span>Contact</span></div>
+      </a>
+    </nav>
+
+    <div class="mobile-actions">
+      <button *ngIf="!isLogged" class="discord-btn-mobile" (click)="loginWithDiscord()">
+        <img src="icons/discord.svg" class="icon" /> Login with Discord
+      </button>
+      <button *ngIf="isLogged" class="logout-btn-mobile" (click)="logout()">Logout</button>
+    </div>
   </div>
 </header>
