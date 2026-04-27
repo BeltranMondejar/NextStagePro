@@ -9,6 +9,7 @@ import {
   TeamCompetition,
   TeamActiveCompetition,
   TeamHighlight,
+  TeamMember,
 } from '../../models';
 
 @Component({
@@ -46,6 +47,7 @@ export class TeamProfileComponent implements OnInit {
     this.teamService.getMe().subscribe({
       next: (p) => {
         this.profile = p;
+        this.auth.setHeaderImage(p.logo_url || null);
         this.loading = false;
       },
       error: (err) => {
@@ -127,7 +129,7 @@ export class TeamProfileComponent implements OnInit {
     if (!file) return;
     this.teamService.uploadLogo(file).subscribe((res) => {
       if (this.profile) this.profile.logo_url = res.logo_url;
-      this.auth.setHeaderImage(res.logo_url);
+      this.auth.fetchMe();
     });
   }
 
@@ -274,7 +276,7 @@ export class TeamProfileComponent implements OnInit {
     return this.auth.isPro();
   }
 
-  getLogoUrl(): string {
+   getLogoUrl(): string {
     if (this.profile?.logo_url) {
       return this.profile.logo_url;
     }
@@ -282,4 +284,14 @@ export class TeamProfileComponent implements OnInit {
     const name = encodeURIComponent(this.profile?.name || 'Team');
     return `https://ui-avatars.com/api/?name=${name}&background=3b82f6&color=fff&size=150`;
   }
+
+  getPlayerAvatarUrl(player: TeamMember): string {
+    if (player.avatar_url) {
+      return player.avatar_url;
+    }
+
+    const nickname = encodeURIComponent(player.nickname || 'Player');
+    return `https://ui-avatars.com/api/?name=${nickname}&background=3b82f6&color=fff&size=128`;
+  }
+
 }

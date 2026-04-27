@@ -134,8 +134,22 @@ router.get('/discord/callback', async (req, res) => {
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const { rows } = await query(
-      `SELECT id, email, discord_id, plan, account_type, is_verified, created_at
-       FROM users WHERE id = $1`,
+      `SELECT
+         u.id,
+         u.email,
+         u.discord_id,
+         u.plan,
+         u.account_type,
+         u.is_verified,
+         u.created_at,
+         CASE
+           WHEN u.account_type = 'team' THEN tp.logo_url
+           ELSE pp.avatar_url
+         END AS header_image_url
+       FROM users u
+       LEFT JOIN player_profiles pp ON pp.user_id = u.id
+       LEFT JOIN team_profiles tp ON tp.user_id = u.id
+       WHERE u.id = $1`,
       [req.user.id]
     );
 

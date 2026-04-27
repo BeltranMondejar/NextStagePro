@@ -388,6 +388,7 @@
   display: flex;
   gap: 12px;
   margin-top: 8px;
+  align-items: center;
 }
 
 .btn-link {
@@ -402,6 +403,18 @@
 
   &.danger { color: #EF4444; }
   &:hover  { opacity: 0.8; }
+}
+
+.current-team-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  color: #7db4ff;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 // Formulario de nueva experiencia

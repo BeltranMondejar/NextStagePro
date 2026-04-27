@@ -209,12 +209,15 @@
                     {{ exp.end_date ? (exp.end_date | date:'yyyy') : 'Presente' }}
                   </small>
                   <div class="exp-actions">
-                    <button class="btn-link" (click)="startEditExp(i)">Editar</button>
-                    <button class="btn-link danger" (click)="deleteExp(i)">Borrar</button>
+                    <span *ngIf="exp.synthetic_current_team" class="current-team-badge">Equipo actual</span>
+                    <ng-container *ngIf="!exp.synthetic_current_team">
+                      <button class="btn-link" (click)="startEditExp(i)">Editar</button>
+                      <button class="btn-link danger" (click)="deleteExp(i)">Borrar</button>
+                    </ng-container>
                   </div>
                 </div>
               </ng-container>
-              <ng-container *ngIf="editingExpIdx === i">
+              <ng-container *ngIf="editingExpIdx === i && !exp.synthetic_current_team">
                 <div class="exp-form">
                   <div class="field"><label>Equipo *</label> <input [(ngModel)]="draftExp['team_name']"   /></div>
                   <div class="field"><label>Rol</label>      <input [(ngModel)]="draftExp['role']"         /></div>

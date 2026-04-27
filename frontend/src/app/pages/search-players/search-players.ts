@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { debounceTime, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, debounceTime } from 'rxjs';
+import { PlayerSearchFilters, PlayerSearchResult } from '../../models';
 import { PlayerService } from '../../services/player.service';
-import { PlayerSearchResult, PlayerSearchFilters } from '../../models';
 
 @Component({
   selector: 'app-search-players',
@@ -20,24 +20,35 @@ export class PlayersComponent implements OnInit, OnDestroy {
   typeFilter: 'all' | 'pro' = 'all';
   dropdownOpen = false;
   openSelect: 'game' | 'role' | 'rank' | null = null;
-  searchText   = '';
+  searchText = '';
 
   games = ['Valorant', 'League of Legends', 'CS2', 'Rocket League'];
-  roles = ['IGL', 'Duelist', 'Controller', 'Sentinel', 'Initiator',
-           'Mid Laner', 'Top', 'Jungle', 'Support', 'ADC', 'AWPer'];
+  roles = [
+    'IGL',
+    'Duelist',
+    'Controller',
+    'Sentinel',
+    'Initiator',
+    'Mid Laner',
+    'Top',
+    'Jungle',
+    'Support',
+    'ADC',
+    'AWPer',
+  ];
   ranks = ['Radiant', 'Immortal', 'Diamond', 'Platinum', 'Gold', 'Silver', 'Bronze'];
 
   selectedGame = '';
   selectedRole = '';
   selectedRank = '';
 
-  players:      PlayerSearchResult[] = [];
+  players: PlayerSearchResult[] = [];
   skeletonItems = Array(12).fill(0);
-  total   = 0;
-  page    = 1;
-  limit   = 20;
+  total = 0;
+  page = 1;
+  limit = 20;
   loading = false;
-  error   = '';
+  error = '';
 
   private search$ = new Subject<void>();
 
@@ -49,36 +60,37 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.loadPlayers();
   }
 
-  ngOnDestroy(): void { this.sub?.unsubscribe(); }
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
 
   loadPlayers(): void {
     this.loading = true;
-    this.error   = '';
+    this.error = '';
 
     const filters: PlayerSearchFilters = {
-      search: this.searchText   || undefined,
-      game:   this.selectedGame || undefined,
-      role:   this.selectedRole || undefined,
-      rank:   this.selectedRank || undefined,
-      plan:   this.typeFilter === 'pro' ? 'pro' : undefined,
-      page:   this.page,
-      limit:  this.limit,
+      search: this.searchText || undefined,
+      game: this.selectedGame || undefined,
+      role: this.selectedRole || undefined,
+      rank: this.selectedRank || undefined,
+      plan: this.typeFilter === 'pro' ? 'pro' : undefined,
+      page: this.page,
+      limit: this.limit,
     };
 
     this.playerService.search(filters).subscribe({
-      next: res => {
+      next: (res) => {
         this.players = res.players;
-        this.total   = res.total;
+        this.total = res.total;
         this.loading = false;
       },
       error: () => {
-        this.error   = 'Error cargando jugadores. El backend puede no estar arrancado.';
+        this.error = 'Error cargando jugadores. El backend puede no estar arrancado.';
         this.loading = false;
       },
     });
   }
 
-  // ── Custom select ─────────────────────────────────────────
   toggleSelect(name: 'game' | 'role' | 'rank', event: Event): void {
     event.stopPropagation();
     this.openSelect = this.openSelect === name ? null : name;
@@ -94,7 +106,6 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.loadPlayers();
   }
 
-  // ── Filters ───────────────────────────────────────────────
   setTypeFilter(filter: 'all' | 'pro'): void {
     if (this.typeFilter === filter) return;
     this.typeFilter = filter;
@@ -102,7 +113,9 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.loadPlayers();
   }
 
-  onSearchChange(): void { this.search$.next(); }
+  onSearchChange(): void {
+    this.search$.next();
+  }
 
   toggleDropdown(event: Event): void {
     event.stopPropagation();
@@ -111,20 +124,22 @@ export class PlayersComponent implements OnInit, OnDestroy {
   }
 
   closeDropdown(): void {
-    setTimeout(() => { this.dropdownOpen = false; this.openSelect = null; }, 150);
+    setTimeout(() => {
+      this.dropdownOpen = false;
+      this.openSelect = null;
+    }, 150);
   }
 
-  // Cierra dropdown Y custom select (llamado desde template)
   closeFull(): void {
     this.dropdownOpen = false;
-    this.openSelect   = null;
+    this.openSelect = null;
   }
 
   resetFilters(): void {
     this.selectedGame = '';
     this.selectedRole = '';
     this.selectedRank = '';
-    this.openSelect   = null;
+    this.openSelect = null;
     this.page = 1;
     this.loadPlayers();
   }
@@ -136,32 +151,31 @@ export class PlayersComponent implements OnInit, OnDestroy {
     this.loadPlayers();
   }
 
-  // ── Getters (usados en template) ──────────────────────────
   get hasActiveFilters(): boolean {
     return !!(this.selectedGame || this.selectedRole || this.selectedRank);
   }
 
-  // Sustituye .filter(Boolean) que no es accesible en templates Angular
   get activeFilterLabel(): string {
     return [this.selectedGame, this.selectedRole, this.selectedRank]
-      .filter(v => !!v)
+      .filter((value) => !!value)
       .join(' - ');
   }
 
-  get totalPages(): number { return Math.ceil(this.total / this.limit); }
+  get totalPages(): number {
+    return Math.ceil(this.total / this.limit);
+  }
 
   get pageNumbers(): number[] {
     const total = this.totalPages;
-    if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
+    if (total <= 5) return Array.from({ length: total }, (_, index) => index + 1);
     const start = Math.max(1, this.page - 2);
-    const end   = Math.min(total, start + 4);
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    const end = Math.min(total, start + 4);
+    return Array.from({ length: end - start + 1 }, (_, index) => start + index);
   }
 
-  // ── Pagination ────────────────────────────────────────────
-  goToPage(p: number): void {
-    if (p < 1 || p > this.totalPages) return;
-    this.page = p;
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.page = page;
     this.loadPlayers();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }

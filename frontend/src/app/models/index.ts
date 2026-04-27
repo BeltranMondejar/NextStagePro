@@ -9,6 +9,7 @@ export interface User {
   account_type: 'player' | 'team';
   is_verified: boolean;
   created_at: string;
+  header_image_url?: string | null;
 }
 
 export interface PlayerExperience {
@@ -21,6 +22,7 @@ export interface PlayerExperience {
   start_date?: string;
   end_date?: string | null;
   created_at: string;
+  synthetic_current_team?: boolean;
 }
 
 export interface PlayerHighlight {
@@ -118,6 +120,19 @@ export interface TeamHighlight {
   created_at: string;
 }
 
+export interface TeamMember {
+  id: string;
+  nickname: string;
+  first_name?: string;
+  last_name?: string;
+  main_role?: string;
+  current_rank?: string;
+  current_team?: string;
+  avatar_url?: string;
+  profile_views: number;
+  plan: 'free' | 'player_pro' | 'team_pro';
+}
+
 export interface TeamProfile {
   id: string;
   user_id?: string;
@@ -143,6 +158,7 @@ export interface TeamProfile {
   competitions?: TeamCompetition[];
   active_competitions?: TeamActiveCompetition[];
   highlights?: TeamHighlight[];
+  players?: TeamMember[];
 }
 
 export interface Subscription {

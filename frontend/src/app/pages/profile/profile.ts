@@ -69,15 +69,15 @@ export class ProfileComponent implements OnInit {
 
     this.playerService.updateMe(this.draftProfile).subscribe({
       next: updated => {
-        this.profile = { ...updated, experience: this.profile?.experience, highlights: this.profile?.highlights };
+        this.profile = updated;
         this.cancelEdit(section);
         this.saving  = false;
-        this.saveMsg = '¡Guardado!';
+        this.saveMsg = 'Guardado.';
         setTimeout(() => (this.saveMsg = ''), 2500);
       },
       error: () => {
         this.saving  = false;
-        this.saveMsg = 'Error guardando. Inténtalo de nuevo.';
+        this.saveMsg = 'Error guardando. Intentalo de nuevo.';
       },
     });
   }
@@ -132,7 +132,7 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteExp(i: number): void {
-    if (!confirm('¿Eliminar esta experiencia?')) return;
+    if (!confirm('Eliminar esta experiencia?')) return;
     const id = this.profile!.experience![i].id;
     this.playerService.deleteExperience(id).subscribe(() => {
       this.profile!.experience!.splice(i, 1);
@@ -148,7 +148,7 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteHighlight(i: number): void {
-    if (!confirm('¿Eliminar este highlight?')) return;
+    if (!confirm('Eliminar este highlight?')) return;
     const id = this.profile!.highlights![i].id;
     this.playerService.deleteHighlight(id).subscribe(() => {
       this.profile!.highlights!.splice(i, 1);

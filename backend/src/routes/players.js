@@ -5,6 +5,30 @@ const { query } = require('../config/db');
 const { requireAuth } = require('../middleware/auth');
 const { uploadProfile, uploadHighlight, cloudinary } = require('../config/cloudinary');
 
+function withManagedTeamExperience(profile, experienceRows = []) {
+  const createdTeamName = profile.created_team_name;
+  if (!createdTeamName) return experienceRows;
+
+  const alreadyListed = experienceRows.some((exp) => exp.team_name === createdTeamName);
+  if (alreadyListed) return experienceRows;
+
+  return [
+    {
+      id: `managed-team-${profile.id}`,
+      player_id: profile.id,
+      team_name: createdTeamName,
+      team_logo_url: profile.created_team_logo_url || null,
+      role: profile.main_role || null,
+      achievements: 'Equipo actual',
+      start_date: null,
+      end_date: null,
+      created_at: profile.updated_at || profile.created_at || new Date().toISOString(),
+      synthetic_current_team: true,
+    },
+    ...experienceRows,
+  ];
+}
+
 // ══════════════════════════════════════════════════════════════
 //  GET /api/players — búsqueda pública con filtros
 // ══════════════════════════════════════════════════════════════
@@ -22,7 +46,10 @@ router.get('/', async (req, res) => {
     if (location) { conditions.push(`pp.location ILIKE $${idx++}`);     params.push(`%${location}%`); }
     if (search) {
       conditions.push(
-        `(pp.nickname ILIKE $${idx} OR pp.first_name ILIKE $${idx} OR pp.last_name ILIKE $${idx} OR pp.current_team ILIKE $${idx})`
+        `(pp.nickname ILIKE $${idx}
+          OR pp.first_name ILIKE $${idx}
+          OR pp.last_name ILIKE $${idx}
+          OR COALESCE(NULLIF(pp.current_team, ''), created_team.name, latest_exp.team_name) ILIKE $${idx})`
       );
       params.push(`%${search}%`); idx++;
     }
@@ -33,14 +60,34 @@ router.get('/', async (req, res) => {
 
     const where = conditions.join(' AND ');
 
-    const dataQuery = `
-      SELECT
-        pp.id, pp.nickname, pp.first_name, pp.last_name,
-        pp.game, pp.main_role, pp.current_rank, pp.current_team, pp.location,
-        pp.avatar_url, pp.profile_views,
-        u.plan
+    const fromClause = `
       FROM player_profiles pp
       JOIN users u ON u.id = pp.user_id
+      LEFT JOIN team_profiles created_team ON created_team.user_id = pp.user_id
+      LEFT JOIN LATERAL (
+        SELECT pe.team_name
+        FROM player_experience pe
+        WHERE pe.player_id = pp.id
+        ORDER BY pe.end_date NULLS FIRST, pe.start_date DESC NULLS LAST, pe.created_at DESC
+        LIMIT 1
+      ) latest_exp ON TRUE
+    `;
+
+    const dataQuery = `
+      SELECT
+        pp.id,
+        pp.nickname,
+        pp.first_name,
+        pp.last_name,
+        pp.game,
+        pp.main_role,
+        pp.current_rank,
+        COALESCE(NULLIF(pp.current_team, ''), created_team.name, latest_exp.team_name) AS current_team,
+        pp.location,
+        pp.avatar_url,
+        pp.profile_views,
+        u.plan
+      ${fromClause}
       WHERE ${where}
       ORDER BY
         CASE WHEN u.plan != 'free' THEN 0 ELSE 1 END,
@@ -50,8 +97,8 @@ router.get('/', async (req, res) => {
     params.push(Number(limit), offset);
 
     const countQuery = `
-      SELECT COUNT(*) FROM player_profiles pp
-      JOIN users u ON u.id = pp.user_id
+      SELECT COUNT(*)
+      ${fromClause}
       WHERE ${where}
     `;
 
@@ -80,9 +127,17 @@ router.get('/', async (req, res) => {
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const { rows: profiles } = await query(
-      `SELECT pp.*, u.plan, u.email, u.discord_id
+      `SELECT
+         pp.*,
+         u.plan,
+         u.email,
+         u.discord_id,
+         COALESCE(NULLIF(pp.current_team, ''), tp.name) AS current_team,
+         tp.name AS created_team_name,
+         tp.logo_url AS created_team_logo_url
        FROM player_profiles pp
        JOIN users u ON u.id = pp.user_id
+       LEFT JOIN team_profiles tp ON tp.user_id = pp.user_id
        WHERE pp.user_id = $1`,
       [req.user.id]
     );
@@ -110,7 +165,7 @@ router.get('/me', requireAuth, async (req, res) => {
       ),
     ]);
 
-    res.json({ ...profile, experience: experience.rows, highlights: highlights.rows });
+    res.json({ ...profile, experience: withManagedTeamExperience(profile, experience.rows), highlights: highlights.rows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error del servidor' });
@@ -429,9 +484,15 @@ router.get('/:id', async (req, res) => {
     }
 
     const { rows: profiles } = await query(
-      `SELECT pp.*, u.plan
+      `SELECT
+         pp.*,
+         u.plan,
+         COALESCE(NULLIF(pp.current_team, ''), tp.name) AS current_team,
+         tp.name AS created_team_name,
+         tp.logo_url AS created_team_logo_url
        FROM player_profiles pp
        JOIN users u ON u.id = pp.user_id
+       LEFT JOIN team_profiles tp ON tp.user_id = pp.user_id
        WHERE pp.id = $1 AND pp.is_visible = TRUE`,
       [req.params.id]
     );
@@ -462,7 +523,7 @@ router.get('/:id', async (req, res) => {
     // No exponer user_id en el perfil público
     delete profile.user_id;
 
-    res.json({ ...profile, experience: experience.rows, highlights: highlights.rows });
+    res.json({ ...profile, experience: withManagedTeamExperience(profile, experience.rows), highlights: highlights.rows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error del servidor' });

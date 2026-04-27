@@ -1,12 +1,22 @@
 <div class="search-players" (click)="dropdownOpen && closeDropdown()">
+  <section class="search-hero">
+    <div class="search-hero-copy">
+      <span class="eyebrow">Scouting</span>
+      <h1>Busca jugadores y equipos</h1>
+      <p>
+        Filtra por juego, rol y rango, o escribe el nombre del jugador y su equipo actual para
+        encontrar perfiles mas rapido.
+      </p>
+    </div>
+  </section>
 
   <div class="filter-bar" (click)="$event.stopPropagation()">
     <div class="filters-left">
       <button class="filter-pill" [class.active]="typeFilter === 'all'" (click)="setTypeFilter('all')">
-        All Members
+        Todos
       </button>
       <button class="filter-pill" [class.active]="typeFilter === 'pro'" (click)="setTypeFilter('pro')">
-        Pro
+        Solo PRO
       </button>
 
       <div class="filter-dropdown">
@@ -63,11 +73,12 @@
     <div class="filters-right">
       <input
         type="text"
-        placeholder="Buscar jugador o equipo..."
+        placeholder="Buscar por jugador o equipo..."
         class="search-input"
         [(ngModel)]="searchText"
         (ngModelChange)="onSearchChange()"
       />
+      <p class="search-help">Tambien busca por equipo actual.</p>
     </div>
   </div>
 
@@ -78,15 +89,15 @@
     </ng-container>
     <span *ngIf="hasActiveFilters" class="filter-tag">
       {{ activeFilterLabel }}
-      <button (click)="resetFilters()">x</button>
+      <button type="button" (click)="resetFilters()">x</button>
     </span>
   </div>
 
   <div *ngIf="error && !loading" class="state-message error">{{ error }}</div>
 
-  <div *ngIf="!loading && !error && players.length === 0" class="state-message">
-    No se encontraron jugadores con esos filtros.
-    <br />
+  <div *ngIf="!loading && !error && players.length === 0" class="state-message empty">
+    <h3>No encontramos jugadores con esos filtros.</h3>
+    <p>Prueba a buscar por nickname, nombre del equipo o limpia los filtros activos.</p>
     <button class="btn-reset-inline" *ngIf="hasActiveFilters || typeFilter === 'pro' || searchText" (click)="resetAll()">
       Limpiar y ver todos
     </button>
@@ -104,31 +115,36 @@
   </div>
 
   <div class="players-grid" *ngIf="!loading && players.length > 0">
-    <div class="player-card" *ngFor="let player of players">
+    <article class="player-card" *ngFor="let player of players">
       <div class="player-avatar">
         <img [src]="player.avatar_url || 'https://i.pravatar.cc/80?u=' + player.id" [alt]="player.nickname" />
         <span *ngIf="player.plan !== 'free'" class="pro-badge">PRO</span>
       </div>
+
       <div class="player-info">
-        <h3>{{ player.nickname }}</h3>
-        <p class="role">{{ player.main_role || '-' }}</p>
-        <p class="game">{{ player.game || '-' }}</p>
-        <p *ngIf="player.current_team" class="team">Equipo: {{ player.current_team }}</p>
-        <p *ngIf="player.location" class="location">Ubicacion: {{ player.location }}</p>
+        <div class="player-heading">
+          <h3>{{ player.nickname }}</h3>
+          <span *ngIf="player.current_rank" class="rank">{{ player.current_rank }}</span>
+        </div>
+        <div class="player-tags">
+          <span class="info-chip role">{{ player.main_role || 'Sin rol' }}</span>
+          <span class="info-chip game">{{ player.game || 'Sin juego' }}</span>
+        </div>
+        <p *ngIf="player.location" class="location">{{ player.location }}</p>
       </div>
+
       <div class="player-meta">
-        <span class="rank">{{ player.current_rank || '-' }}</span>
+        <span class="views">{{ player.profile_views }} views</span>
         <button class="view-profile" [routerLink]="['/players', player.id]">Ver perfil</button>
       </div>
-    </div>
+    </article>
   </div>
 
   <div class="pagination" *ngIf="totalPages > 1 && !loading">
-    <button class="page-btn nav-btn" (click)="goToPage(1)" [disabled]="page === 1" title="Primera">«</button>
+    <button class="page-btn nav-btn" (click)="goToPage(1)" [disabled]="page === 1" title="Primera">&lt;&lt;</button>
     <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">Anterior</button>
     <button class="page-btn" *ngFor="let p of pageNumbers" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
     <button class="page-btn nav-btn" (click)="goToPage(page + 1)" [disabled]="page === totalPages">Siguiente</button>
-    <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="page === totalPages" title="Ultima">»</button>
+    <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="page === totalPages" title="Ultima">&gt;&gt;</button>
   </div>
-
 </div>

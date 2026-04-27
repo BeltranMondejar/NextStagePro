@@ -278,6 +278,35 @@
 
         <div class="glass-panel card">
           <div class="card-header">
+            <h3>Jugadores del equipo</h3>
+          </div>
+
+          <div *ngIf="!profile.players?.length" class="empty-state">
+            Todavia no hay jugadores vinculados a este equipo.
+          </div>
+
+          <div class="team-members-grid" *ngIf="profile.players?.length">
+            <a
+              class="team-member-card"
+              *ngFor="let player of profile.players"
+              [routerLink]="['/players', player.id]"
+            >
+              <img
+                class="team-member-avatar"
+                [src]="getPlayerAvatarUrl(player)"
+                [alt]="player.nickname"
+              />
+              <div class="team-member-info">
+                <strong>{{ player.nickname }}</strong>
+                <span *ngIf="player.current_rank" class="rank-badge">{{ player.current_rank }}</span>
+                <small>{{ player.main_role || 'Sin rol' }}</small>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="glass-panel card">
+          <div class="card-header">
             <h3>Highlights</h3>
             <label class="edit-icon" style="cursor:pointer">
               Subir

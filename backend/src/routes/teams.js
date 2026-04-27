@@ -32,6 +32,36 @@ async function getTeamId(userId) {
   return rows[0]?.id || null;
 }
 
+async function getTeamPlayers(teamName) {
+  if (!teamName) return [];
+
+  const { rows } = await query(
+    `SELECT
+       pp.id,
+       pp.nickname,
+       pp.first_name,
+       pp.last_name,
+       pp.main_role,
+       pp.current_rank,
+       COALESCE(NULLIF(pp.current_team, ''), owner_team.name) AS current_team,
+       pp.avatar_url,
+       pp.profile_views,
+       u.plan
+     FROM player_profiles pp
+     JOIN users u ON u.id = pp.user_id
+     LEFT JOIN team_profiles owner_team ON owner_team.user_id = pp.user_id
+     WHERE pp.is_visible = TRUE
+       AND COALESCE(NULLIF(pp.current_team, ''), owner_team.name) = $1
+     ORDER BY
+       CASE WHEN u.plan != 'free' THEN 0 ELSE 1 END,
+       pp.profile_views DESC,
+       pp.nickname ASC`,
+    [teamName]
+  );
+
+  return rows;
+}
+
 // ── Búsqueda pública de equipos ──────────────────────────────
 // GET /api/teams?game=&location=&search=&page=&limit=
 router.get('/', async (req, res) => {
@@ -107,10 +137,11 @@ router.get('/me', requireAuth, async (req, res) => {
 
     const profile = profiles[0];
 
-    const [competitions, activeComps, highlights] = await Promise.all([
+    const [competitions, activeComps, highlights, players] = await Promise.all([
       query(`SELECT * FROM team_competitions WHERE team_id = $1 ORDER BY year DESC`, [profile.id]),
       query(`SELECT * FROM team_active_competitions WHERE team_id = $1`, [profile.id]),
       query(`SELECT * FROM team_highlights WHERE team_id = $1 ORDER BY display_order`, [profile.id]),
+      getTeamPlayers(profile.name),
     ]);
 
     res.json({
@@ -118,6 +149,7 @@ router.get('/me', requireAuth, async (req, res) => {
       competitions:        competitions.rows,
       active_competitions: activeComps.rows,
       highlights:          highlights.rows,
+      players,
     });
   } catch (err) {
     console.error(err);
@@ -429,10 +461,11 @@ router.get('/:id', async (req, res) => {
     const profile = profiles[0];
     delete profile.user_id;
 
-    const [competitions, activeComps, highlights] = await Promise.all([
+    const [competitions, activeComps, highlights, players] = await Promise.all([
       query(`SELECT * FROM team_competitions WHERE team_id = $1 ORDER BY year DESC`, [profile.id]),
       query(`SELECT * FROM team_active_competitions WHERE team_id = $1`, [profile.id]),
       query(`SELECT * FROM team_highlights WHERE team_id = $1 ORDER BY display_order`, [profile.id]),
+      getTeamPlayers(profile.name),
     ]);
 
     res.json({
@@ -440,6 +473,7 @@ router.get('/:id', async (req, res) => {
       competitions:        competitions.rows,
       active_competitions: activeComps.rows,
       highlights:          highlights.rows,
+      players,
     });
   } catch (err) {
     console.error(err);

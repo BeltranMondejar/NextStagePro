@@ -61,6 +61,7 @@ export const DEMO_PROFILE: PlayerProfile = {
 
 const DEMO_KEY = 'nsp_demo_mode';
 const DEMO_PROFILE_KEY = 'nsp_demo_profile';
+const HEADER_IMAGE_KEY = 'nsp_header_image';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -95,6 +96,10 @@ export class AuthService {
     }
 
     const token = localStorage.getItem('nsp_token');
+    const cachedHeaderImage = localStorage.getItem(HEADER_IMAGE_KEY);
+    if (cachedHeaderImage) {
+      this._headerImageUrl.set(cachedHeaderImage);
+    }
     if (token) {
       if (this.tokenExpiresWithin(token, 24 * 60 * 60)) {
         this.refreshToken();
@@ -109,7 +114,7 @@ export class AuthService {
     localStorage.setItem(DEMO_KEY, '1');
     this._demoMode.set(true);
     this._user.set(DEMO_USER);
-    this._headerImageUrl.set(this.getDemoProfile().avatar_url || null);
+    this.setHeaderImage(this.getDemoProfile().avatar_url || null);
   }
 
   exitDemoMode(): void {
@@ -117,11 +122,16 @@ export class AuthService {
     localStorage.removeItem(DEMO_PROFILE_KEY);
     this._demoMode.set(false);
     this._user.set(null);
-    this._headerImageUrl.set(null);
+    this.setHeaderImage(null);
     this.router.navigate(['/']);
   }
 
   setHeaderImage(url: string | null): void {
+    if (url) {
+      localStorage.setItem(HEADER_IMAGE_KEY, url);
+    } else {
+      localStorage.removeItem(HEADER_IMAGE_KEY);
+    }
     this._headerImageUrl.set(url);
   }
 
@@ -159,6 +169,12 @@ export class AuthService {
       .pipe(
         tap(user => {
           this._user.set(user);
+          if (user.header_image_url) {
+            this.setHeaderImage(user.header_image_url);
+          } else {
+            this.setHeaderImage(null);
+            this.loadHeaderImageForUser(user);
+          }
           this._loading.set(false);
         }),
         catchError(() => {
@@ -210,6 +226,21 @@ export class AuthService {
     localStorage.removeItem('nsp_token');
     this._user.set(null);
     this._loading.set(false);
-    this._headerImageUrl.set(null);
+    this.setHeaderImage(null);
+  }
+
+  private loadHeaderImageForUser(user: User): void {
+    const endpoint = user.account_type === 'team'
+      ? `${environment.apiUrl}/teams/me`
+      : `${environment.apiUrl}/players/me`;
+
+    this.http.get<{ avatar_url?: string; logo_url?: string }>(endpoint).subscribe({
+      next: (profile) => {
+        this.setHeaderImage(profile.avatar_url || profile.logo_url || null);
+      },
+      error: () => {
+        this.setHeaderImage(null);
+      },
+    });
   }
 }
