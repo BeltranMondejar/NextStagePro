@@ -1,59 +1,67 @@
-# NextStageProGg
+# NextStagePro.gg — Proyecto Completo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.11.
+## Estructura
+```
+nextstagepro/
+├── backend/                     ← Servidor Node.js + Express
+│   ├── src/
+│   │   ├── index.js             ← Entrada del servidor
+│   │   ├── config/
+│   │   │   ├── db.js            ← Neon PostgreSQL
+│   │   │   └── cloudinary.js    ← Subida imágenes/vídeos
+│   │   ├── middleware/
+│   │   │   └── auth.js          ← Verificación JWT
+│   │   └── routes/
+│   │       ├── auth.js          ← Discord OAuth
+│   │       ├── players.js       ← CRUD jugadores
+│   │       ├── teams.js         ← CRUD equipos
+│   │       ├── subscriptions.js ← Stripe pagos
+│   │       └── contact.js       ← Formulario contacto
+│   ├── .env                     ← ⚠️ Credenciales (NO subir a Git)
+│   └── package.json
+│
+└── frontend/                    ← Aplicación Angular
+    ├── src/
+    │   ├── app/
+    │   │   ├── components/header/   ← Cabecera con login Discord
+    │   │   ├── guards/              ← Protege rutas privadas
+    │   │   ├── interceptors/        ← Añade JWT automáticamente
+    │   │   ├── models/              ← Interfaces TypeScript
+    │   │   ├── services/            ← Llamadas a la API
+    │   │   └── pages/
+    │   │       ├── home/
+    │   │       ├── about/
+    │   │       ├── profile/         ← Perfil propio (privado)
+    │   │       ├── player-public/   ← Perfil público
+    │   │       ├── search-players/  ← Búsqueda con filtros
+    │   │       ├── subscriptions/   ← Planes Stripe
+    │   │       ├── contact/         ← Formulario contacto
+    │   │       └── auth-callback/   ← Recibe token Discord
+    │   └── environments/
+    │       ├── environment.ts           ← URL API desarrollo
+    │       └── environment.production.ts ← URL API producción
+    └── package.json
+```
 
-## Development server
+## Arrancar en local (2 terminales)
 
-To start a local development server, run:
-
+### Terminal 1 — Backend
 ```bash
+cd backend
+npm install
+npm run dev
+```
+Prueba: http://localhost:3000/health → debe responder { "status": "ok" }
+
+### Terminal 2 — Frontend
+```bash
+cd frontend
+npm install
 ng serve
 ```
+Abre: http://localhost:4200
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Despliegue producción
+- Backend → Railway (sube la carpeta backend/ a GitHub y conecta en railway.app)
+- Frontend → Netlify (ng build --configuration production, sube carpeta dist/)
+- Actualizar environment.production.ts con la URL de Railway

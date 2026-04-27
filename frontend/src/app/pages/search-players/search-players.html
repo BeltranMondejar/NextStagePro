@@ -1,0 +1,145 @@
+<!-- search-players.html -->
+<div class="search-players" (click)="dropdownOpen && closeDropdown()">
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" (click)="$event.stopPropagation()">
+    <div class="filters-left">
+      <button class="filter-pill" [class.active]="typeFilter === 'all'" (click)="setTypeFilter('all')">
+        All Members
+      </button>
+      <button class="filter-pill" [class.active]="typeFilter === 'pro'" (click)="setTypeFilter('pro')">
+        ⭐ Pro
+      </button>
+
+      <div class="filter-dropdown">
+        <span (click)="toggleDropdown($event)" [class.active]="dropdownOpen || hasActiveFilters">
+          Filtros ▾
+          <span *ngIf="hasActiveFilters" class="filter-dot">●</span>
+        </span>
+
+        <div class="dropdown-menu" *ngIf="dropdownOpen" (click)="$event.stopPropagation()">
+
+          <!-- JUEGO -->
+          <label>Juego</label>
+          <div class="custom-select-wrapper">
+            <div class="custom-select" [class.open]="openSelect === 'game'" (click)="toggleSelect('game', $event)">
+              <span>{{ selectedGame || 'Todos' }}</span>
+              <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div class="custom-options" *ngIf="openSelect === 'game'">
+              <div class="custom-option" [class.selected]="selectedGame === ''" (click)="selectOption('game', '', $event)">Todos</div>
+              <div class="custom-option" *ngFor="let g of games" [class.selected]="selectedGame === g" (click)="selectOption('game', g, $event)">{{ g }}</div>
+            </div>
+          </div>
+
+          <!-- ROL -->
+          <label>Rol</label>
+          <div class="custom-select-wrapper">
+            <div class="custom-select" [class.open]="openSelect === 'role'" (click)="toggleSelect('role', $event)">
+              <span>{{ selectedRole || 'Todos' }}</span>
+              <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div class="custom-options" *ngIf="openSelect === 'role'">
+              <div class="custom-option" [class.selected]="selectedRole === ''" (click)="selectOption('role', '', $event)">Todos</div>
+              <div class="custom-option" *ngFor="let r of roles" [class.selected]="selectedRole === r" (click)="selectOption('role', r, $event)">{{ r }}</div>
+            </div>
+          </div>
+
+          <!-- RANGO -->
+          <label>Rango</label>
+          <div class="custom-select-wrapper">
+            <div class="custom-select" [class.open]="openSelect === 'rank'" (click)="toggleSelect('rank', $event)">
+              <span>{{ selectedRank || 'Todos' }}</span>
+              <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div class="custom-options" *ngIf="openSelect === 'rank'">
+              <div class="custom-option" [class.selected]="selectedRank === ''" (click)="selectOption('rank', '', $event)">Todos</div>
+              <div class="custom-option" *ngFor="let r of ranks" [class.selected]="selectedRank === r" (click)="selectOption('rank', r, $event)">{{ r }}</div>
+            </div>
+          </div>
+
+          <div class="dropdown-footer">
+            <button class="btn-reset" *ngIf="hasActiveFilters" (click)="resetFilters()">Limpiar</button>
+            <button class="btn-close-dropdown" (click)="closeFull()">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filters-right">
+      <input
+        type="text"
+        placeholder="🔍 Buscar jugador..."
+        class="search-input"
+        [(ngModel)]="searchText"
+        (ngModelChange)="onSearchChange()"
+      />
+    </div>
+  </div>
+
+  <!-- RESULTADOS META -->
+  <div class="results-meta" *ngIf="!loading && !error">
+    <ng-container *ngIf="total > 0">
+      {{ total }} jugador{{ total !== 1 ? 'es' : '' }} encontrado{{ total !== 1 ? 's' : '' }}
+      <span *ngIf="totalPages > 1"> · Página {{ page }} de {{ totalPages }}</span>
+    </ng-container>
+    <span *ngIf="hasActiveFilters" class="filter-tag">
+      {{ activeFilterLabel }}
+      <button (click)="resetFilters()">✕</button>
+    </span>
+  </div>
+
+  <!-- ERROR -->
+  <div *ngIf="error && !loading" class="state-message error">{{ error }}</div>
+
+  <!-- SIN RESULTADOS -->
+  <div *ngIf="!loading && !error && players.length === 0" class="state-message">
+    No se encontraron jugadores con esos filtros.
+    <br />
+    <button class="btn-reset-inline" *ngIf="hasActiveFilters || typeFilter === 'pro' || searchText" (click)="resetAll()">
+      Limpiar y ver todos
+    </button>
+  </div>
+
+  <!-- SKELETON LOADING -->
+  <div class="players-grid" *ngIf="loading">
+    <div class="player-card skeleton" *ngFor="let _ of skeletonItems">
+      <div class="skeleton-avatar"></div>
+      <div class="skeleton-lines">
+        <div class="skeleton-line w-70"></div>
+        <div class="skeleton-line w-50"></div>
+        <div class="skeleton-line w-40"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID REAL -->
+  <div class="players-grid" *ngIf="!loading && players.length > 0">
+    <div class="player-card" *ngFor="let player of players">
+      <div class="player-avatar">
+        <img [src]="player.avatar_url || 'https://i.pravatar.cc/80?u=' + player.id" [alt]="player.nickname" />
+        <span *ngIf="player.plan !== 'free'" class="pro-badge">PRO</span>
+      </div>
+      <div class="player-info">
+        <h3>{{ player.nickname }}</h3>
+        <p class="role">{{ player.main_role || '—' }}</p>
+        <p class="game">{{ player.game || '—' }}</p>
+        <p *ngIf="player.location" class="location">📍 {{ player.location }}</p>
+      </div>
+      <div class="player-meta">
+        <span class="rank">{{ player.current_rank || '—' }}</span>
+        <button class="view-profile" [routerLink]="['/players', player.id]">Ver perfil</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGINACIÓN -->
+  <div class="pagination" *ngIf="totalPages > 1 && !loading">
+    <button class="page-btn nav-btn" (click)="goToPage(1)"         [disabled]="page === 1" title="Primera">«</button>
+    <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">‹ Anterior</button>
+    <button class="page-btn" *ngFor="let p of pageNumbers" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
+    <button class="page-btn nav-btn" (click)="goToPage(page + 1)" [disabled]="page === totalPages">Siguiente ›</button>
+    <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="page === totalPages" title="Última">»</button>
+  </div>
+
+</div>

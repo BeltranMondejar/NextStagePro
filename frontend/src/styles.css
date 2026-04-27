@@ -1,0 +1,26 @@
+/* Estilos globales */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(
+    90deg,
+    rgba(1, 0, 20, 1) 0%,
+    rgba(3, 0, 35, 1) 50%,
+    rgba(5, 0, 45, 1) 100%
+  );
+  background-attachment: fixed;
+  font-family: 'Bahnschrift SemiBold', Bahnschrift, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

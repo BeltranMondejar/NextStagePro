@@ -1,0 +1,93 @@
+<section class="contact">
+  <div class="contact-header">
+    <h1>Get in Touch with Us</h1>
+    <p>
+      Have questions or need solutions? Let us know by filling out the form, and we’ll be in touch!
+    </p>
+  </div>
+  <!-- INFO CARDS -->
+  <div class="contact-info">
+    <div class="info-card">
+      <fa-icon [icon]="faEnvelope"></fa-icon>
+      <div>
+        <div class="info-label">E-mail</div>
+
+        <div class="info-value-wrapper">
+          <span class="info-value">nextstageprogg.info@gmail.com</span>
+          <span
+            class="copy-icon"
+            (click)="copyToClipboard('nextstageprogg.info@gmail.com')"
+            title="Copy"
+          >
+            <fa-icon [icon]="faCopy"></fa-icon>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <fa-icon [icon]="faDiscord"></fa-icon>
+      <div>
+        <div class="info-label">Discord</div>
+
+        <div class="info-value-wrapper">
+          <span class="info-value">https://discord.gg/y2YWB6KQ3F</span>
+          <span
+            class="copy-icon"
+            (click)="copyToClipboard('https://discord.gg/y2YWB6KQ3F')"
+            title="Copy"
+          >
+            <fa-icon [icon]="faCopy"></fa-icon>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM CONTAINER -->
+  <div class="contact-form-wrapper">
+
+    <div *ngIf="success" class="form-success">
+      ✅ Mensaje enviado correctamente. ¡Nos pondremos en contacto pronto!
+    </div>
+
+    <div *ngIf="error" class="form-error">
+      ⚠️ {{ error }}
+    </div>
+
+    <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submit()">
+      <input
+        type="text"
+        placeholder="First Name"
+        formControlName="firstName"
+        [class.invalid]="contactForm.get('firstName')?.invalid && contactForm.get('firstName')?.touched"
+      />
+      <input
+        type="text"
+        placeholder="Last Name"
+        formControlName="lastName"
+        [class.invalid]="contactForm.get('lastName')?.invalid && contactForm.get('lastName')?.touched"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+        [class.invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+      />
+      <input
+        type="text"
+        placeholder="Discord (opcional)"
+        formControlName="discord"
+      />
+      <textarea
+        placeholder="Hi, I am Jane. I want help with..."
+        formControlName="message"
+        [class.invalid]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+      ></textarea>
+
+      <button type="submit" [disabled]="contactForm.invalid || sending">
+        {{ sending ? 'Enviando…' : 'Submit Form' }}
+      </button>
+    </form>
+  </div>
+</section>
