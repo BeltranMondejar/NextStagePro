@@ -7,6 +7,7 @@ import { SubscriptionsComponent } from './pages/subscriptions/subscriptions';
 import { ContactComponent } from './pages/contact/contact';
 import { AuthCallbackComponent } from './pages/auth-callback/auth-callback';
 import { PlayerPublicComponent } from './pages/player-public/player-public';
+import { TeamProfileComponent } from './pages/team-profile/team-profile';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   // Ruta protegida: solo accesible si el usuario está autenticado
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
+  { path: 'team-profile', component: TeamProfileComponent, canActivate: [authGuard] },
   // Búsqueda pública de jugadores
   { path: 'players', component: PlayersComponent },
   // Perfil público de un jugador por ID

@@ -7,6 +7,7 @@
   <nav class="menu">
     <a routerLink="/about"         routerLinkActive="active"><fa-icon [icon]="faCircleInfo"></fa-icon> About us</a>
     <a *ngIf="isLogged()" routerLink="/profile" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon> Profile</a>
+    <a *ngIf="isLogged()" routerLink="/team-profile" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon> Team</a>
     <a routerLink="/players"       routerLinkActive="active"><fa-icon [icon]="faSearch"></fa-icon> Search Players</a>
     <a routerLink="/subscriptions" routerLinkActive="active"><fa-icon [icon]="faSketch"></fa-icon> Subscriptions</a>
     <a routerLink="/contact"       routerLinkActive="active"><fa-icon [icon]="faEnvelope"></fa-icon> Contact</a>
@@ -30,13 +31,14 @@
       <div class="user-menu-wrapper desktop-only" style="position:relative">
         <img
           class="avatar"
-          [src]="'https://i.pravatar.cc/300?u=' + user()?.id"
+          [src]="getHeaderAvatar()"
           [alt]="user()?.email"
           (click)="toggleUserMenu()"
           style="cursor:pointer"
         />
         <div class="user-dropdown" *ngIf="userMenuOpen">
           <a routerLink="/profile" (click)="userMenuOpen = false">👤 Mi perfil</a>
+          <a routerLink="/team-profile" (click)="userMenuOpen = false">🛡️ Mi equipo</a>
           <a routerLink="/subscriptions" (click)="userMenuOpen = false">💎 Mi plan</a>
           <hr />
           <a *ngIf="demoMode()" (click)="exitDemo()" style="cursor:pointer; color:#f59e0b">🧪 Salir del Demo</a>
@@ -55,6 +57,7 @@
     <nav class="mobile-nav-list">
       <a routerLink="/about"         (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faCircleInfo"></fa-icon><span>About us</span></div></a>
       <a *ngIf="isLogged()" routerLink="/profile" (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faUser"></fa-icon><span>Profile</span></div></a>
+      <a *ngIf="isLogged()" routerLink="/team-profile" (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faUser"></fa-icon><span>Team</span></div></a>
       <a routerLink="/players"       (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faSearch"></fa-icon><span>Search Players</span></div></a>
       <a routerLink="/subscriptions" (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faSketch"></fa-icon><span>Subscriptions</span></div></a>
       <a routerLink="/contact"       (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faEnvelope"></fa-icon><span>Contact</span></div></a>
@@ -69,6 +72,7 @@
       </ng-container>
       <div *ngIf="isLogged()" style="display:flex; flex-direction:column; gap:8px; padding: 0 16px">
         <a routerLink="/profile"       (click)="toggleMenu()" style="color:#fff">👤 Mi perfil</a>
+        <a routerLink="/team-profile"  (click)="toggleMenu()" style="color:#fff">🛡️ Mi equipo</a>
         <a routerLink="/subscriptions" (click)="toggleMenu()" style="color:#fff">💎 Mi plan</a>
         <button *ngIf="demoMode()" class="demo-exit-btn-mobile" (click)="exitDemo()">🧪 Salir del Demo</button>
         <button *ngIf="!demoMode()" class="logout-btn-mobile" (click)="logout()">🚪 Cerrar sesión</button>

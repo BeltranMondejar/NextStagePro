@@ -19,6 +19,7 @@ const contactRoutes      = require('./routes/contact');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
+const isDevelopment = (process.env.NODE_ENV || 'development') !== 'production';
 
 // ════════════════════════════════════════════════════════════
 //  SEGURIDAD
@@ -42,8 +43,12 @@ app.use(rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max:      20,
+  max:      isDevelopment ? 100 : 20,
   message:  { error: 'Demasiados intentos de autenticación.' },
+  skipSuccessfulRequests: true,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => isDevelopment || req.path === '/me' || req.path === '/refresh',
 });
 
 // ════════════════════════════════════════════════════════════

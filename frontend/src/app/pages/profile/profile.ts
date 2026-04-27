@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit {
     this.playerService.getMe().subscribe({
       next: p => {
         this.profile = p;
+        this.auth.setHeaderImage(p.avatar_url || null);
         this.loading = false;
       },
       error: () => {
@@ -86,6 +87,7 @@ export class ProfileComponent implements OnInit {
     if (!file) return;
     this.playerService.uploadAvatar(file).subscribe(res => {
       if (this.profile) this.profile.avatar_url = res.avatar_url;
+      this.auth.setHeaderImage(res.avatar_url);
     });
   }
 
@@ -159,5 +161,14 @@ export class ProfileComponent implements OnInit {
     this.playerService.updateMe({ is_visible: newVal }).subscribe(updated => {
       if (this.profile) this.profile.is_visible = updated.is_visible;
     });
+  }
+
+  getAvatarUrl(): string {
+    const nickname = this.profile?.nickname || this.profile?.first_name || 'Player';
+    return this.profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(nickname)}&background=3b82f6&color=fff&size=150`;
+  }
+
+  getCoverImage(): string | null {
+    return this.profile?.cover_url || this.profile?.avatar_url || null;
   }
 } 

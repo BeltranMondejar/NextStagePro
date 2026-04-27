@@ -72,7 +72,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error: () => {
-        this.error   = 'Error cargando jugadores. ¿Está el backend arrancado?';
+        this.error   = 'Error cargando jugadores. El backend puede no estar arrancado.';
         this.loading = false;
       },
     });
@@ -145,7 +145,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
   get activeFilterLabel(): string {
     return [this.selectedGame, this.selectedRole, this.selectedRank]
       .filter(v => !!v)
-      .join(' · ');
+      .join(' - ');
   }
 
   get totalPages(): number { return Math.ceil(this.total / this.limit); }

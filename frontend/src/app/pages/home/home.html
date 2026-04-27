@@ -3,10 +3,18 @@
   <p class="hero-subtitle">CV ESPORTS NETWORK</p>
   <h1>Escala tu carrera en <span>NextStagePro</span></h1>
   <p>Conectamos el talento puro con la infraestructura profesional. El ecosistema definitivo para jugadores, analistas y organizaciones.</p>
+  <div class="hero-actions">
+    <a *ngIf="isLogged()" routerLink="/team-profile" class="hero-btn hero-btn-primary">Crear equipo</a>
+    <a *ngIf="isLogged()" routerLink="/profile" class="hero-btn hero-btn-secondary">Mi perfil</a>
+    <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="hero-btn hero-btn-primary">
+      <img src="icons/discord.svg" style="width:18px;vertical-align:middle;margin-right:8px;" />
+      Iniciar Sesión
+    </button>
+  </div>
 
   <div class="stats-grid">
-    <div class="stat-card"><h2>0</h2><p>Players</p></div>
-    <div class="stat-card"><h2>0</h2><p>Teams</p></div>
+    <div class="stat-card"><h2>{{ formatCount(playersCount) }}</h2><p>Players</p></div>
+    <div class="stat-card"><h2>{{ formatCount(teamsCount) }}</h2><p>Teams</p></div>
     <div class="stat-card"><h2>Lifetime</h2><p>Support</p></div>
   </div>
 </section>
@@ -82,6 +90,7 @@
     <div class="btn-group">
       <!-- Si ya está logueado va al perfil, si no abre Discord OAuth -->
       <a *ngIf="isLogged()" routerLink="/profile" class="btn btn-primary">Mi Perfil</a>
+      <a *ngIf="isLogged()" routerLink="/team-profile" class="btn btn-secondary btn-team">Crear equipo</a>
       <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="btn btn-primary">
         <img src="icons/discord.svg" style="width:18px;vertical-align:middle;margin-right:8px;" />
         Iniciar Sesión

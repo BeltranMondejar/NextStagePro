@@ -75,6 +75,7 @@ export interface PlayerSearchResult {
   game?: string;
   main_role?: string;
   current_rank?: string;
+  current_team?: string;
   location?: string;
   avatar_url?: string;
   profile_views: number;

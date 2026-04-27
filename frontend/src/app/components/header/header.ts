@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -9,6 +9,8 @@ import {
 import { faDiscord, faSketch } from '@fortawesome/free-brands-svg-icons';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { PlayerService } from '../../services/player.service';
+import { TeamService } from '../../services/team.service';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +22,8 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   private auth   = inject(AuthService);
   private router = inject(Router);
+  private playerService = inject(PlayerService);
+  private teamService = inject(TeamService);
 
   faHome       = faHome;
   faCircleInfo = faCircleInfo;
@@ -38,6 +42,46 @@ export class HeaderComponent {
   readonly isLogged  = this.auth.isLoggedIn;
   readonly user      = this.auth.user;
   readonly demoMode  = this.auth.demoMode;
+  readonly headerImageUrl = this.auth.headerImageUrl;
+
+  constructor() {
+    effect(() => {
+      const user = this.user();
+      if (!user) {
+        this.auth.setHeaderImage(null);
+        return;
+      }
+
+      if (this.headerImageUrl()) {
+        return;
+      }
+
+      if (user.account_type === 'team') {
+        this.teamService.getMe().subscribe({
+          next: (profile) => {
+            this.auth.setHeaderImage(profile.logo_url || null);
+          },
+          error: () => {
+            this.auth.setHeaderImage(null);
+          },
+        });
+        return;
+      }
+
+      this.playerService.getMe().subscribe({
+        next: (profile) => {
+          this.auth.setHeaderImage(profile.avatar_url || null);
+        },
+        error: () => {
+          this.auth.setHeaderImage(null);
+        },
+      });
+    });
+  }
+
+  getHeaderAvatar(): string {
+    return this.headerImageUrl() || `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user()?.email || 'User')}&background=3b82f6&color=fff&size=128`;
+  }
 
   loginWithDiscord(): void { this.auth.loginWithDiscord(); }
   enterDemo(): void {

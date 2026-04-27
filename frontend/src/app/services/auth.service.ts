@@ -70,10 +70,12 @@ export class AuthService {
   private _user      = signal<User | null>(null);
   private _loading   = signal<boolean>(false);
   private _demoMode  = signal<boolean>(false);
+  private _headerImageUrl = signal<string | null>(null);
 
   readonly user       = this._user.asReadonly();
   readonly loading    = this._loading.asReadonly();
   readonly demoMode   = this._demoMode.asReadonly();
+  readonly headerImageUrl = this._headerImageUrl.asReadonly();
   readonly isLoggedIn = computed(() => this._user() !== null);
   readonly isPro      = computed(() => {
     const plan = this._user()?.plan;
@@ -107,6 +109,7 @@ export class AuthService {
     localStorage.setItem(DEMO_KEY, '1');
     this._demoMode.set(true);
     this._user.set(DEMO_USER);
+    this._headerImageUrl.set(this.getDemoProfile().avatar_url || null);
   }
 
   exitDemoMode(): void {
@@ -114,7 +117,12 @@ export class AuthService {
     localStorage.removeItem(DEMO_PROFILE_KEY);
     this._demoMode.set(false);
     this._user.set(null);
+    this._headerImageUrl.set(null);
     this.router.navigate(['/']);
+  }
+
+  setHeaderImage(url: string | null): void {
+    this._headerImageUrl.set(url);
   }
 
   // Guarda cambios del perfil demo en localStorage para que persistan
@@ -202,5 +210,6 @@ export class AuthService {
     localStorage.removeItem('nsp_token');
     this._user.set(null);
     this._loading.set(false);
+    this._headerImageUrl.set(null);
   }
 }

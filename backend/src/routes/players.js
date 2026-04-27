@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     if (location) { conditions.push(`pp.location ILIKE $${idx++}`);     params.push(`%${location}%`); }
     if (search) {
       conditions.push(
-        `(pp.nickname ILIKE $${idx} OR pp.first_name ILIKE $${idx} OR pp.last_name ILIKE $${idx})`
+        `(pp.nickname ILIKE $${idx} OR pp.first_name ILIKE $${idx} OR pp.last_name ILIKE $${idx} OR pp.current_team ILIKE $${idx})`
       );
       params.push(`%${search}%`); idx++;
     }
@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
     const dataQuery = `
       SELECT
         pp.id, pp.nickname, pp.first_name, pp.last_name,
-        pp.game, pp.main_role, pp.current_rank, pp.location,
+        pp.game, pp.main_role, pp.current_rank, pp.current_team, pp.location,
         pp.avatar_url, pp.profile_views,
         u.plan
       FROM player_profiles pp

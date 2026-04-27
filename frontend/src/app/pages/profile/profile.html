@@ -19,7 +19,7 @@
 
     <!-- COVER -->
     <div class="profile-cover-wrapper">
-      <div class="cover-image" [style.backgroundImage]="profile.cover_url ? 'url(' + profile.cover_url + ')' : ''">
+      <div class="cover-image" [style.backgroundImage]="getCoverImage() ? 'url(' + getCoverImage() + ')' : ''">
         <label class="edit-cover-btn" title="Cambiar portada">
           📷 Edit Cover
           <input type="file" accept="image/*" (change)="onCoverChange($event)" hidden />
@@ -28,7 +28,7 @@
 
       <div class="glass-panel profile-header">
         <div class="avatar-container">
-          <img [src]="profile.avatar_url || 'https://i.pravatar.cc/150?u=' + profile.id" alt="Avatar" />
+          <img [src]="getAvatarUrl()" alt="Avatar" />
           <label class="avatar-edit" title="Cambiar avatar">
             📷
             <input type="file" accept="image/*" (change)="onAvatarChange($event)" hidden />

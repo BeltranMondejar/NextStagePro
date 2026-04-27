@@ -1,25 +1,21 @@
-<!-- search-players.html -->
 <div class="search-players" (click)="dropdownOpen && closeDropdown()">
 
-  <!-- FILTER BAR -->
   <div class="filter-bar" (click)="$event.stopPropagation()">
     <div class="filters-left">
       <button class="filter-pill" [class.active]="typeFilter === 'all'" (click)="setTypeFilter('all')">
         All Members
       </button>
       <button class="filter-pill" [class.active]="typeFilter === 'pro'" (click)="setTypeFilter('pro')">
-        ⭐ Pro
+        Pro
       </button>
 
       <div class="filter-dropdown">
         <span (click)="toggleDropdown($event)" [class.active]="dropdownOpen || hasActiveFilters">
-          Filtros ▾
-          <span *ngIf="hasActiveFilters" class="filter-dot">●</span>
+          Filtros
+          <span *ngIf="hasActiveFilters" class="filter-dot">*</span>
         </span>
 
         <div class="dropdown-menu" *ngIf="dropdownOpen" (click)="$event.stopPropagation()">
-
-          <!-- JUEGO -->
           <label>Juego</label>
           <div class="custom-select-wrapper">
             <div class="custom-select" [class.open]="openSelect === 'game'" (click)="toggleSelect('game', $event)">
@@ -32,7 +28,6 @@
             </div>
           </div>
 
-          <!-- ROL -->
           <label>Rol</label>
           <div class="custom-select-wrapper">
             <div class="custom-select" [class.open]="openSelect === 'role'" (click)="toggleSelect('role', $event)">
@@ -45,7 +40,6 @@
             </div>
           </div>
 
-          <!-- RANGO -->
           <label>Rango</label>
           <div class="custom-select-wrapper">
             <div class="custom-select" [class.open]="openSelect === 'rank'" (click)="toggleSelect('rank', $event)">
@@ -69,7 +63,7 @@
     <div class="filters-right">
       <input
         type="text"
-        placeholder="🔍 Buscar jugador..."
+        placeholder="Buscar jugador o equipo..."
         class="search-input"
         [(ngModel)]="searchText"
         (ngModelChange)="onSearchChange()"
@@ -77,22 +71,19 @@
     </div>
   </div>
 
-  <!-- RESULTADOS META -->
   <div class="results-meta" *ngIf="!loading && !error">
     <ng-container *ngIf="total > 0">
       {{ total }} jugador{{ total !== 1 ? 'es' : '' }} encontrado{{ total !== 1 ? 's' : '' }}
-      <span *ngIf="totalPages > 1"> · Página {{ page }} de {{ totalPages }}</span>
+      <span *ngIf="totalPages > 1"> - Pagina {{ page }} de {{ totalPages }}</span>
     </ng-container>
     <span *ngIf="hasActiveFilters" class="filter-tag">
       {{ activeFilterLabel }}
-      <button (click)="resetFilters()">✕</button>
+      <button (click)="resetFilters()">x</button>
     </span>
   </div>
 
-  <!-- ERROR -->
   <div *ngIf="error && !loading" class="state-message error">{{ error }}</div>
 
-  <!-- SIN RESULTADOS -->
   <div *ngIf="!loading && !error && players.length === 0" class="state-message">
     No se encontraron jugadores con esos filtros.
     <br />
@@ -101,7 +92,6 @@
     </button>
   </div>
 
-  <!-- SKELETON LOADING -->
   <div class="players-grid" *ngIf="loading">
     <div class="player-card skeleton" *ngFor="let _ of skeletonItems">
       <div class="skeleton-avatar"></div>
@@ -113,7 +103,6 @@
     </div>
   </div>
 
-  <!-- GRID REAL -->
   <div class="players-grid" *ngIf="!loading && players.length > 0">
     <div class="player-card" *ngFor="let player of players">
       <div class="player-avatar">
@@ -122,24 +111,24 @@
       </div>
       <div class="player-info">
         <h3>{{ player.nickname }}</h3>
-        <p class="role">{{ player.main_role || '—' }}</p>
-        <p class="game">{{ player.game || '—' }}</p>
-        <p *ngIf="player.location" class="location">📍 {{ player.location }}</p>
+        <p class="role">{{ player.main_role || '-' }}</p>
+        <p class="game">{{ player.game || '-' }}</p>
+        <p *ngIf="player.current_team" class="team">Equipo: {{ player.current_team }}</p>
+        <p *ngIf="player.location" class="location">Ubicacion: {{ player.location }}</p>
       </div>
       <div class="player-meta">
-        <span class="rank">{{ player.current_rank || '—' }}</span>
+        <span class="rank">{{ player.current_rank || '-' }}</span>
         <button class="view-profile" [routerLink]="['/players', player.id]">Ver perfil</button>
       </div>
     </div>
   </div>
 
-  <!-- PAGINACIÓN -->
   <div class="pagination" *ngIf="totalPages > 1 && !loading">
-    <button class="page-btn nav-btn" (click)="goToPage(1)"         [disabled]="page === 1" title="Primera">«</button>
-    <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">‹ Anterior</button>
+    <button class="page-btn nav-btn" (click)="goToPage(1)" [disabled]="page === 1" title="Primera">«</button>
+    <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">Anterior</button>
     <button class="page-btn" *ngFor="let p of pageNumbers" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
-    <button class="page-btn nav-btn" (click)="goToPage(page + 1)" [disabled]="page === totalPages">Siguiente ›</button>
-    <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="page === totalPages" title="Última">»</button>
+    <button class="page-btn nav-btn" (click)="goToPage(page + 1)" [disabled]="page === totalPages">Siguiente</button>
+    <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="page === totalPages" title="Ultima">»</button>
   </div>
 
 </div>

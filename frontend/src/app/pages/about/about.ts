@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { PlayerService } from '../../services/player.service';
+import { TeamService } from '../../services/team.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-about',
@@ -9,7 +12,12 @@ import { RouterModule } from '@angular/router';
   templateUrl: './about.html',
   styleUrls: ['./about.scss']
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
+  private playerService = inject(PlayerService);
+  private teamService = inject(TeamService);
+
+  playersCount = 0;
+  teamsCount = 0;
 
   stats = [
     { value: '2026', label: 'Fundación' },
@@ -47,4 +55,20 @@ export class AboutComponent {
     { icon: 'A', name: 'Athon', description: 'Stream partners' },
     { icon: 'F', name: 'Fronxe', description: 'Hardware partners' }
   ];
+
+  ngOnInit(): void {
+    forkJoin({
+      players: this.playerService.search({ page: 1, limit: 1 }),
+      teams: this.teamService.search({ page: 1, limit: 1 }),
+    }).subscribe({
+      next: ({ players, teams }) => {
+        this.playersCount = players.total;
+        this.teamsCount = teams.total;
+      },
+    });
+  }
+
+  formatCount(value: number): string {
+    return new Intl.NumberFormat('es-ES').format(value);
+  }
 }

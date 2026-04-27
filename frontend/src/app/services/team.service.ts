@@ -54,6 +54,10 @@ export class TeamService {
     return this.http.put<TeamProfile>(`${this.base}/me`, data);
   }
 
+  deleteMe(): Observable<void> {
+    return this.http.delete<void>(`${this.base}/me`);
+  }
+
   uploadLogo(file: File): Observable<{ logo_url: string }> {
     const fd = new FormData();
     fd.append('logo', file);

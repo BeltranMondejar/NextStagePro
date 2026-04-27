@@ -195,6 +195,25 @@ router.put('/me', requireAuth, async (req, res) => {
   }
 });
 
+// DELETE /api/teams/me
+router.delete('/me', requireAuth, async (req, res) => {
+  try {
+    const teamId = await getTeamId(req.user.id);
+    if (!teamId) return res.status(404).json({ error: 'Perfil de equipo no encontrado' });
+
+    await query(`DELETE FROM team_profiles WHERE id = $1`, [teamId]);
+    await query(
+      `UPDATE users SET account_type = 'player', updated_at = NOW() WHERE id = $1`,
+      [req.user.id]
+    );
+
+    res.status(204).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
 // POST /api/teams/me/logo
 router.post('/me/logo', requireAuth, uploadLogo.single('logo'), async (req, res) => {
   try {
