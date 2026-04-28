@@ -20,8 +20,8 @@ const profileStorage = new CloudinaryStorage({
       folder: `nextstagepro/profiles/${isAvatar ? 'avatars' : 'covers'}`,
       allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
       transformation: isAvatar
-        ? [{ width: 400, height: 400, crop: 'fill', gravity: 'face' }]
-        : [{ width: 1400, height: 400, crop: 'fill' }],
+        ? [{ width: 400, height: 400, crop: 'fill', gravity: 'face', fetch_format: 'auto', quality: 'auto' }]
+        : [{ width: 1400, height: 400, crop: 'fill', fetch_format: 'auto', quality: 'auto' }],
     };
   },
 });
@@ -35,6 +35,9 @@ const highlightStorage = new CloudinaryStorage({
       folder: 'nextstagepro/highlights',
       resource_type: isVideo ? 'video' : 'image',
       allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'mp4', 'mov'],
+      transformation: isVideo
+        ? [{ quality: 'auto', fetch_format: 'auto' }]
+        : [{ quality: 'auto', fetch_format: 'auto' }],
     };
   },
 });
@@ -45,7 +48,7 @@ const logoStorage = new CloudinaryStorage({
   params: {
     folder: 'nextstagepro/team-logos',
     allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    transformation: [{ width: 300, height: 300, crop: 'fill' }],
+    transformation: [{ width: 300, height: 300, crop: 'fill', fetch_format: 'auto', quality: 'auto' }],
   },
 });
 

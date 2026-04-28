@@ -6,13 +6,11 @@
     <button (click)="auth.exitDemoMode()">Salir del demo</button>
   </div>
 
-  <!-- LOADING -->
   <div *ngIf="loading" class="state-message">Cargando perfil…</div>
   <div *ngIf="error"   class="state-message error">{{ error }}</div>
 
   <ng-container *ngIf="!loading && profile">
 
-    <!-- SAVE MESSAGE -->
     <div *ngIf="saveMsg" class="save-toast" [class.error]="saveMsg.includes('Error')">
       {{ saveMsg }}
     </div>
@@ -21,7 +19,7 @@
     <div class="profile-cover-wrapper">
       <div class="cover-image" [style.backgroundImage]="getCoverImage() ? 'url(' + getCoverImage() + ')' : ''">
         <label class="edit-cover-btn" title="Cambiar portada">
-          📷 Edit Cover
+          📷 Cambiar portada
           <input type="file" accept="image/*" (change)="onCoverChange($event)" hidden />
         </label>
       </div>
@@ -41,7 +39,15 @@
               {{ profile.first_name || '' }} "{{ profile.nickname }}" {{ profile.last_name || '' }}
               <span *ngIf="auth.isPro()" class="accent-text">· PRO</span>
             </h1>
-            <p class="sub-text">
+
+            <!-- Equipo actual con logo si existe -->
+            <p class="sub-text team-sub">
+              <ng-container *ngIf="getCurrentTeamLogoUrl(); else noTeamLogo">
+                <img class="team-logo-inline" [src]="getCurrentTeamLogoUrl()!" alt="Logo equipo" />
+              </ng-container>
+              <ng-template #noTeamLogo>
+                <span *ngIf="getCurrentTeamName()" class="team-icon-placeholder">🛡️</span>
+              </ng-template>
               {{ profile.current_team || 'Sin equipo' }}
               <span *ngIf="profile.location"> · {{ profile.location }}</span>
             </p>
@@ -68,7 +74,7 @@
         <div class="glass-panel card">
           <div class="card-header">
             <h3>Sobre mí</h3>
-            <i class="edit-icon" (click)="startEdit('bio')" *ngIf="!editingBio">✏️</i>
+            <button class="btn-edit-section" (click)="startEdit('bio')" *ngIf="!editingBio">✏️ Editar</button>
           </div>
           <ng-container *ngIf="!editingBio">
             <p class="body-text">{{ profile.bio || 'Añade una descripción sobre ti.' }}</p>
@@ -86,7 +92,7 @@
         <div class="glass-panel card">
           <div class="card-header">
             <h3>Información Básica</h3>
-            <i class="edit-icon" (click)="startEdit('basic')" *ngIf="!editingBasic">✏️</i>
+            <button class="btn-edit-section" (click)="startEdit('basic')" *ngIf="!editingBasic">✏️ Editar</button>
           </div>
           <ng-container *ngIf="!editingBasic">
             <ul class="info-list">
@@ -94,13 +100,19 @@
               <li><strong>Apellido:</strong>       <span>{{ profile.last_name  || '—' }}</span></li>
               <li><strong>Nickname:</strong>       <span>{{ profile.nickname }}</span></li>
               <li><strong>Fecha de Nacimiento:</strong> <span>{{ (profile.birthdate | date:'dd/MM/yyyy') || '—' }}</span></li>
-              <li><strong>Equipo Actual:</strong>  <span>{{ profile.current_team || '—' }}</span></li>
+              <li class="team-row">
+                <strong>Equipo Actual:</strong>
+                <span class="team-value">
+                  <img *ngIf="getCurrentTeamLogoUrl()" class="team-logo-mini" [src]="getCurrentTeamLogoUrl()!" alt="logo" />
+                  {{ profile.current_team || '—' }}
+                </span>
+              </li>
               <li><strong>Localización:</strong>   <span>{{ profile.location || '—' }}</span></li>
               <li><strong>Discord:</strong>        <span>{{ profile.discord_tag || '—' }}</span></li>
-              <li *ngIf="profile.twitter_url">    <strong>Twitter:</strong>    <a [href]="profile.twitter_url"     target="_blank" rel="noopener">{{ profile.twitter_url }}</a></li>
-              <li *ngIf="profile.twitch_url">     <strong>Twitch:</strong>     <a [href]="profile.twitch_url"      target="_blank" rel="noopener">{{ profile.twitch_url }}</a></li>
-              <li *ngIf="profile.vlr_url">        <strong>VLR:</strong>        <a [href]="profile.vlr_url"         target="_blank" rel="noopener">{{ profile.vlr_url }}</a></li>
-              <li *ngIf="profile.liquipedia_url"> <strong>Liquipedia:</strong> <a [href]="profile.liquipedia_url"  target="_blank" rel="noopener">{{ profile.liquipedia_url }}</a></li>
+              <li *ngIf="profile.twitter_url"><strong>Twitter:</strong>    <a [href]="profile.twitter_url"    target="_blank" rel="noopener">{{ profile.twitter_url }}</a></li>
+              <li *ngIf="profile.twitch_url"><strong>Twitch:</strong>      <a [href]="profile.twitch_url"     target="_blank" rel="noopener">{{ profile.twitch_url }}</a></li>
+              <li *ngIf="profile.vlr_url"><strong>VLR:</strong>            <a [href]="profile.vlr_url"        target="_blank" rel="noopener">{{ profile.vlr_url }}</a></li>
+              <li *ngIf="profile.liquipedia_url"><strong>Liquipedia:</strong> <a [href]="profile.liquipedia_url" target="_blank" rel="noopener">{{ profile.liquipedia_url }}</a></li>
             </ul>
           </ng-container>
           <ng-container *ngIf="editingBasic">
@@ -127,15 +139,15 @@
         <div class="glass-panel card">
           <div class="card-header">
             <h3>Highlights</h3>
-            <label class="edit-icon" title="Añadir highlight">
-              ➕
+            <label class="btn-edit-section upload-label" title="Añadir highlight">
+              ➕ Subir
               <input type="file" accept="image/*,video/*" (change)="onHighlightAdd($event)" hidden />
             </label>
           </div>
           <div class="highlight-grid" *ngIf="profile.highlights && profile.highlights.length > 0; else noHighlights">
             <div class="highlight-item" *ngFor="let h of profile.highlights; let i = index">
-              <video *ngIf="h.media_type === 'video'" [src]="h.media_url" controls></video>
-              <img   *ngIf="h.media_type === 'photo'" [src]="h.media_url" [alt]="h.title || 'Highlight'" />
+              <video *ngIf="h.media_type === 'video'" [src]="h.media_url" controls preload="metadata"></video>
+              <img   *ngIf="h.media_type === 'photo'" [src]="h.media_url" [alt]="h.title || 'Highlight'" loading="lazy" />
               <p *ngIf="h.title" class="highlight-title">{{ h.title }}</p>
               <button class="btn-delete-small" (click)="deleteHighlight(i)">🗑️</button>
             </div>
@@ -153,7 +165,7 @@
         <div class="glass-panel card">
           <div class="card-header">
             <h3>Información Videojuego</h3>
-            <i class="edit-icon" (click)="startEdit('game')" *ngIf="!editingGame">🎮</i>
+            <button class="btn-edit-section" (click)="startEdit('game')" *ngIf="!editingGame">🎮 Editar</button>
           </div>
           <ng-container *ngIf="!editingGame">
             <ul class="info-list compact">
@@ -181,14 +193,14 @@
         <div class="glass-panel card">
           <div class="card-header">
             <h3>Experiencia</h3>
-            <i class="edit-icon" (click)="startAddExp()" title="Añadir">➕</i>
+            <button class="btn-edit-section" (click)="startAddExp()" title="Añadir">➕ Añadir</button>
           </div>
 
           <div class="exp-form" *ngIf="addingExp">
-            <div class="field"><label>Equipo *</label>         <input [(ngModel)]="draftExp['team_name']"   placeholder="Team Liquid" /></div>
-            <div class="field"><label>Rol</label>              <input [(ngModel)]="draftExp['role']"         placeholder="IGL" /></div>
-            <div class="field"><label>Logros</label>           <input [(ngModel)]="draftExp['achievements']" placeholder="VCT Champion…" /></div>
-            <div class="field"><label>Inicio</label>           <input type="date" [(ngModel)]="draftExp['start_date']" /></div>
+            <div class="field"><label>Equipo *</label>            <input [(ngModel)]="draftExp['team_name']"   placeholder="Team Liquid" /></div>
+            <div class="field"><label>Rol</label>                  <input [(ngModel)]="draftExp['role']"         placeholder="IGL" /></div>
+            <div class="field"><label>Logros</label>               <input [(ngModel)]="draftExp['achievements']" placeholder="VCT Champion…" /></div>
+            <div class="field"><label>Inicio</label>               <input type="date" [(ngModel)]="draftExp['start_date']" /></div>
             <div class="field"><label>Fin (vacío = actual)</label> <input type="date" [(ngModel)]="draftExp['end_date']" /></div>
             <div class="edit-actions">
               <button class="btn-save" (click)="saveExp()">Guardar</button>
@@ -197,7 +209,7 @@
           </div>
 
           <ng-container *ngIf="profile.experience && profile.experience.length > 0; else noExp">
-            <div class="exp-item" *ngFor="let exp of profile.experience; let i = index">
+            <div class="exp-item" *ngFor="let exp of profile.experience; let i = index; trackBy: trackByExp">
               <ng-container *ngIf="editingExpIdx !== i">
                 <div class="exp-logo">🛡️</div>
                 <div class="exp-details">

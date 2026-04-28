@@ -161,6 +161,7 @@ CREATE INDEX IF NOT EXISTS idx_player_profiles_main_role  ON player_profiles(mai
 CREATE INDEX IF NOT EXISTS idx_player_profiles_current_rank ON player_profiles(current_rank);
 CREATE INDEX IF NOT EXISTS idx_player_profiles_is_visible ON player_profiles(is_visible);
 CREATE INDEX IF NOT EXISTS idx_player_profiles_user_id    ON player_profiles(user_id);
+CREATE INDEX IF NOT EXISTS idx_player_profiles_current_team ON player_profiles(current_team);
 CREATE INDEX IF NOT EXISTS idx_team_profiles_game         ON team_profiles(game);
 CREATE INDEX IF NOT EXISTS idx_team_profiles_is_visible   ON team_profiles(is_visible);
 CREATE INDEX IF NOT EXISTS idx_users_discord_id           ON users(discord_id);

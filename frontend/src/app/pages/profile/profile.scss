@@ -609,3 +609,71 @@
   .btn-save,
   .btn-cancel     { width: 100%; text-align: center; }
 }
+
+// ── Botón de edición consistente con team-profile ─────────────
+.btn-edit-section {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: 1px solid #1E293B;
+  background: rgba(30, 41, 59, 0.7);
+  color: #c9c9d1;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(59, 130, 246, 0.18);
+    color: #93c5fd;
+    border-color: #3b82f6;
+  }
+}
+
+.upload-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+// ── Logo de equipo en header y lista ─────────────────────────
+.team-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.team-logo-inline {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.team-icon-placeholder {
+  font-size: 0.95rem;
+}
+
+.team-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.team-logo-mini {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: contain;
+  vertical-align: middle;
+}

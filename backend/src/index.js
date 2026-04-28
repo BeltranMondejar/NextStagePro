@@ -181,6 +181,31 @@ app.get('/health', (req, res) => {
   });
 });
 
+// ════════════════════════════════════════════════════════════
+//  SERVIR FRONTEND EN PRODUCCIÓN
+// ════════════════════════════════════════════════════════════
+const path = require('path');
+
+// Solo servir frontend si NO estamos en desarrollo
+if (!isDevelopment) {
+  const frontendPath = path.join(__dirname, 'frontend', 'angular', 'dist', 'nextstagepro-gg', 'browser');
+  
+  // Archivos estáticos (JS, CSS, imágenes, etc.)
+  app.use(express.static(frontendPath));
+  
+  // Todas las rutas no-API → index.html de Angular
+  app.get('*', (req, res, next) => {
+    // Si empieza por /api, seguir al siguiente middleware (404)
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
+// ── 404 ──────────────────────────────────────────────────────
+app.use((req, res) => {
+  res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.path}` });
+});
+
 // ── 404 ──────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.path}` });

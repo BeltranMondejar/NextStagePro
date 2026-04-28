@@ -187,11 +187,13 @@ router.post('/me', requireAuth, async (req, res) => {
 });
 
 // PUT /api/teams/me
+// PUT /api/teams/me
 router.put('/me', requireAuth, async (req, res) => {
   try {
     const {
       name, abbreviation, email, founded_date, location, bio, game,
       discord_tag, twitter_url, liquipedia_url, vlr_url, twitch_url,
+      is_visible // ← AÑADIR ESTO
     } = req.body;
 
     const teamId = await getTeamId(req.user.id);
@@ -211,11 +213,13 @@ router.put('/me', requireAuth, async (req, res) => {
         liquipedia_url = COALESCE($10, liquipedia_url),
         vlr_url        = COALESCE($11, vlr_url),
         twitch_url     = COALESCE($12, twitch_url),
+        is_visible     = COALESCE($13, is_visible),
         updated_at     = NOW()
-       WHERE user_id = $13 RETURNING *`,
+       WHERE user_id = $14 RETURNING *`,
       [
         name, abbreviation, email, founded_date || null, location, bio, game,
         discord_tag, twitter_url, liquipedia_url, vlr_url, twitch_url,
+        is_visible, // ← AÑADIR ESTO
         req.user.id,
       ]
     );

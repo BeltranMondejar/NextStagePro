@@ -103,16 +103,18 @@
             </p>
           </div>
           <div class="header-stats">
-            <div class="stat-item">{{ profile.profile_views }} <span>Views</span></div>
-            <div class="stat-item" *ngIf="profile.active_competitions?.length">
-              {{ profile.active_competitions!.length }} competicion{{ profile.active_competitions!.length > 1 ? 'es' : '' }} activa{{ profile.active_competitions!.length > 1 ? 's' : '' }}
-            </div>
-            <div class="stat-item">
-              <span class="visibility-toggle" [class.visible]="profile.is_visible" (click)="toggleVisibility()">
-                {{ profile.is_visible ? 'Visible' : 'Oculto' }}
-              </span>
-            </div>
-          </div>
+  <div class="stat-item">👁️ {{ profile.profile_views }} <span>Views</span></div>
+  <div class="stat-item" *ngIf="profile.active_competitions?.length">
+    🏆 {{ profile.active_competitions!.length }} competicion{{ profile.active_competitions!.length > 1 ? 'es' : '' }} activa{{ profile.active_competitions!.length > 1 ? 's' : '' }}
+  </div>
+  <button class="visibility-toggle" 
+        [class.visible]="profile.is_visible" 
+        (click)="toggleVisibility()"
+        type="button"
+        [disabled]="saving">
+  {{ profile.is_visible ? '👁️ Visible' : '🔒 Oculto' }}
+</button>
+</div>
         </div>
       </div>
     </div>
@@ -288,13 +290,17 @@
           <div class="team-members-grid" *ngIf="profile.players?.length">
             <a
               class="team-member-card"
-              *ngFor="let player of profile.players"
+              *ngFor="let player of profile.players; trackBy: trackByPlayer"
               [routerLink]="['/players', player.id]"
             >
               <img
                 class="team-member-avatar"
                 [src]="getPlayerAvatarUrl(player)"
                 [alt]="player.nickname"
+                loading="lazy"
+                width="52"
+                height="52"
+                style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;"
               />
               <div class="team-member-info">
                 <strong>{{ player.nickname }}</strong>

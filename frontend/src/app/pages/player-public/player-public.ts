@@ -4,7 +4,7 @@
 //   - Loading skeleton en lugar de texto "Cargando..."
 //   - Open Graph meta tags dinámicos para preview al compartir en Discord/Twitter
 
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
@@ -17,12 +17,14 @@ import { PlayerProfile } from '../../models';
   imports: [CommonModule, RouterModule],
   templateUrl: './player-public.html',
   styleUrls: ['./player-public.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerPublicComponent implements OnInit, OnDestroy {
   private route         = inject(ActivatedRoute);
   private playerService = inject(PlayerService);
   private meta          = inject(Meta);
   private titleService  = inject(Title);
+  private cdr           = inject(ChangeDetectorRef);
 
   player:  PlayerProfile | null = null;
   loading  = true;
@@ -40,10 +42,12 @@ export class PlayerPublicComponent implements OnInit, OnDestroy {
         this.player  = p;
         this.loading = false;
         this.setMetaTags(p);
+        this.cdr.markForCheck();
       },
       error: () => {
         this.error   = 'Perfil no encontrado o no visible.';
         this.loading = false;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -88,5 +92,17 @@ export class PlayerPublicComponent implements OnInit, OnDestroy {
         this.meta.updateTag({ name: tag.name, content: tag.content });
       }
     });
+  }
+
+  /** Devuelve la URL del avatar optimizada para Cloudinary, o un fallback */
+  getAvatarUrl(p: PlayerProfile): string {
+    if (p.avatar_url) {
+      if (p.avatar_url.includes('res.cloudinary.com')) {
+        return p.avatar_url.replace('/upload/', '/upload/w_120,h_120,c_fill,f_auto,q_auto/');
+      }
+      return p.avatar_url;
+    }
+    const name = encodeURIComponent(p.nickname || 'P');
+    return `https://ui-avatars.com/api/?name=${name}&background=3b82f6&color=fff&size=120`;
   }
 }

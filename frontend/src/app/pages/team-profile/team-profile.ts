@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -18,10 +18,12 @@ import {
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './team-profile.html',
   styleUrls: ['./team-profile.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamProfileComponent implements OnInit {
   private teamService = inject(TeamService);
   readonly auth = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
 
   profile: TeamProfile | null = null;
   loading = true;
@@ -49,10 +51,10 @@ export class TeamProfileComponent implements OnInit {
         this.profile = p;
         this.auth.setHeaderImage(p.logo_url || null);
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         if (err.status === 404) {
-          // No tiene perfil de equipo aún — mostrar formulario de creación
           this.profile = null;
           this.loading = false;
           this.error = 'NO_PROFILE';
@@ -60,11 +62,11 @@ export class TeamProfileComponent implements OnInit {
           this.error = 'Error al cargar el perfil de equipo.';
           this.loading = false;
         }
+        this.cdr.markForCheck();
       },
     });
   }
 
-  // ── Creación inicial ─────────────────────────────────────
   createProfile(): void {
     if (!this.draftProfile['name']) return;
     this.saving = true;
@@ -76,15 +78,16 @@ export class TeamProfileComponent implements OnInit {
         this.saving = false;
         this.draftProfile = {};
         this.auth.fetchMe();
+        this.cdr.markForCheck();
       },
       error: () => {
         this.saveMsg = 'Error creando el perfil.';
         this.saving = false;
+        this.cdr.markForCheck();
       },
     });
   }
 
-  // ── Edición de secciones ──────────────────────────────────
   startEdit(section: 'bio' | 'basic' | 'game'): void {
     this.draftProfile = { ...this.profile };
     if (section === 'bio') this.editingBio = true;
@@ -105,31 +108,28 @@ export class TeamProfileComponent implements OnInit {
 
     this.teamService.updateMe(this.draftProfile).subscribe({
       next: (updated) => {
-        this.profile = {
-          ...updated,
-          competitions: this.profile?.competitions,
-          active_competitions: this.profile?.active_competitions,
-          highlights: this.profile?.highlights,
-        };
+        this.profile = updated;
         this.cancelEdit(section);
         this.saving = false;
         this.saveMsg = '¡Guardado!';
-        setTimeout(() => (this.saveMsg = ''), 2500);
+        setTimeout(() => { this.saveMsg = ''; this.cdr.markForCheck(); }, 2500);
+        this.cdr.markForCheck();
       },
       error: () => {
         this.saving = false;
         this.saveMsg = 'Error guardando. Inténtalo de nuevo.';
+        this.cdr.markForCheck();
       },
     });
   }
 
-  // ── Imágenes ─────────────────────────────────────────────
   onLogoChange(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     this.teamService.uploadLogo(file).subscribe((res) => {
       if (this.profile) this.profile.logo_url = res.logo_url;
       this.auth.fetchMe();
+      this.cdr.markForCheck();
     });
   }
 
@@ -138,10 +138,10 @@ export class TeamProfileComponent implements OnInit {
     if (!file) return;
     this.teamService.uploadCover(file).subscribe((res) => {
       if (this.profile) this.profile.cover_url = res.cover_url;
+      this.cdr.markForCheck();
     });
   }
 
-  // ── Competiciones históricas ──────────────────────────────
   startAddComp(): void {
     this.draftComp = {};
     this.addingComp = true;
@@ -159,6 +159,7 @@ export class TeamProfileComponent implements OnInit {
       if (!this.profile!.competitions) this.profile!.competitions = [];
       this.profile!.competitions!.unshift(comp);
       this.cancelComp();
+      this.cdr.markForCheck();
     });
   }
 
@@ -172,6 +173,7 @@ export class TeamProfileComponent implements OnInit {
     this.teamService.updateCompetition(id, this.draftComp).subscribe((updated) => {
       this.profile!.competitions![i] = updated;
       this.cancelComp();
+      this.cdr.markForCheck();
     });
   }
 
@@ -180,10 +182,10 @@ export class TeamProfileComponent implements OnInit {
     const id = this.profile!.competitions![i].id;
     this.teamService.deleteCompetition(id).subscribe(() => {
       this.profile!.competitions!.splice(i, 1);
+      this.cdr.markForCheck();
     });
   }
 
-  // ── Competiciones activas ─────────────────────────────────
   startAddActiveComp(): void {
     this.draftActiveComp = {};
     this.addingActiveComp = true;
@@ -200,6 +202,7 @@ export class TeamProfileComponent implements OnInit {
       if (!this.profile!.active_competitions) this.profile!.active_competitions = [];
       this.profile!.active_competitions!.push(ac);
       this.cancelActiveComp();
+      this.cdr.markForCheck();
     });
   }
 
@@ -208,16 +211,17 @@ export class TeamProfileComponent implements OnInit {
     const id = this.profile!.active_competitions![i].id;
     this.teamService.deleteActiveCompetition(id).subscribe(() => {
       this.profile!.active_competitions!.splice(i, 1);
+      this.cdr.markForCheck();
     });
   }
 
-  // ── Highlights ────────────────────────────────────────────
   onHighlightAdd(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     this.teamService.addHighlight(file).subscribe((h) => {
       if (!this.profile!.highlights) this.profile!.highlights = [];
       this.profile!.highlights!.push(h);
+      this.cdr.markForCheck();
     });
   }
 
@@ -226,18 +230,36 @@ export class TeamProfileComponent implements OnInit {
     const id = this.profile!.highlights![i].id;
     this.teamService.deleteHighlight(id).subscribe(() => {
       this.profile!.highlights!.splice(i, 1);
+      this.cdr.markForCheck();
     });
   }
 
-  // ── Visibilidad ───────────────────────────────────────────
-  toggleVisibility(): void {
-    if (!this.profile) return;
-    const newVal = !this.profile.is_visible;
-    this.teamService.updateMe({ is_visible: newVal }).subscribe((updated) => {
-      if (this.profile) this.profile.is_visible = updated.is_visible;
-    });
-  }
-
+// ── Visibilidad ───────────────────────────────────────────
+toggleVisibility(): void {
+  if (!this.profile || this.saving) return;
+  
+  this.saving = true;
+  const newVal = !this.profile.is_visible;
+  
+  // Actualización optimista - mutar directamente la propiedad
+  this.profile.is_visible = newVal;
+  this.cdr.markForCheck();
+  
+  this.teamService.updateMe({ is_visible: newVal } as any).subscribe({
+    next: () => {
+      this.saving = false;
+      this.saveMsg = newVal ? 'Perfil visible' : 'Perfil oculto';
+      setTimeout(() => { this.saveMsg = ''; this.cdr.markForCheck(); }, 2000);
+      this.cdr.markForCheck();
+    },
+    error: () => {
+      // Revertir si hay error
+      this.profile!.is_visible = !newVal;
+      this.saving = false;
+      this.cdr.markForCheck();
+    }
+  });
+}
   deleteTeamProfile(): void {
     if (!this.profile || this.saving) return;
 
@@ -263,11 +285,13 @@ export class TeamProfileComponent implements OnInit {
         this.auth.setHeaderImage(null);
         this.auth.fetchMe();
         this.saveMsg = 'Equipo eliminado.';
-        setTimeout(() => (this.saveMsg = ''), 3000);
+        setTimeout(() => { this.saveMsg = ''; this.cdr.markForCheck(); }, 3000);
+        this.cdr.markForCheck();
       },
       error: () => {
         this.saving = false;
         this.saveMsg = 'Error eliminando el equipo. Inténtalo de nuevo.';
+        this.cdr.markForCheck();
       },
     });
   }
@@ -276,22 +300,29 @@ export class TeamProfileComponent implements OnInit {
     return this.auth.isPro();
   }
 
-   getLogoUrl(): string {
-    if (this.profile?.logo_url) {
-      return this.profile.logo_url;
-    }
+  private cloudinaryTransform(url: string, transform: string): string {
+    if (!url || !url.includes('res.cloudinary.com')) return url;
+    return url.replace('/upload/', `/upload/${transform}/`);
+  }
 
+  getLogoUrl(): string {
+    if (this.profile?.logo_url) {
+      return this.cloudinaryTransform(this.profile.logo_url, 'w_150,h_150,c_fill,f_auto,q_auto');
+    }
     const name = encodeURIComponent(this.profile?.name || 'Team');
     return `https://ui-avatars.com/api/?name=${name}&background=3b82f6&color=fff&size=150`;
   }
 
   getPlayerAvatarUrl(player: TeamMember): string {
     if (player.avatar_url) {
-      return player.avatar_url;
+      return this.cloudinaryTransform(player.avatar_url, 'w_52,h_52,c_fill,f_auto,q_auto');
     }
-
     const nickname = encodeURIComponent(player.nickname || 'Player');
-    return `https://ui-avatars.com/api/?name=${nickname}&background=3b82f6&color=fff&size=128`;
+    return `https://ui-avatars.com/api/?name=${nickname}&background=3b82f6&color=fff&size=52`;
   }
 
+  trackByComp(_: number, c: TeamCompetition): string { return c.id; }
+  trackByPlayer(_: number, p: TeamMember): string { return p.id; }
+  trackByHighlight(_: number, h: TeamHighlight): string { return h.id; }
+  trackByActiveComp(_: number, ac: TeamActiveCompetition): string { return ac.id; }
 }

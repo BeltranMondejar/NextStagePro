@@ -58,7 +58,12 @@
 
       <div class="glass-panel profile-header">
         <div class="avatar-container">
-          <img [src]="player.avatar_url || 'https://i.pravatar.cc/150?u=' + player.id" alt="Avatar" />
+          <img [src]="getAvatarUrl(player)"
+               alt="Avatar"
+               loading="eager"
+               width="120"
+               height="120"
+               style="width:120px;height:120px;border-radius:50%;object-fit:cover;" />
         </div>
         <div class="header-info">
           <div class="user-main">
