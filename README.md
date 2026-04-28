@@ -37,6 +37,8 @@ nextstagepro/
     │   │       ├── subscriptions/   ← Planes Stripe
     │   │       ├── contact/         ← Formulario contacto
     │   │       └── auth-callback/   ← Recibe token Discord
+    │   │       └── team-profile/   ← Perfil privado (equipo)
+    │   │       └── team-public/   ← Perfil publico (equipo)
     │   └── environments/
     │       ├── environment.ts           ← URL API desarrollo
     │       └── environment.production.ts ← URL API producción
