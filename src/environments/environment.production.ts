@@ -1,5 +1,5 @@
 // src/environments/environment.production.ts
 export const environment = {
   production: true,
-  apiUrl: 'nextstagepro-production.up.railway.app',
+  apiUrl: 'https://nextstagepro-production.up.railway.app/api',
 };
