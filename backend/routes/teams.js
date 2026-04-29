@@ -1,30 +1,9 @@
-// src/routes/teams.js
-// Endpoints:
-//   GET    /api/teams                        — búsqueda pública
-//   GET    /api/teams/me                     — perfil propio       ← ANTES que /:id
-//   POST   /api/teams/me                     — crear perfil de equipo
-//   PUT    /api/teams/me                     — actualizar perfil propio
-//   POST   /api/teams/me/logo               — subir logo (Cloudinary)
-//   POST   /api/teams/me/cover              — subir cover (Cloudinary)
-//   GET    /api/teams/me/competitions       — historial competitivo
-//   POST   /api/teams/me/competitions
-//   PUT    /api/teams/me/competitions/:id
-//   DELETE /api/teams/me/competitions/:id
-//   GET    /api/teams/me/active-competitions
-//   POST   /api/teams/me/active-competitions
-//   DELETE /api/teams/me/active-competitions/:id
-//   GET    /api/teams/me/highlights
-//   POST   /api/teams/me/highlights
-//   DELETE /api/teams/me/highlights/:id
-//   GET    /api/teams/:id                    — perfil público      ← AL FINAL
-
 const express = require('express');
 const router  = express.Router();
 const { query } = require('../config/db');
 const { requireAuth } = require('../middleware/auth');
 const { uploadProfile, uploadHighlight, uploadLogo, cloudinary } = require('../config/cloudinary');
 
-// ── Helper: obtener ID del perfil de equipo ──────────────────
 async function getTeamId(userId) {
   const { rows } = await query(
     `SELECT id FROM team_profiles WHERE user_id = $1`, [userId]
@@ -62,8 +41,6 @@ async function getTeamPlayers(teamName) {
   return rows;
 }
 
-// ── Búsqueda pública de equipos ──────────────────────────────
-// GET /api/teams?game=&location=&search=&page=&limit=
 router.get('/', async (req, res) => {
   try {
     const { game, location, search, page = 1, limit = 20 } = req.query;
@@ -116,11 +93,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ════════════════════════════════════════════════════════════
-//  RUTAS /me  — deben ir TODAS antes de /:id
-// ════════════════════════════════════════════════════════════
-
-// GET /api/teams/me
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const { rows: profiles } = await query(
@@ -157,7 +129,6 @@ router.get('/me', requireAuth, async (req, res) => {
   }
 });
 
-// POST /api/teams/me  (crear perfil de equipo por primera vez)
 router.post('/me', requireAuth, async (req, res) => {
   try {
     const existing = await getTeamId(req.user.id);
@@ -186,8 +157,6 @@ router.post('/me', requireAuth, async (req, res) => {
   }
 });
 
-// PUT /api/teams/me
-// PUT /api/teams/me
 router.put('/me', requireAuth, async (req, res) => {
   try {
     const {
@@ -231,7 +200,6 @@ router.put('/me', requireAuth, async (req, res) => {
   }
 });
 
-// DELETE /api/teams/me
 router.delete('/me', requireAuth, async (req, res) => {
   try {
     const teamId = await getTeamId(req.user.id);
@@ -250,7 +218,6 @@ router.delete('/me', requireAuth, async (req, res) => {
   }
 });
 
-// POST /api/teams/me/logo
 router.post('/me/logo', requireAuth, uploadLogo.single('logo'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
@@ -266,7 +233,6 @@ router.post('/me/logo', requireAuth, uploadLogo.single('logo'), async (req, res)
   }
 });
 
-// POST /api/teams/me/cover
 router.post('/me/cover', requireAuth, uploadProfile.single('cover'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
@@ -281,10 +247,6 @@ router.post('/me/cover', requireAuth, uploadProfile.single('cover'), async (req,
     res.status(500).json({ error: 'Error subiendo cover' });
   }
 });
-
-// ════════════════════════════════════════════════════════════
-//  COMPETICIONES (historial)
-// ════════════════════════════════════════════════════════════
 
 router.get('/me/competitions', requireAuth, async (req, res) => {
   try {
@@ -343,10 +305,6 @@ router.delete('/me/competitions/:id', requireAuth, async (req, res) => {
   } catch (err) { res.status(500).json({ error: 'Error del servidor' }); }
 });
 
-// ════════════════════════════════════════════════════════════
-//  COMPETICIONES ACTIVAS
-// ════════════════════════════════════════════════════════════
-
 router.get('/me/active-competitions', requireAuth, async (req, res) => {
   try {
     const teamId = await getTeamId(req.user.id);
@@ -385,10 +343,6 @@ router.delete('/me/active-competitions/:id', requireAuth, async (req, res) => {
     res.json({ message: 'Eliminado' });
   } catch (err) { res.status(500).json({ error: 'Error del servidor' }); }
 });
-
-// ════════════════════════════════════════════════════════════
-//  HIGHLIGHTS DE EQUIPO
-// ════════════════════════════════════════════════════════════
 
 router.get('/me/highlights', requireAuth, async (req, res) => {
   try {
@@ -440,11 +394,6 @@ router.delete('/me/highlights/:id', requireAuth, async (req, res) => {
   } catch (err) { res.status(500).json({ error: 'Error del servidor' }); }
 });
 
-// ════════════════════════════════════════════════════════════
-//  RUTA DINÁMICA — siempre al final
-// ════════════════════════════════════════════════════════════
-
-// GET /api/teams/:id  ← debe ser la ÚLTIMA ruta GET de este router
 router.get('/:id', async (req, res) => {
   try {
     const { rows: profiles } = await query(

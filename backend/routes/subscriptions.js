@@ -1,11 +1,3 @@
-// src/routes/subscriptions.js
-// FIX: El webhook ya NO está aquí — se maneja en index.js con body raw.
-//      Este router solo contiene los endpoints autenticados.
-// Endpoints:
-//   POST /api/subscriptions/checkout  — crea sesión de pago en Stripe
-//   POST /api/subscriptions/portal    — abre portal de cliente Stripe
-//   GET  /api/subscriptions/me        — estado actual de la suscripción
-
 const express = require('express');
 const router  = express.Router();
 const stripe  = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -17,7 +9,6 @@ const PLAN_PRICES = {
   team_pro:   process.env.STRIPE_PRICE_TEAM_PRO,
 };
 
-// POST /api/subscriptions/checkout
 router.post('/checkout', requireAuth, async (req, res) => {
   try {
     const { plan } = req.body;
@@ -59,7 +50,6 @@ router.post('/checkout', requireAuth, async (req, res) => {
   }
 });
 
-// POST /api/subscriptions/portal
 router.post('/portal', requireAuth, async (req, res) => {
   try {
     const { rows } = await query(
@@ -81,7 +71,6 @@ router.post('/portal', requireAuth, async (req, res) => {
   }
 });
 
-// GET /api/subscriptions/me
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const { rows } = await query(
