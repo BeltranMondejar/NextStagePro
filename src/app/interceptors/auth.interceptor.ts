@@ -1,23 +1,16 @@
-// src/app/interceptors/auth.interceptor.ts
-// QoL: Interceptor combinado:
-//   1. Añade Authorization header a todas las peticiones a nuestra API
-//   2. Captura errores HTTP y emite un evento global para mostrar toasts
-//   3. Si recibe 401, limpia la sesión automáticamente
-
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-// Bus de eventos para toasts — simple EventTarget global
 export const toastBus = new EventTarget();
 
 export function showToast(message: string, type: 'error' | 'success' | 'info' = 'error'): void {
   toastBus.dispatchEvent(new CustomEvent('toast', { detail: { message, type } }));
 }
 
-// Mensajes amigables por código de error
+// Mensajes por código de error
 function friendlyError(err: HttpErrorResponse): string {
   if (!navigator.onLine) return 'Sin conexión a internet.';
   switch (err.status) {
@@ -49,13 +42,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((err: HttpErrorResponse) => {
       const message = friendlyError(err);
 
-      // 401 → limpiar sesión y redirigir
       if (err.status === 401) {
         localStorage.removeItem('nsp_token');
         router.navigate(['/'], { queryParams: { login: 'required' } });
       }
 
-      // Emitir toast (excepto 401 que ya tiene su propio flujo)
+      // Emitir toast para errores distintos de 401
       if (err.status !== 401) {
         showToast(message, 'error');
       }

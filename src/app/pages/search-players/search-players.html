@@ -4,8 +4,8 @@
       <span class="eyebrow">Scouting</span>
       <h1>Busca jugadores y equipos</h1>
       <p>
-        Filtra por juego, rol y rango, o escribe el nombre del jugador o equipo para
-        encontrar perfiles más rápido.
+        Filtra por juego, rol y rango, o escribe el nombre del jugador o equipo para encontrar
+        perfiles más rápido.
       </p>
     </div>
   </section>
@@ -22,10 +22,18 @@
 
   <div class="filter-bar" (click)="$event.stopPropagation()">
     <div class="filters-left">
-      <button class="filter-pill" [class.active]="typeFilter === 'all'" (click)="setTypeFilter('all')">
+      <button
+        class="filter-pill"
+        [class.active]="typeFilter === 'all'"
+        (click)="setTypeFilter('all')"
+      >
         Todos
       </button>
-      <button class="filter-pill" [class.active]="typeFilter === 'pro'" (click)="setTypeFilter('pro')">
+      <button
+        class="filter-pill"
+        [class.active]="typeFilter === 'pro'"
+        (click)="setTypeFilter('pro')"
+      >
         Solo PRO
       </button>
 
@@ -38,44 +46,121 @@
         <div class="dropdown-menu" *ngIf="dropdownOpen" (click)="$event.stopPropagation()">
           <label>Juego</label>
           <div class="custom-select-wrapper">
-            <div class="custom-select" [class.open]="openSelect === 'game'" (click)="toggleSelect('game', $event)">
+            <div
+              class="custom-select"
+              [class.open]="openSelect === 'game'"
+              (click)="toggleSelect('game', $event)"
+            >
               <span>{{ selectedGame || 'Todos' }}</span>
-              <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+              <svg width="12" height="8" viewBox="0 0 12 8">
+                <path
+                  d="M1 1l5 5 5-5"
+                  stroke="#6B7280"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+              </svg>
             </div>
             <div class="custom-options" *ngIf="openSelect === 'game'">
-              <div class="custom-option" [class.selected]="selectedGame === ''" (click)="selectOption('game', '', $event)">Todos</div>
-              <div class="custom-option" *ngFor="let g of games" [class.selected]="selectedGame === g" (click)="selectOption('game', g, $event)">{{ g }}</div>
+              <div
+                class="custom-option"
+                [class.selected]="selectedGame === ''"
+                (click)="selectOption('game', '', $event)"
+              >
+                Todos
+              </div>
+              <div
+                class="custom-option"
+                *ngFor="let g of games"
+                [class.selected]="selectedGame === g"
+                (click)="selectOption('game', g, $event)"
+              >
+                {{ g }}
+              </div>
             </div>
           </div>
 
           <ng-container *ngIf="activeTab === 'players'">
             <label>Rol</label>
             <div class="custom-select-wrapper">
-              <div class="custom-select" [class.open]="openSelect === 'role'" (click)="toggleSelect('role', $event)">
+              <div
+                class="custom-select"
+                [class.open]="openSelect === 'role'"
+                (click)="toggleSelect('role', $event)"
+              >
                 <span>{{ selectedRole || 'Todos' }}</span>
-                <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                <svg width="12" height="8" viewBox="0 0 12 8">
+                  <path
+                    d="M1 1l5 5 5-5"
+                    stroke="#6B7280"
+                    stroke-width="1.5"
+                    fill="none"
+                    stroke-linecap="round"
+                  />
+                </svg>
               </div>
               <div class="custom-options" *ngIf="openSelect === 'role'">
-                <div class="custom-option" [class.selected]="selectedRole === ''" (click)="selectOption('role', '', $event)">Todos</div>
-                <div class="custom-option" *ngFor="let r of roles" [class.selected]="selectedRole === r" (click)="selectOption('role', r, $event)">{{ r }}</div>
+                <div
+                  class="custom-option"
+                  [class.selected]="selectedRole === ''"
+                  (click)="selectOption('role', '', $event)"
+                >
+                  Todos
+                </div>
+                <div
+                  class="custom-option"
+                  *ngFor="let r of roles"
+                  [class.selected]="selectedRole === r"
+                  (click)="selectOption('role', r, $event)"
+                >
+                  {{ r }}
+                </div>
               </div>
             </div>
 
             <label>Rango</label>
             <div class="custom-select-wrapper">
-              <div class="custom-select" [class.open]="openSelect === 'rank'" (click)="toggleSelect('rank', $event)">
+              <div
+                class="custom-select"
+                [class.open]="openSelect === 'rank'"
+                (click)="toggleSelect('rank', $event)"
+              >
                 <span>{{ selectedRank || 'Todos' }}</span>
-                <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                <svg width="12" height="8" viewBox="0 0 12 8">
+                  <path
+                    d="M1 1l5 5 5-5"
+                    stroke="#6B7280"
+                    stroke-width="1.5"
+                    fill="none"
+                    stroke-linecap="round"
+                  />
+                </svg>
               </div>
               <div class="custom-options" *ngIf="openSelect === 'rank'">
-                <div class="custom-option" [class.selected]="selectedRank === ''" (click)="selectOption('rank', '', $event)">Todos</div>
-                <div class="custom-option" *ngFor="let r of ranks" [class.selected]="selectedRank === r" (click)="selectOption('rank', r, $event)">{{ r }}</div>
+                <div
+                  class="custom-option"
+                  [class.selected]="selectedRank === ''"
+                  (click)="selectOption('rank', '', $event)"
+                >
+                  Todos
+                </div>
+                <div
+                  class="custom-option"
+                  *ngFor="let r of ranks"
+                  [class.selected]="selectedRank === r"
+                  (click)="selectOption('rank', r, $event)"
+                >
+                  {{ r }}
+                </div>
               </div>
             </div>
           </ng-container>
 
           <div class="dropdown-footer">
-            <button class="btn-reset" *ngIf="hasActiveFilters" (click)="resetFilters()">Limpiar</button>
+            <button class="btn-reset" *ngIf="hasActiveFilters" (click)="resetFilters()">
+              Limpiar
+            </button>
             <button class="btn-close-dropdown" (click)="closeFull()">Cerrar</button>
           </div>
         </div>
@@ -85,16 +170,24 @@
     <div class="filters-right">
       <input
         type="text"
-        [placeholder]="activeTab === 'players' ? 'Buscar por jugador o equipo...' : 'Buscar por nombre de equipo...'"
+        [placeholder]="
+          activeTab === 'players'
+            ? 'Buscar por jugador o equipo...'
+            : 'Buscar por nombre de equipo...'
+        "
         class="search-input"
         [(ngModel)]="searchText"
         (ngModelChange)="onSearchChange()"
       />
-      <p class="search-help">{{ activeTab === 'players' ? 'También busca por equipo actual.' : 'Busca por nombre o juego.' }}</p>
+      <p class="search-help">
+        {{
+          activeTab === 'players' ? 'También busca por equipo actual.' : 'Busca por nombre o juego.'
+        }}
+      </p>
     </div>
   </div>
 
-  <!-- ═══════════════════ TAB: JUGADORES ═══════════════════ -->
+  <!-- RESULTADOS JUGADORES -->
   <ng-container *ngIf="activeTab === 'players'">
     <div class="results-meta" *ngIf="!loading && !error">
       <ng-container *ngIf="total > 0">
@@ -112,7 +205,11 @@
     <div *ngIf="!loading && !error && players.length === 0" class="state-message empty">
       <h3>No encontramos jugadores con esos filtros.</h3>
       <p>Prueba a buscar por nickname, nombre del equipo o limpia los filtros activos.</p>
-      <button class="btn-reset-inline" *ngIf="hasActiveFilters || typeFilter === 'pro' || searchText" (click)="resetAll()">
+      <button
+        class="btn-reset-inline"
+        *ngIf="hasActiveFilters || typeFilter === 'pro' || searchText"
+        (click)="resetAll()"
+      >
         Limpiar y ver todos
       </button>
     </div>
@@ -131,7 +228,11 @@
     <div class="players-grid" *ngIf="!loading && players.length > 0">
       <article class="player-card" *ngFor="let player of players; trackBy: trackByPlayer">
         <div class="player-avatar">
-          <img [src]="player.avatar_url || 'https://i.pravatar.cc/80?u=' + player.id" [alt]="player.nickname" loading="lazy" />
+          <img
+            [src]="player.avatar_url || 'https://i.pravatar.cc/80?u=' + player.id"
+            [alt]="player.nickname"
+            loading="lazy"
+          />
           <span *ngIf="player.plan !== 'free'" class="pro-badge">PRO</span>
         </div>
 
@@ -155,19 +256,50 @@
     </div>
 
     <div class="pagination" *ngIf="totalPages > 1 && !loading">
-      <button class="page-btn nav-btn" (click)="goToPage(1)" [disabled]="page === 1" title="Primera">&lt;&lt;</button>
-      <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">Anterior</button>
-      <button class="page-btn" *ngFor="let p of pageNumbers" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
-      <button class="page-btn nav-btn" (click)="goToPage(page + 1)" [disabled]="page === totalPages">Siguiente</button>
-      <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="page === totalPages" title="Ultima">&gt;&gt;</button>
+      <button
+        class="page-btn nav-btn"
+        (click)="goToPage(1)"
+        [disabled]="page === 1"
+        title="Primera"
+      >
+        &lt;&lt;
+      </button>
+      <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">
+        Anterior
+      </button>
+      <button
+        class="page-btn"
+        *ngFor="let p of pageNumbers"
+        [class.active]="p === page"
+        (click)="goToPage(p)"
+      >
+        {{ p }}
+      </button>
+      <button
+        class="page-btn nav-btn"
+        (click)="goToPage(page + 1)"
+        [disabled]="page === totalPages"
+      >
+        Siguiente
+      </button>
+      <button
+        class="page-btn nav-btn"
+        (click)="goToPage(totalPages)"
+        [disabled]="page === totalPages"
+        title="Ultima"
+      >
+        &gt;&gt;
+      </button>
     </div>
   </ng-container>
 
-  <!-- ═══════════════════ TAB: EQUIPOS ═══════════════════ -->
+  <!-- RESULTADOS DE EQUIPOS -->
   <ng-container *ngIf="activeTab === 'teams'">
     <div class="results-meta" *ngIf="!teamsLoading && !teamsError">
       <ng-container *ngIf="teamsTotal > 0">
-        {{ teamsTotal }} equipo{{ teamsTotal !== 1 ? 's' : '' }} encontrado{{ teamsTotal !== 1 ? 's' : '' }}
+        {{ teamsTotal }} equipo{{ teamsTotal !== 1 ? 's' : '' }} encontrado{{
+          teamsTotal !== 1 ? 's' : ''
+        }}
         <span *ngIf="teamsTotalPages > 1"> - Pagina {{ teamsPage }} de {{ teamsTotalPages }}</span>
       </ng-container>
       <span *ngIf="hasActiveFilters" class="filter-tag">
@@ -200,7 +332,12 @@
     <div class="players-grid" *ngIf="!teamsLoading && teams.length > 0">
       <article class="player-card team-card" *ngFor="let team of teams; trackBy: trackByTeam">
         <div class="player-avatar team-logo-wrapper">
-          <img [src]="getTeamLogoUrl(team)" [alt]="team.name" loading="lazy" class="team-logo-img" />
+          <img
+            [src]="getTeamLogoUrl(team)"
+            [alt]="team.name"
+            loading="lazy"
+            class="team-logo-img"
+          />
           <span *ngIf="team.plan !== 'free'" class="pro-badge">PRO</span>
         </div>
 
@@ -224,11 +361,44 @@
     </div>
 
     <div class="pagination" *ngIf="teamsTotalPages > 1 && !teamsLoading">
-      <button class="page-btn nav-btn" (click)="goToTeamsPage(1)" [disabled]="teamsPage === 1" title="Primera">&lt;&lt;</button>
-      <button class="page-btn nav-btn" (click)="goToTeamsPage(teamsPage - 1)" [disabled]="teamsPage === 1">Anterior</button>
-      <button class="page-btn" *ngFor="let p of teamsPageNumbers" [class.active]="p === teamsPage" (click)="goToTeamsPage(p)">{{ p }}</button>
-      <button class="page-btn nav-btn" (click)="goToTeamsPage(teamsPage + 1)" [disabled]="teamsPage === teamsTotalPages">Siguiente</button>
-      <button class="page-btn nav-btn" (click)="goToTeamsPage(teamsTotalPages)" [disabled]="teamsPage === teamsTotalPages" title="Ultima">&gt;&gt;</button>
+      <button
+        class="page-btn nav-btn"
+        (click)="goToTeamsPage(1)"
+        [disabled]="teamsPage === 1"
+        title="Primera"
+      >
+        &lt;&lt;
+      </button>
+      <button
+        class="page-btn nav-btn"
+        (click)="goToTeamsPage(teamsPage - 1)"
+        [disabled]="teamsPage === 1"
+      >
+        Anterior
+      </button>
+      <button
+        class="page-btn"
+        *ngFor="let p of teamsPageNumbers"
+        [class.active]="p === teamsPage"
+        (click)="goToTeamsPage(p)"
+      >
+        {{ p }}
+      </button>
+      <button
+        class="page-btn nav-btn"
+        (click)="goToTeamsPage(teamsPage + 1)"
+        [disabled]="teamsPage === teamsTotalPages"
+      >
+        Siguiente
+      </button>
+      <button
+        class="page-btn nav-btn"
+        (click)="goToTeamsPage(teamsTotalPages)"
+        [disabled]="teamsPage === teamsTotalPages"
+        title="Ultima"
+      >
+        &gt;&gt;
+      </button>
     </div>
   </ng-container>
 </div>

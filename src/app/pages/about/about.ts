@@ -10,7 +10,7 @@ import { forkJoin } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './about.html',
-  styleUrls: ['./about.scss']
+  styleUrls: ['./about.scss'],
 })
 export class AboutComponent implements OnInit {
   private playerService = inject(PlayerService);
@@ -24,36 +24,36 @@ export class AboutComponent implements OnInit {
     { value: '600+', label: 'Contratos' },
     { value: '50+', label: 'Staff' },
     { value: '180+', label: 'Partners' },
-    { value: '08+', label: 'Años Exp.' }
+    { value: '08+', label: 'Años Exp.' },
   ];
 
   values = [
     {
       title: 'Integridad',
-      description: 'Datos reales para una red de confianza.'
+      description: 'Datos reales para una red de confianza.',
     },
     {
       title: 'Innovación',
-      description: 'IA para el scouting profesional.'
+      description: 'IA para el scouting profesional.',
     },
     {
       title: 'Comunidad',
-      description: 'Crecimiento compartido en los eSports.'
-    }
+      description: 'Crecimiento compartido en los eSports.',
+    },
   ];
 
   team = [
     {
       name: 'Ikta Sollork',
-      role: 'Founder / CEO'
-    }
+      role: 'Founder / CEO',
+    },
   ];
 
   collabs = [
     { icon: 'V', name: 'Vortex', description: 'Network partners' },
     { icon: 'P', name: 'Pixel', description: 'Design partners' },
     { icon: 'A', name: 'Athon', description: 'Stream partners' },
-    { icon: 'F', name: 'Fronxe', description: 'Hardware partners' }
+    { icon: 'F', name: 'Fronxe', description: 'Hardware partners' },
   ];
 
   ngOnInit(): void {

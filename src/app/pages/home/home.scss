@@ -80,7 +80,10 @@
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
 .hero-btn:hover {
@@ -89,7 +92,7 @@
 }
 
 .hero-btn-primary {
-  background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
+  background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
 }
 
 .hero-btn-secondary {
@@ -110,7 +113,9 @@
     border: var(--border-style);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
 
     &:hover {
       transform: translateY(-3px);
@@ -155,7 +160,9 @@
     align-items: center;
     gap: 0.5rem;
     opacity: 0.85;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
 
     &:hover {
       transform: scale(1.1);
@@ -184,8 +191,12 @@
 }
 
 @keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* carrusel infinito sin corte */
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  } /* carrusel infinito sin corte */
 }
 
 /* PROCESS */
@@ -210,7 +221,10 @@
       border-radius: var(--radius-lg);
       border: var(--border-style);
       position: relative;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 
       &:hover {
         transform: translateY(-5px);
@@ -269,7 +283,10 @@
       border-radius: var(--radius-lg);
       padding: 2rem;
       border: var(--border-style);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
 
       &:hover {
         transform: translateY(-5px);
@@ -327,7 +344,9 @@
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
 
     &:hover {
       transform: translateY(-5px);
@@ -362,16 +381,28 @@
         text-decoration: none;
         font-weight: 700;
         font-size: 1rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease,
+          background 0.3s ease;
 
-        &.btn-primary { background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%); color: #fff; }
-        &.btn-secondary { border: 1px solid var(--text-dim); color: #fff; }
-        &.btn-team { border-color: rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.08); }
+        &.btn-primary {
+          background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+          color: #fff;
+        }
+        &.btn-secondary {
+          border: 1px solid var(--text-dim);
+          color: #fff;
+        }
+        &.btn-team {
+          border-color: rgba(59, 130, 246, 0.4);
+          background: rgba(59, 130, 246, 0.08);
+        }
 
         &:hover {
           transform: translateY(-3px);
           box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
-          background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
+          background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
         }
       }
     }
@@ -386,8 +417,18 @@
     flex-direction: column;
   }
 
-  .engagement h2 { font-size: 2.2rem; }
-  .hero h1 { font-size: 2rem; }
-  .featured-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-  .process-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .engagement h2 {
+    font-size: 2.2rem;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .featured-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }

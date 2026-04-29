@@ -1,4 +1,3 @@
-/* Layout raíz: flex column que ocupa toda la pantalla */
 :host {
   display: flex;
   flex-direction: column;
@@ -6,11 +5,9 @@
   overflow-x: hidden;
 }
 
-/* El main crece para empujar el footer al fondo */
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* Compensa el header flotante: top(20px) + height(70px) + gap(20px) */
   padding-top: 110px;
 }

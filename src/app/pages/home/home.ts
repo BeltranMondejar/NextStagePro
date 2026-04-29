@@ -38,5 +38,7 @@ export class HomeComponent implements OnInit {
     return new Intl.NumberFormat('es-ES').format(value);
   }
 
-  loginWithDiscord(): void { this.auth.loginWithDiscord(); }
+  loginWithDiscord(): void {
+    this.auth.loginWithDiscord();
+  }
 }

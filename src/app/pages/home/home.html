@@ -2,35 +2,76 @@
 <section class="hero">
   <p class="hero-subtitle">CV ESPORTS NETWORK</p>
   <h1>Escala tu carrera en <span>NextStagePro</span></h1>
-  <p>Conectamos el talento puro con la infraestructura profesional. El ecosistema definitivo para jugadores, analistas y organizaciones.</p>
+  <p>
+    Conectamos el talento puro con la infraestructura profesional. El ecosistema definitivo para
+    jugadores, analistas y organizaciones.
+  </p>
   <div class="hero-actions">
-    <a *ngIf="isLogged()" routerLink="/team-profile" class="hero-btn hero-btn-primary">Crear equipo</a>
+    <a *ngIf="isLogged()" routerLink="/team-profile" class="hero-btn hero-btn-primary"
+      >Crear equipo</a
+    >
     <a *ngIf="isLogged()" routerLink="/profile" class="hero-btn hero-btn-secondary">Mi perfil</a>
     <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="hero-btn hero-btn-primary">
-      <img src="icons/discord.svg" style="width:18px;vertical-align:middle;margin-right:8px;" />
+      <img src="icons/discord.svg" style="width: 18px; vertical-align: middle; margin-right: 8px" />
       Iniciar Sesión
     </button>
   </div>
 
   <div class="stats-grid">
-    <div class="stat-card"><h2>{{ formatCount(playersCount) }}</h2><p>Players</p></div>
-    <div class="stat-card"><h2>{{ formatCount(teamsCount) }}</h2><p>Teams</p></div>
-    <div class="stat-card"><h2>Lifetime</h2><p>Support</p></div>
+    <div class="stat-card">
+      <h2>{{ formatCount(playersCount) }}</h2>
+      <p>Players</p>
+    </div>
+    <div class="stat-card">
+      <h2>{{ formatCount(teamsCount) }}</h2>
+      <p>Teams</p>
+    </div>
+    <div class="stat-card">
+      <h2>Lifetime</h2>
+      <p>Support</p>
+    </div>
   </div>
 </section>
 
 <!-- CAROUSEL SECTION -->
 <div class="carousel">
   <div class="carousel-track">
-    <div class="logo-item"><div class="logo-circle"></div><span>G2 ESPORTS</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>KOI</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>TEAM HERETICS</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>FNATIC</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>MAD LIONS</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>GIANTS</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>G2 ESPORTS</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>KOI</span></div>
-    <div class="logo-item"><div class="logo-circle"></div><span>TEAM HERETICS</span></div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>G2 ESPORTS</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>KOI</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>TEAM HERETICS</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>FNATIC</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>MAD LIONS</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>GIANTS</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>G2 ESPORTS</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>KOI</span>
+    </div>
+    <div class="logo-item">
+      <div class="logo-circle"></div>
+      <span>TEAM HERETICS</span>
+    </div>
   </div>
 </div>
 
@@ -41,12 +82,16 @@
     <div class="process-card">
       <div class="step-num">01</div>
       <h3>Crea tu Perfil</h3>
-      <p>Sincroniza tus estadísticas competitivas y genera un CV digital verificado por nuestra IA.</p>
+      <p>
+        Sincroniza tus estadísticas competitivas y genera un CV digital verificado por nuestra IA.
+      </p>
     </div>
     <div class="process-card">
       <div class="step-num">02</div>
       <h3>Conecta y Crece</h3>
-      <p>Haz networking con managers y scouts. Participa en foros de debate exclusivos del sector.</p>
+      <p>
+        Haz networking con managers y scouts. Participa en foros de debate exclusivos del sector.
+      </p>
     </div>
     <div class="process-card">
       <div class="step-num">03</div>
@@ -86,13 +131,21 @@
 <section class="engagement">
   <div class="engagement-box">
     <h2>Ready to Level Up?</h2>
-    <p>La mayor base de datos profesional de eSports te está esperando. No dejes pasar tu oportunidad.</p>
+    <p>
+      La mayor base de datos profesional de eSports te está esperando. No dejes pasar tu
+      oportunidad.
+    </p>
     <div class="btn-group">
       <!-- Si ya está logueado va al perfil, si no abre Discord OAuth -->
       <a *ngIf="isLogged()" routerLink="/profile" class="btn btn-primary">Mi Perfil</a>
-      <a *ngIf="isLogged()" routerLink="/team-profile" class="btn btn-secondary btn-team">Crear equipo</a>
+      <a *ngIf="isLogged()" routerLink="/team-profile" class="btn btn-secondary btn-team"
+        >Crear equipo</a
+      >
       <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="btn btn-primary">
-        <img src="icons/discord.svg" style="width:18px;vertical-align:middle;margin-right:8px;" />
+        <img
+          src="icons/discord.svg"
+          style="width: 18px; vertical-align: middle; margin-right: 8px"
+        />
         Iniciar Sesión
       </button>
       <a routerLink="/about" class="btn btn-secondary">Sobre Nosotros</a>

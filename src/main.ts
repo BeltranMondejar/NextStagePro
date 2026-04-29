@@ -3,7 +3,6 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
 import { appConfig } from './app/app.config';
 
-// Desactivar logs en producción
 if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
   enableProdMode();
   const noop = () => {};

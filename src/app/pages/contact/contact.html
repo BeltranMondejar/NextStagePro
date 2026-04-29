@@ -46,27 +46,28 @@
 
   <!-- FORM CONTAINER -->
   <div class="contact-form-wrapper">
-
     <div *ngIf="success" class="form-success">
       ✅ Mensaje enviado correctamente. ¡Nos pondremos en contacto pronto!
     </div>
 
-    <div *ngIf="error" class="form-error">
-      ⚠️ {{ error }}
-    </div>
+    <div *ngIf="error" class="form-error">⚠️ {{ error }}</div>
 
     <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submit()">
       <input
         type="text"
         placeholder="First Name"
         formControlName="firstName"
-        [class.invalid]="contactForm.get('firstName')?.invalid && contactForm.get('firstName')?.touched"
+        [class.invalid]="
+          contactForm.get('firstName')?.invalid && contactForm.get('firstName')?.touched
+        "
       />
       <input
         type="text"
         placeholder="Last Name"
         formControlName="lastName"
-        [class.invalid]="contactForm.get('lastName')?.invalid && contactForm.get('lastName')?.touched"
+        [class.invalid]="
+          contactForm.get('lastName')?.invalid && contactForm.get('lastName')?.touched
+        "
       />
       <input
         type="email"
@@ -74,11 +75,7 @@
         formControlName="email"
         [class.invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
       />
-      <input
-        type="text"
-        placeholder="Discord (opcional)"
-        formControlName="discord"
-      />
+      <input type="text" placeholder="Discord (opcional)" formControlName="discord" />
       <textarea
         placeholder="Hi, I am Jane. I want help with..."
         formControlName="message"

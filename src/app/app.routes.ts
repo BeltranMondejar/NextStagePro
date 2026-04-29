@@ -4,48 +4,54 @@ import { authGuard } from './guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent),
+    loadComponent: () => import('./pages/home/home').then((m) => m.HomeComponent),
   },
   {
     path: 'about',
-    loadComponent: () => import('./pages/about/about').then(m => m.AboutComponent),
+    loadComponent: () => import('./pages/about/about').then((m) => m.AboutComponent),
   },
   {
     path: 'profile',
-    loadComponent: () => import('./pages/profile/profile').then(m => m.ProfileComponent),
+    loadComponent: () => import('./pages/profile/profile').then((m) => m.ProfileComponent),
     canActivate: [authGuard],
   },
   {
     path: 'team-profile',
-    loadComponent: () => import('./pages/team-profile/team-profile').then(m => m.TeamProfileComponent),
+    loadComponent: () =>
+      import('./pages/team-profile/team-profile').then((m) => m.TeamProfileComponent),
     canActivate: [authGuard],
   },
   {
     path: 'players',
-    loadComponent: () => import('./pages/search-players/search-players').then(m => m.PlayersComponent),
+    loadComponent: () =>
+      import('./pages/search-players/search-players').then((m) => m.PlayersComponent),
   },
   {
     path: 'players/:id',
-    loadComponent: () => import('./pages/player-public/player-public').then(m => m.PlayerPublicComponent),
+    loadComponent: () =>
+      import('./pages/player-public/player-public').then((m) => m.PlayerPublicComponent),
   },
   {
     path: 'teams/:id',
-    loadComponent: () => import('./pages/team-public/team-public').then(m => m.TeamPublicComponent),
+    loadComponent: () =>
+      import('./pages/team-public/team-public').then((m) => m.TeamPublicComponent),
   },
   {
     path: 'subscriptions',
-    loadComponent: () => import('./pages/subscriptions/subscriptions').then(m => m.SubscriptionsComponent),
+    loadComponent: () =>
+      import('./pages/subscriptions/subscriptions').then((m) => m.SubscriptionsComponent),
   },
   {
     path: 'contact',
-    loadComponent: () => import('./pages/contact/contact').then(m => m.ContactComponent),
+    loadComponent: () => import('./pages/contact/contact').then((m) => m.ContactComponent),
   },
   {
     path: 'auth/callback',
-    loadComponent: () => import('./pages/auth-callback/auth-callback').then(m => m.AuthCallbackComponent),
+    loadComponent: () =>
+      import('./pages/auth-callback/auth-callback').then((m) => m.AuthCallbackComponent),
   },
   {
     path: '**',
-    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent),
+    loadComponent: () => import('./pages/home/home').then((m) => m.HomeComponent),
   },
 ];

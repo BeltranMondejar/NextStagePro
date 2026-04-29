@@ -260,7 +260,7 @@
   .logo span {
     font-size: 1.3rem;
   }
-  
+
   .mobile-dropdown {
     width: 250px;
     right: 5px;
@@ -268,7 +268,7 @@
   }
 }
 
-// ── Demo Mode ────────────────────────────────────────────────
+// ── Demo Mode
 .demo-btn {
   padding: 6px 14px;
   border-radius: 20px;
@@ -320,7 +320,6 @@
   cursor: pointer;
 }
 
-// user-dropdown mejorado
 .user-dropdown {
   position: absolute;
   top: calc(100% + 10px);
@@ -346,12 +345,14 @@
     font-size: 0.9rem;
     transition: background 0.2s;
 
-    &:hover { background: rgba(255,255,255,0.08); }
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
   }
 
   hr {
     border: none;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     margin: 4px 0;
   }
 }

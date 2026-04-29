@@ -15,24 +15,24 @@ import { ContactService } from '../../services/contact.service';
   styleUrls: ['./contact.scss'],
 })
 export class ContactComponent {
-  private fb      = inject(FormBuilder);
+  private fb = inject(FormBuilder);
   private contact = inject(ContactService);
 
   faEnvelope = faEnvelope;
-  faPhone    = faPhone;
-  faCopy     = faCopy;
-  faDiscord  = faDiscord;
+  faPhone = faPhone;
+  faCopy = faCopy;
+  faDiscord = faDiscord;
 
-  sending  = false;
-  success  = false;
-  error    = '';
+  sending = false;
+  success = false;
+  error = '';
 
   contactForm: FormGroup = this.fb.group({
     firstName: ['', Validators.required],
-    lastName:  ['', Validators.required],
-    email:     ['', [Validators.required, Validators.email]],
-    discord:   [''],
-    message:   ['', [Validators.required, Validators.maxLength(2000)]],
+    lastName: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    discord: [''],
+    message: ['', [Validators.required, Validators.maxLength(2000)]],
   });
 
   copyToClipboard(text: string): void {
@@ -43,27 +43,29 @@ export class ContactComponent {
     if (this.contactForm.invalid || this.sending) return;
 
     this.sending = true;
-    this.error   = '';
+    this.error = '';
     this.success = false;
 
     const v = this.contactForm.value;
 
-    this.contact.send({
-      first_name: v.firstName,
-      last_name:  v.lastName,
-      email:      v.email,
-      discord:    v.discord || undefined,
-      message:    v.message,
-    }).subscribe({
-      next: () => {
-        this.success = true;
-        this.sending = false;
-        this.contactForm.reset();
-      },
-      error: (err) => {
-        this.error   = err?.error?.error ?? 'Error enviando el mensaje. Inténtalo de nuevo.';
-        this.sending = false;
-      },
-    });
+    this.contact
+      .send({
+        first_name: v.firstName,
+        last_name: v.lastName,
+        email: v.email,
+        discord: v.discord || undefined,
+        message: v.message,
+      })
+      .subscribe({
+        next: () => {
+          this.success = true;
+          this.sending = false;
+          this.contactForm.reset();
+        },
+        error: (err) => {
+          this.error = err?.error?.error ?? 'Error enviando el mensaje. Inténtalo de nuevo.';
+          this.sending = false;
+        },
+      });
   }
 }

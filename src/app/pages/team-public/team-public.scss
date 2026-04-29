@@ -1,19 +1,17 @@
-// player-public.scss
-// Reutiliza los mismos tokens visuales que profile.scss pero sin @use
-// (evita problemas de doble declaración de variables)
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-// ── Glass Panel ───────────────────────────────────────────────
 .glass-panel {
   background: rgba(20, 20, 35, 0.75);
-  border: 1px solid #1E293B;
-  box-shadow: 0 4px 25px rgba(0,0,0,0.35);
+  border: 1px solid #1e293b;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(14px);
   border-radius: 26px;
 }
 
-// ── Layout ────────────────────────────────────────────────────
 .profile {
   width: 100%;
   max-width: 1080px;
@@ -30,11 +28,11 @@
   height: 240px;
   width: 100%;
   border-radius: 26px;
-  background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
+  background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
   background-size: cover;
   background-position: center;
-  border: 1px solid #1E293B;
-  box-shadow: 0 4px 25px rgba(0,0,0,0.35);
+  border: 1px solid #1e293b;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
   margin-bottom: -60px;
   position: relative;
   z-index: 1;
@@ -59,12 +57,14 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 4px solid #1E293B;
+    border: 4px solid #1e293b;
     object-fit: cover;
   }
 }
 
-.header-info { flex: 1; }
+.header-info {
+  flex: 1;
+}
 
 .user-main h1 {
   font-size: 1.5rem;
@@ -72,11 +72,14 @@
   color: #fff;
 }
 
-.accent-text { color: #8B5CF6; font-weight: 600; }
+.accent-text {
+  color: #8b5cf6;
+  font-weight: 600;
+}
 
 .sub-text {
   font-size: 0.95rem;
-  color: #9CA3AF;
+  color: #9ca3af;
   margin-top: 4px;
 }
 
@@ -95,7 +98,6 @@
   color: #c9c9d1;
 }
 
-// ── Profile Grid ──────────────────────────────────────────────
 .profile-grid {
   display: grid;
   grid-template-columns: 1.8fr 1.2fr;
@@ -127,7 +129,6 @@
   color: #c9c9d1;
 }
 
-// ── Info List ─────────────────────────────────────────────────
 .info-list {
   list-style: none;
 
@@ -136,50 +137,62 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     font-size: 0.92rem;
     gap: 12px;
 
-    &:last-child { border-bottom: none; }
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
-  strong { color: #fff; font-weight: 500; white-space: nowrap; }
-  span   { color: #c9c9d1; text-align: right; }
+  strong {
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  span {
+    color: #c9c9d1;
+    text-align: right;
+  }
 
-  &.compact li { padding: 8px 0; }
+  &.compact li {
+    padding: 8px 0;
+  }
 }
 
 .rank-badge {
-  background: rgba(59,130,246,0.2);
-  color: #3B82F6;
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
   padding: 3px 10px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 0.85rem;
 
   &.peak {
-    background: rgba(139,92,246,0.2);
-    color: #8B5CF6;
+    background: rgba(139, 92, 246, 0.2);
+    color: #8b5cf6;
   }
 }
 
-// ── Experiencia ───────────────────────────────────────────────
 .exp-item {
   display: flex;
   gap: 16px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   padding: 16px;
   border-radius: 18px;
-  border: 1px solid #1E293B;
+  border: 1px solid #1e293b;
   margin-bottom: 12px;
 
-  &:last-child { margin-bottom: 0; }
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .exp-logo {
   width: 50px;
   height: 50px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -191,13 +204,29 @@
 .exp-details {
   flex: 1;
 
-  strong { display: block; color: #fff; margin-bottom: 2px; font-size: 0.95rem; }
-  span   { display: block; color: #3B82F6; font-size: 0.88rem; font-weight: 600; }
-  small  { display: block; font-size: 0.82rem; color: #9CA3AF; margin-top: 2px; }
-  .date  { opacity: 0.55; }
+  strong {
+    display: block;
+    color: #fff;
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+  }
+  span {
+    display: block;
+    color: #3b82f6;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  small {
+    display: block;
+    font-size: 0.82rem;
+    color: #9ca3af;
+    margin-top: 2px;
+  }
+  .date {
+    opacity: 0.55;
+  }
 }
 
-// ── Highlights ────────────────────────────────────────────────
 .highlight-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -207,12 +236,13 @@
 .highlight-item {
   position: relative;
   border-radius: 16px;
-  border: 1px solid #1E293B;
+  border: 1px solid #1e293b;
   overflow: hidden;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   aspect-ratio: 16/9;
 
-  img, video {
+  img,
+  video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -225,7 +255,7 @@
   left: 0;
   right: 0;
   padding: 6px 10px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.75));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
   border-radius: 0 0 16px 16px;
   font-size: 0.78rem;
   color: #fff;
@@ -234,7 +264,6 @@
   text-overflow: ellipsis;
 }
 
-// ── Social Links ──────────────────────────────────────────────
 .social-links {
   display: flex;
   flex-wrap: wrap;
@@ -244,8 +273,8 @@
 .social-item {
   flex: 1 1 calc(50% - 10px);
   padding: 10px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #1E293B;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #1e293b;
   border-radius: 12px;
   color: #c9c9d1;
   text-decoration: none;
@@ -255,52 +284,56 @@
   display: block;
 
   &:hover {
-    background: rgba(59,130,246,0.15);
-    border-color: #3B82F6;
+    background: rgba(59, 130, 246, 0.15);
+    border-color: #3b82f6;
     color: #fff;
   }
 }
 
 .no-socials {
   font-size: 0.85rem;
-  color: #4B5563;
+  color: #4b5563;
   padding: 6px 0;
 }
 
-// ── Empty State ───────────────────────────────────────────────
 .empty-state {
   text-align: center;
-  color: #6B7280;
+  color: #6b7280;
   padding: 40px;
   font-size: 0.95rem;
 }
 
-// ── Back Link ─────────────────────────────────────────────────
 .back-link {
   margin-top: 4px;
 
   a {
     font-size: 0.85rem;
-    color: #3B82F6;
+    color: #3b82f6;
     text-decoration: none;
-    &:hover { text-decoration: underline; }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
-// ── State Message ─────────────────────────────────────────────
 .state-message {
   text-align: center;
   padding: 80px 20px;
-  color: #6B7280;
+  color: #6b7280;
   font-size: 0.95rem;
 
-  &.error { color: #EF4444; }
+  &.error {
+    color: #ef4444;
+  }
 }
 
-// ── Skeleton ──────────────────────────────────────────────────
 @keyframes shimmer {
-  0%   { background-position: -600px 0; }
-  100% { background-position:  600px 0; }
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
 }
 
 %sk {
@@ -327,15 +360,28 @@
   height: 14px;
   border-radius: 8px;
 
-  &.w-300 { width: 300px; max-width: 100%; }
-  &.w-180 { width: 180px; max-width: 100%; }
-  &.w-120 { width: 120px; }
-  &.w-100 { width: 100px; }
-  &.w-60  { width: 60%; }
-  &.w-full { width: 100%; }
+  &.w-300 {
+    width: 300px;
+    max-width: 100%;
+  }
+  &.w-180 {
+    width: 180px;
+    max-width: 100%;
+  }
+  &.w-120 {
+    width: 120px;
+  }
+  &.w-100 {
+    width: 100px;
+  }
+  &.w-60 {
+    width: 60%;
+  }
+  &.w-full {
+    width: 100%;
+  }
 }
 
-// ── Team logo en header ───────────────────────────────────────
 .logo-container {
   position: relative;
   margin-top: -50px;
@@ -345,20 +391,24 @@
     width: 120px;
     height: 120px;
     border-radius: 18px;
-    border: 4px solid #1E293B;
+    border: 4px solid #1e293b;
     object-fit: contain;
-    background: rgba(20,20,35,0.6);
+    background: rgba(20, 20, 35, 0.6);
   }
 }
 
-.team-main h1 { font-size: clamp(1.4rem, 3vw, 2rem); color: #fff; margin: 0 0 6px; }
+.team-main h1 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: #fff;
+  margin: 0 0 6px;
+}
 
 .abbr-badge {
   display: inline-block;
   margin-left: 8px;
   padding: 2px 8px;
   border-radius: 6px;
-  background: rgba(139,92,246,0.2);
+  background: rgba(139, 92, 246, 0.2);
   color: #a78bfa;
   font-size: 0.75rem;
   font-weight: 700;
@@ -370,27 +420,38 @@
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(30,41,59,0.5);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.5);
 
-  &:last-child { border-bottom: none; }
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
-.comp-icon { font-size: 1.3rem; flex-shrink: 0; }
+.comp-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
 
 .comp-details {
   display: flex;
   flex-direction: column;
   gap: 2px;
 
-  strong { color: #e2e8f0; font-size: 0.95rem; }
-  small  { color: #6b7280; font-size: 0.8rem; }
+  strong {
+    color: #e2e8f0;
+    font-size: 0.95rem;
+  }
+  small {
+    color: #6b7280;
+    font-size: 0.8rem;
+  }
 }
 
 .placement-badge {
   display: inline-block;
   padding: 2px 8px;
   border-radius: 6px;
-  background: rgba(59,130,246,0.2);
+  background: rgba(59, 130, 246, 0.2);
   color: #93c5fd;
   font-size: 0.78rem;
   font-weight: 600;
@@ -402,13 +463,16 @@
   align-items: center;
   gap: 10px;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(30,41,59,0.4);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.4);
 
-  &:last-child { border-bottom: none; }
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .active-comp-dot {
-  width: 8px; height: 8px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #22c55e;
   flex-shrink: 0;
@@ -416,12 +480,19 @@
 }
 
 .active-comp-info {
-  display: flex; flex-direction: column; gap: 2px;
-  strong { color: #e2e8f0; font-size: 0.9rem; }
-  small  { color: #6b7280; font-size: 0.78rem; }
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  strong {
+    color: #e2e8f0;
+    font-size: 0.9rem;
+  }
+  small {
+    color: #6b7280;
+    font-size: 0.78rem;
+  }
 }
 
-// ── Team Members Grid ─────────────────────────────────────────
 .team-members-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -434,14 +505,17 @@
   gap: 12px;
   padding: 14px;
   border-radius: 16px;
-  border: 1px solid #1E293B;
+  border: 1px solid #1e293b;
   background: rgba(0, 0, 0, 0.2);
   text-decoration: none;
-  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s,
+    background 0.2s;
   overflow: hidden;
 
   &:hover {
-    border-color: #3B82F6;
+    border-color: #3b82f6;
     background: rgba(59, 130, 246, 0.08);
     transform: translateY(-1px);
   }
@@ -456,12 +530,11 @@
   max-height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #1E293B;
+  border: 2px solid #1e293b;
   flex-shrink: 0;
   display: block;
 }
 
-// Garantía extra: fuerza el tamaño aunque el encapsulamiento falle
 ::ng-deep .team-member-avatar {
   width: 52px !important;
   height: 52px !important;
@@ -491,7 +564,6 @@
     text-overflow: ellipsis;
   }
 
-  // Contenedor para rank + rol en línea horizontal
   .member-meta {
     display: flex;
     align-items: center;
@@ -504,7 +576,7 @@
     align-items: center;
     width: fit-content;
     background: rgba(59, 130, 246, 0.2);
-    color: #3B82F6;
+    color: #3b82f6;
     padding: 3px 10px;
     border-radius: 8px;
     font-weight: 700;
@@ -513,23 +585,40 @@
   }
 
   small {
-    color: #9CA3AF;
+    color: #9ca3af;
     font-size: 0.8rem;
     white-space: nowrap;
   }
 }
 
-// ── Responsive ────────────────────────────────────────────────
 @media (max-width: 900px) {
-  .profile-grid    { grid-template-columns: 1fr; }
-  .profile-header  { flex-direction: column; text-align: center; margin: 0 8px; }
-  .avatar-container { margin-top: -60px; }
-  .logo-container   { margin-top: -60px; }
-  .header-stats    { justify-content: center; }
-  .highlight-grid  { grid-template-columns: repeat(2,1fr); }
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    margin: 0 8px;
+  }
+  .avatar-container {
+    margin-top: -60px;
+  }
+  .logo-container {
+    margin-top: -60px;
+  }
+  .header-stats {
+    justify-content: center;
+  }
+  .highlight-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
-  .highlight-grid { grid-template-columns: 1fr; }
-  .social-item    { flex: 1 1 100%; }
+  .highlight-grid {
+    grid-template-columns: 1fr;
+  }
+  .social-item {
+    flex: 1 1 100%;
+  }
 }

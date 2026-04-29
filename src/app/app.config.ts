@@ -8,9 +8,9 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    // withPreloading: carga en background los chunks lazy tras el primer render
+    // Carga en background los fragmentos tras el primer render
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    // withFetch: usa Fetch API en lugar de XHR → no bloquea el bfcache
+    // Configura HttpClient con nuestro interceptor de autenticación
     provideHttpClient(withInterceptors([authInterceptor]), withFetch()),
   ],
 };

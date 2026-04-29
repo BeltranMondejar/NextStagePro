@@ -17,7 +17,6 @@ body {
   font-family: 'Bahnschrift SemiBold', Bahnschrift, sans-serif;
   display: flex;
   flex-direction: column;
-  /* AÑADIR: Optimizaciones de rendimiento */
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,7 +28,6 @@ app-root {
   min-height: 100vh;
 }
 
-/* AÑADIR: Loading spinner mientras carga Angular */
 app-root:empty {
   display: flex;
   justify-content: center;
@@ -51,27 +49,22 @@ app-root:empty::after {
   to { transform: rotate(360deg); }
 }
 
-/* AÑADIR: Ocultar contenido hasta que Angular esté listo */
 app-root:not(:empty) + .initial-loading {
   display: none;
 }
 
-/* AÑADIR: Optimizar imágenes */
 img {
   content-visibility: auto;
 }
 
-/* AÑADIR: Reducir layout shifts */
 img:not([width]):not([height]) {
   aspect-ratio: 16/9;
 }
 
-/* AÑADIR: Scroll suave */
 html {
   scroll-behavior: smooth;
 }
 
-/* AÑADIR: Evitar selección en elementos interactivos */
 button, a {
   -webkit-tap-highlight-color: transparent;
 }
