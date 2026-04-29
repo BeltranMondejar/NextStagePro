@@ -1,0 +1,188 @@
+<!-- player-public.html — Perfil público completo -->
+<section class="profile">
+
+  <!-- ERROR -->
+  <div *ngIf="error" class="state-message error">{{ error }}</div>
+
+  <!-- SKELETON -->
+  <ng-container *ngIf="loading">
+    <div class="profile-cover-wrapper">
+      <div class="cover-image skeleton-cover"></div>
+      <div class="glass-panel profile-header">
+        <div class="avatar-container">
+          <div class="skeleton-circle"></div>
+        </div>
+        <div class="header-info" style="flex:1">
+          <div class="skeleton-line w-300"></div>
+          <div class="skeleton-line w-180" style="margin-top:10px"></div>
+          <div class="skeleton-line w-120" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-grid">
+      <div class="main-column">
+        <div class="glass-panel card">
+          <div class="skeleton-line w-100" style="margin-bottom:18px"></div>
+          <div class="skeleton-line w-full"></div>
+          <div class="skeleton-line w-full" style="margin-top:8px"></div>
+          <div class="skeleton-line w-60"  style="margin-top:8px"></div>
+        </div>
+        <div class="glass-panel card">
+          <div class="skeleton-line w-100" style="margin-bottom:18px"></div>
+          <div class="highlight-grid">
+            <div class="skeleton-line w-full" style="height:120px;border-radius:14px" *ngFor="let _ of skeletonHighlights"></div>
+          </div>
+        </div>
+      </div>
+      <div class="side-column">
+        <div class="glass-panel card">
+          <div class="skeleton-line w-120" style="margin-bottom:18px"></div>
+          <div *ngFor="let _ of [1,2,3,4]" class="skeleton-line w-full" style="margin-top:12px"></div>
+        </div>
+        <div class="glass-panel card">
+          <div class="skeleton-line w-120" style="margin-bottom:18px"></div>
+          <div *ngFor="let _ of [1,2]" class="skeleton-line w-full" style="margin-top:12px"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- PERFIL REAL -->
+  <ng-container *ngIf="!loading && player">
+
+    <!-- COVER + HEADER -->
+    <div class="profile-cover-wrapper">
+      <div class="cover-image"
+           [style.backgroundImage]="player.cover_url ? 'url(' + player.cover_url + ')' : ''">
+      </div>
+
+      <div class="glass-panel profile-header">
+        <div class="avatar-container">
+          <img [src]="getAvatarUrl(player)"
+               alt="Avatar"
+               loading="eager"
+               width="120"
+               height="120"
+               style="width:120px;height:120px;border-radius:50%;object-fit:cover;" />
+        </div>
+        <div class="header-info">
+          <div class="user-main">
+            <h1>
+              {{ player.first_name || '' }}
+              <span *ngIf="player.nickname">"{{ player.nickname }}"</span>
+              {{ player.last_name || '' }}
+              <span *ngIf="player.plan !== 'free'" class="accent-text">· PRO</span>
+            </h1>
+            <p class="sub-text">
+              {{ player.current_team || 'Sin equipo' }}
+              <span *ngIf="player.location"> · {{ player.location }}</span>
+            </p>
+          </div>
+          <div class="header-stats">
+            <div class="stat-item">👁️ {{ player.profile_views }} <span>Views</span></div>
+            <div class="stat-item">🎮 {{ player.game || '—' }}</div>
+            <div class="stat-item" *ngIf="player.main_role">🎯 {{ player.main_role }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID (misma estructura que el perfil propio) -->
+    <div class="profile-grid">
+
+      <!-- COLUMNA PRINCIPAL -->
+      <div class="main-column">
+
+        <!-- BIO -->
+        <div class="glass-panel card" *ngIf="player.bio">
+          <div class="card-header"><h3>Sobre mí</h3></div>
+          <p class="body-text">{{ player.bio }}</p>
+        </div>
+
+        <!-- HIGHLIGHTS -->
+        <div class="glass-panel card" *ngIf="player.highlights && player.highlights.length">
+          <div class="card-header"><h3>Highlights</h3></div>
+          <div class="highlight-grid">
+            <div class="highlight-item" *ngFor="let h of player.highlights">
+              <video *ngIf="h.media_type === 'video'"
+                     [src]="h.media_url"
+                     [poster]="h.thumbnail_url || ''"
+                     controls
+                     preload="metadata">
+              </video>
+              <img *ngIf="h.media_type === 'photo'"
+                   [src]="h.media_url"
+                   [alt]="h.title || 'Highlight'"
+                   loading="lazy" />
+              <div class="highlight-title" *ngIf="h.title">{{ h.title }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXPERIENCIA (en columna principal en público, más prominente) -->
+        <div class="glass-panel card" *ngIf="player.experience && player.experience.length">
+          <div class="card-header"><h3>Experiencia</h3></div>
+          <div class="exp-item" *ngFor="let exp of player.experience">
+            <div class="exp-logo">🛡️</div>
+            <div class="exp-details">
+              <strong>{{ exp.team_name }}</strong>
+              <span *ngIf="exp.role">{{ exp.role }}</span>
+              <small *ngIf="exp.achievements">{{ exp.achievements }}</small>
+              <small class="date">
+                {{ exp.start_date | date:'yyyy' }} –
+                {{ exp.end_date ? (exp.end_date | date:'yyyy') : 'Presente' }}
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder si no hay contenido -->
+        <div class="glass-panel card empty-state"
+             *ngIf="!player.bio && (!player.highlights || !player.highlights.length) && (!player.experience || !player.experience.length)">
+          <p>Este jugador aún no ha completado su perfil público.</p>
+        </div>
+
+      </div>
+
+      <!-- COLUMNA LATERAL -->
+      <div class="side-column">
+
+        <!-- INFO JUEGO -->
+        <div class="glass-panel card">
+          <div class="card-header"><h3>Información</h3></div>
+          <ul class="info-list compact">
+            <li><strong>Juego:</strong>        <span>{{ player.game         || '—' }}</span></li>
+            <li><strong>Rol:</strong>           <span>{{ player.main_role   || '—' }}</span></li>
+            <li><strong>Rango Actual:</strong>  <span class="rank-badge">{{ player.current_rank || '—' }}</span></li>
+            <li><strong>Rango Peak:</strong>    <span class="rank-badge peak">{{ player.peak_rank || '—' }}</span></li>
+            <li *ngIf="player.current_team"><strong>Equipo:</strong> <span>{{ player.current_team }}</span></li>
+            <li *ngIf="player.location"><strong>Ubicación:</strong>  <span>{{ player.location }}</span></li>
+          </ul>
+        </div>
+
+        <!-- REDES SOCIALES -->
+        <div class="glass-panel card">
+          <div class="card-header"><h3>Redes Sociales</h3></div>
+          <div class="social-links">
+            <span *ngIf="player.discord_tag" class="social-item">🎮 {{ player.discord_tag }}</span>
+            <a *ngIf="player.twitter_url"    [href]="player.twitter_url"    target="_blank" rel="noopener" class="social-item">🐦 Twitter / X</a>
+            <a *ngIf="player.twitch_url"     [href]="player.twitch_url"     target="_blank" rel="noopener" class="social-item">📺 Twitch</a>
+            <a *ngIf="player.liquipedia_url" [href]="player.liquipedia_url" target="_blank" rel="noopener" class="social-item">🏆 Liquipedia</a>
+            <a *ngIf="player.vlr_url"        [href]="player.vlr_url"        target="_blank" rel="noopener" class="social-item">🎯 VLR.gg</a>
+            <p class="no-socials"
+               *ngIf="!player.discord_tag && !player.twitter_url && !player.liquipedia_url && !player.vlr_url && !player.twitch_url">
+              Sin redes sociales añadidas.
+            </p>
+          </div>
+        </div>
+
+        <!-- VOLVER -->
+        <div class="back-link">
+          <a routerLink="/players">← Volver a la búsqueda</a>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+</section>

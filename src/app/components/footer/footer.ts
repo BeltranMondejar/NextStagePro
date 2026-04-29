@@ -5,10 +5,10 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, RouterModule] ,
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
-export class Footer {
+export class FooterComponent {
 
 }

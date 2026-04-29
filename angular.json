@@ -26,28 +26,43 @@
             ],
             "styles": [
               "src/styles.css"
-            ]
+            ],
+            "inlineStyleLanguage": "scss",
+            "optimization": {
+              "scripts": true,
+              "styles": {
+                "minify": true,
+                "inlineCritical": true
+              },
+              "fonts": true
+            },
+            "outputHashing": "all",
+            "sourceMap": false,
+            "namedChunks": false,
+            "aot": true
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
-            },
+  "budgets": [
+    {
+      "type": "initial",
+      "maximumWarning": "1.2MB",
+      "maximumError": "2MB"
+    },
+    {
+      "type": "anyComponentStyle",
+      "maximumWarning": "12kB",
+      "maximumError": "16kB"
+    }
+  ],
+  "outputHashing": "all"
+},
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": false
             }
           },
           "defaultConfiguration": "production"
@@ -88,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

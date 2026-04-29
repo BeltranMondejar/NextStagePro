@@ -1,39 +1,83 @@
-<div class="search-players">
+<div class="search-players" (click)="dropdownOpen && closeDropdown()">
+  <section class="search-hero">
+    <div class="search-hero-copy">
+      <span class="eyebrow">Scouting</span>
+      <h1>Busca jugadores y equipos</h1>
+      <p>
+        Filtra por juego, rol y rango, o escribe el nombre del jugador o equipo para
+        encontrar perfiles más rápido.
+      </p>
+    </div>
+  </section>
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar">
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn" [class.active]="activeTab === 'players'" (click)="switchTab('players')">
+      🎮 Jugadores
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'teams'" (click)="switchTab('teams')">
+      🛡️ Equipos
+    </button>
+  </div>
 
+  <div class="filter-bar" (click)="$event.stopPropagation()">
     <div class="filters-left">
-      <button
-        class="filter-pill"
-        [class.active]="typeFilter === 'members'"
-        (click)="typeFilter = 'members'"
-      >
-        Members
+      <button class="filter-pill" [class.active]="typeFilter === 'all'" (click)="setTypeFilter('all')">
+        Todos
+      </button>
+      <button class="filter-pill" [class.active]="typeFilter === 'pro'" (click)="setTypeFilter('pro')">
+        Solo PRO
       </button>
 
-      <button
-        class="filter-pill"
-        [class.active]="typeFilter === 'mentors'"
-        (click)="typeFilter = 'mentors'"
-      >
-        Mentors
-      </button>
-
-      <!-- DROPDOWN -->
-      <div class="filter-dropdown" (click)="toggleDropdown()" tabindex="0">
-        <span>All Cohorts</span>
-        <i class="arrow" [class.open]="dropdownOpen"></i>
+      <div class="filter-dropdown">
+        <span (click)="toggleDropdown($event)" [class.active]="dropdownOpen || hasActiveFilters">
+          Filtros
+          <span *ngIf="hasActiveFilters" class="filter-dot">*</span>
+        </span>
 
         <div class="dropdown-menu" *ngIf="dropdownOpen" (click)="$event.stopPropagation()">
-          <label *ngFor="let cohort of cohorts">
-            <input
-              type="checkbox"
-              [checked]="selectedCohorts.includes(cohort)"
-              (change)="toggleCohort(cohort)"
-            />
-            <span>{{ cohort }}</span>
-          </label>
+          <label>Juego</label>
+          <div class="custom-select-wrapper">
+            <div class="custom-select" [class.open]="openSelect === 'game'" (click)="toggleSelect('game', $event)">
+              <span>{{ selectedGame || 'Todos' }}</span>
+              <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div class="custom-options" *ngIf="openSelect === 'game'">
+              <div class="custom-option" [class.selected]="selectedGame === ''" (click)="selectOption('game', '', $event)">Todos</div>
+              <div class="custom-option" *ngFor="let g of games" [class.selected]="selectedGame === g" (click)="selectOption('game', g, $event)">{{ g }}</div>
+            </div>
+          </div>
+
+          <ng-container *ngIf="activeTab === 'players'">
+            <label>Rol</label>
+            <div class="custom-select-wrapper">
+              <div class="custom-select" [class.open]="openSelect === 'role'" (click)="toggleSelect('role', $event)">
+                <span>{{ selectedRole || 'Todos' }}</span>
+                <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+              </div>
+              <div class="custom-options" *ngIf="openSelect === 'role'">
+                <div class="custom-option" [class.selected]="selectedRole === ''" (click)="selectOption('role', '', $event)">Todos</div>
+                <div class="custom-option" *ngFor="let r of roles" [class.selected]="selectedRole === r" (click)="selectOption('role', r, $event)">{{ r }}</div>
+              </div>
+            </div>
+
+            <label>Rango</label>
+            <div class="custom-select-wrapper">
+              <div class="custom-select" [class.open]="openSelect === 'rank'" (click)="toggleSelect('rank', $event)">
+                <span>{{ selectedRank || 'Todos' }}</span>
+                <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#6B7280" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+              </div>
+              <div class="custom-options" *ngIf="openSelect === 'rank'">
+                <div class="custom-option" [class.selected]="selectedRank === ''" (click)="selectOption('rank', '', $event)">Todos</div>
+                <div class="custom-option" *ngFor="let r of ranks" [class.selected]="selectedRank === r" (click)="selectOption('rank', r, $event)">{{ r }}</div>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="dropdown-footer">
+            <button class="btn-reset" *ngIf="hasActiveFilters" (click)="resetFilters()">Limpiar</button>
+            <button class="btn-close-dropdown" (click)="closeFull()">Cerrar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -41,155 +85,150 @@
     <div class="filters-right">
       <input
         type="text"
-        placeholder="Search player"
+        [placeholder]="activeTab === 'players' ? 'Buscar por jugador o equipo...' : 'Buscar por nombre de equipo...'"
         class="search-input"
         [(ngModel)]="searchText"
+        (ngModelChange)="onSearchChange()"
       />
-    </div>
-
-  </div>
-
-  <!-- RESULTS -->
-  <div class="players-grid">
-    <div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div>
-    <!-- Repeat .player-card for each player -->
-     <div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div><div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div><div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div>
-    <div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div><div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div><div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div><div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
-    </div><div class="player-card">
-      <div class="player-avatar">
-        <img src="https://via.placeholder.com/80">
-      </div>
-
-      <div class="player-info">
-        <h3>PlayerName</h3>
-        <p class="role">Mid Laner</p>
-        <p class="game">League of Legends</p>
-      </div>
-
-      <div class="player-meta">
-        <span class="rank">Diamond</span>
-        <button class="view-profile">View profile</button>
-      </div>
+      <p class="search-help">{{ activeTab === 'players' ? 'También busca por equipo actual.' : 'Busca por nombre o juego.' }}</p>
     </div>
   </div>
 
+  <!-- ═══════════════════ TAB: JUGADORES ═══════════════════ -->
+  <ng-container *ngIf="activeTab === 'players'">
+    <div class="results-meta" *ngIf="!loading && !error">
+      <ng-container *ngIf="total > 0">
+        {{ total }} jugador{{ total !== 1 ? 'es' : '' }} encontrado{{ total !== 1 ? 's' : '' }}
+        <span *ngIf="totalPages > 1"> - Pagina {{ page }} de {{ totalPages }}</span>
+      </ng-container>
+      <span *ngIf="hasActiveFilters" class="filter-tag">
+        {{ activeFilterLabel }}
+        <button type="button" (click)="resetFilters()">x</button>
+      </span>
+    </div>
+
+    <div *ngIf="error && !loading" class="state-message error">{{ error }}</div>
+
+    <div *ngIf="!loading && !error && players.length === 0" class="state-message empty">
+      <h3>No encontramos jugadores con esos filtros.</h3>
+      <p>Prueba a buscar por nickname, nombre del equipo o limpia los filtros activos.</p>
+      <button class="btn-reset-inline" *ngIf="hasActiveFilters || typeFilter === 'pro' || searchText" (click)="resetAll()">
+        Limpiar y ver todos
+      </button>
+    </div>
+
+    <div class="players-grid" *ngIf="loading">
+      <div class="player-card skeleton" *ngFor="let _ of skeletonItems">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line w-70"></div>
+          <div class="skeleton-line w-50"></div>
+          <div class="skeleton-line w-40"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="players-grid" *ngIf="!loading && players.length > 0">
+      <article class="player-card" *ngFor="let player of players; trackBy: trackByPlayer">
+        <div class="player-avatar">
+          <img [src]="player.avatar_url || 'https://i.pravatar.cc/80?u=' + player.id" [alt]="player.nickname" loading="lazy" />
+          <span *ngIf="player.plan !== 'free'" class="pro-badge">PRO</span>
+        </div>
+
+        <div class="player-info">
+          <div class="player-heading">
+            <h3>{{ player.nickname }}</h3>
+            <span *ngIf="player.current_rank" class="rank">{{ player.current_rank }}</span>
+          </div>
+          <div class="player-tags">
+            <span class="info-chip role">{{ player.main_role || 'Sin rol' }}</span>
+            <span class="info-chip game">{{ player.game || 'Sin juego' }}</span>
+          </div>
+          <p *ngIf="player.location" class="location">{{ player.location }}</p>
+        </div>
+
+        <div class="player-meta">
+          <span class="views">{{ player.profile_views }} views</span>
+          <button class="view-profile" [routerLink]="['/players', player.id]">Ver perfil</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="pagination" *ngIf="totalPages > 1 && !loading">
+      <button class="page-btn nav-btn" (click)="goToPage(1)" [disabled]="page === 1" title="Primera">&lt;&lt;</button>
+      <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">Anterior</button>
+      <button class="page-btn" *ngFor="let p of pageNumbers" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
+      <button class="page-btn nav-btn" (click)="goToPage(page + 1)" [disabled]="page === totalPages">Siguiente</button>
+      <button class="page-btn nav-btn" (click)="goToPage(totalPages)" [disabled]="page === totalPages" title="Ultima">&gt;&gt;</button>
+    </div>
+  </ng-container>
+
+  <!-- ═══════════════════ TAB: EQUIPOS ═══════════════════ -->
+  <ng-container *ngIf="activeTab === 'teams'">
+    <div class="results-meta" *ngIf="!teamsLoading && !teamsError">
+      <ng-container *ngIf="teamsTotal > 0">
+        {{ teamsTotal }} equipo{{ teamsTotal !== 1 ? 's' : '' }} encontrado{{ teamsTotal !== 1 ? 's' : '' }}
+        <span *ngIf="teamsTotalPages > 1"> - Pagina {{ teamsPage }} de {{ teamsTotalPages }}</span>
+      </ng-container>
+      <span *ngIf="hasActiveFilters" class="filter-tag">
+        {{ activeFilterLabel }}
+        <button type="button" (click)="resetFilters()">x</button>
+      </span>
+    </div>
+
+    <div *ngIf="teamsError && !teamsLoading" class="state-message error">{{ teamsError }}</div>
+
+    <div *ngIf="!teamsLoading && !teamsError && teams.length === 0" class="state-message empty">
+      <h3>No encontramos equipos con esos filtros.</h3>
+      <p>Prueba a buscar por nombre de equipo o limpia los filtros activos.</p>
+      <button class="btn-reset-inline" *ngIf="hasActiveFilters || searchText" (click)="resetAll()">
+        Limpiar y ver todos
+      </button>
+    </div>
+
+    <div class="players-grid" *ngIf="teamsLoading">
+      <div class="player-card skeleton" *ngFor="let _ of skeletonItems">
+        <div class="skeleton-avatar team-skeleton-logo"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line w-70"></div>
+          <div class="skeleton-line w-50"></div>
+          <div class="skeleton-line w-40"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="players-grid" *ngIf="!teamsLoading && teams.length > 0">
+      <article class="player-card team-card" *ngFor="let team of teams; trackBy: trackByTeam">
+        <div class="player-avatar team-logo-wrapper">
+          <img [src]="getTeamLogoUrl(team)" [alt]="team.name" loading="lazy" class="team-logo-img" />
+          <span *ngIf="team.plan !== 'free'" class="pro-badge">PRO</span>
+        </div>
+
+        <div class="player-info">
+          <div class="player-heading">
+            <h3>{{ team.name }}</h3>
+            <span *ngIf="team.abbreviation" class="rank abbr">{{ team.abbreviation }}</span>
+          </div>
+          <div class="player-tags">
+            <span class="info-chip game" *ngIf="team.game">{{ team.game }}</span>
+            <span class="info-chip role" *ngIf="!team.game">Sin juego</span>
+          </div>
+          <p *ngIf="team.location" class="location">{{ team.location }}</p>
+        </div>
+
+        <div class="player-meta">
+          <span class="views">{{ team.profile_views }} views</span>
+          <button class="view-profile" [routerLink]="['/teams', team.id]">Ver equipo</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="pagination" *ngIf="teamsTotalPages > 1 && !teamsLoading">
+      <button class="page-btn nav-btn" (click)="goToTeamsPage(1)" [disabled]="teamsPage === 1" title="Primera">&lt;&lt;</button>
+      <button class="page-btn nav-btn" (click)="goToTeamsPage(teamsPage - 1)" [disabled]="teamsPage === 1">Anterior</button>
+      <button class="page-btn" *ngFor="let p of teamsPageNumbers" [class.active]="p === teamsPage" (click)="goToTeamsPage(p)">{{ p }}</button>
+      <button class="page-btn nav-btn" (click)="goToTeamsPage(teamsPage + 1)" [disabled]="teamsPage === teamsTotalPages">Siguiente</button>
+      <button class="page-btn nav-btn" (click)="goToTeamsPage(teamsTotalPages)" [disabled]="teamsPage === teamsTotalPages" title="Ultima">&gt;&gt;</button>
+    </div>
+  </ng-container>
 </div>

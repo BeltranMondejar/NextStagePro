@@ -1,8 +1,16 @@
+import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
 import { App } from './app/app';
-import { routes } from './app/app.routes';
+import { appConfig } from './app/app.config';
 
-bootstrapApplication(App, {
-  providers: [provideRouter(routes)]
-});
+// Desactivar logs en producción
+if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
+  enableProdMode();
+  const noop = () => {};
+  console.log = noop;
+  console.warn = noop;
+  console.debug = noop;
+}
+
+bootstrapApplication(App, appConfig)
+  .catch(err => console.error(err));

@@ -7,17 +7,10 @@
     <div class="col info">
       <div class="plan-header">
         <div class="logo vertical">
-          <img
-            src="logos/Logo_NSPro.gg_Oficial_SF.png"
-            alt="NextStagePro"
-            class="logo-img"
-          />
-          <span class="brand-name">
-            NextStage<span class="brand-name-suffix">Pro</span>
-          </span>
+          <img src="logos/Logo_NSPro.gg_Oficial_SF.png" alt="NextStagePro" class="logo-img" />
+          <span class="brand-name">NextStage<span class="brand-name-suffix">Pro</span></span>
         </div>
       </div>
-
       <div class="row">Player profile creation</div>
       <div class="row">Team profile creation</div>
       <div class="row">Team visibility</div>
@@ -34,7 +27,6 @@
         <h4>Player Basic</h4>
         <p class="price">FREE</p>
       </div>
-
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
@@ -47,15 +39,11 @@
     <!-- PLAN JUGADOR PRO -->
     <div class="col popular">
       <div class="ribbon">POPULAR</div>
-
       <div class="plan-header">
-        <div class="icon-box">
-          <fa-icon [icon]="faUserPlus"></fa-icon>
-        </div>
+        <div class="icon-box"><fa-icon [icon]="faUserPlus"></fa-icon></div>
         <h4>Player PRO</h4>
         <p class="price">5€<span>/month</span></p>
       </div>
-
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
@@ -68,13 +56,10 @@
     <!-- PLAN EQUIPO -->
     <div class="col">
       <div class="plan-header">
-        <div class="icon-box">
-          <fa-icon [icon]="faUsers"></fa-icon>
-        </div>
+        <div class="icon-box"><fa-icon [icon]="faUsers"></fa-icon></div>
         <h4>Team Pro</h4>
         <p class="price">10€<span>/month</span></p>
       </div>
-
       <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
@@ -86,12 +71,67 @@
 
   </div>
 
+  <!-- MENSAJES DE ESTADO -->
+  <div *ngIf="successMessage"   class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="cancelledMessage" class="alert alert-warning">{{ cancelledMessage }}</div>
+
+  <!-- GESTIÓN SUSCRIPCIÓN ACTIVA (solo usuarios reales) -->
+  <div *ngIf="subscription?.status === 'active' && !demoMode()" class="manage-sub-bar">
+    <span>Plan activo: <strong>{{ currentUser()?.plan | titlecase }}</strong></span>
+    <button class="btn-manage" (click)="manageSubscription()">Gestionar suscripción</button>
+  </div>
+
   <!-- BUTTONS -->
   <div class="pricing-buttons">
     <div></div>
-    <a href="#" class="btn">Choose plan</a>
-    <a href="#" class="btn popular-btn">Choose plan</a>
-    <a href="#" class="btn">Choose plan</a>
+    <button class="btn" disabled>
+      {{ isCurrentPlan('free') ? 'Plan actual' : 'Free' }}
+    </button>
+    <button
+      class="btn popular-btn"
+      [class.current]="isCurrentPlan('player_pro')"
+      (click)="choosePlan('player_pro')"
+    >
+      {{ isCurrentPlan('player_pro') ? 'Plan actual' : 'Choose plan' }}
+    </button>
+    <button
+      class="btn"
+      [class.current]="isCurrentPlan('team_pro')"
+      (click)="choosePlan('team_pro')"
+    >
+      {{ isCurrentPlan('team_pro') ? 'Plan actual' : 'Choose plan' }}
+    </button>
   </div>
 
 </section>
+
+<!-- ── MODAL DEMO ─────────────────────────────────────────── -->
+<div class="demo-modal-overlay" *ngIf="showDemoModal" (click)="closeDemoModal()">
+  <div class="demo-modal" (click)="$event.stopPropagation()">
+
+    <button class="demo-modal-close" (click)="closeDemoModal()">
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </button>
+
+    <div class="demo-modal-icon">🧪</div>
+    <h3>Estás en Modo Demo</h3>
+    <p>
+      Has seleccionado el plan <strong>{{ demoSelectedPlan }}</strong>.<br />
+      En modo demo no se procesan pagos reales.
+    </p>
+    <p class="demo-modal-sub">
+      Para suscribirte de verdad, inicia sesión con tu cuenta de Discord y repite el proceso.
+    </p>
+
+    <div class="demo-modal-actions">
+      <button class="btn-discord" (click)="loginAndCheckout()">
+        <img src="icons/discord.svg" style="width:18px;vertical-align:middle;margin-right:8px" />
+        Iniciar sesión y suscribirse
+      </button>
+      <button class="btn-cancel-modal" (click)="closeDemoModal()">
+        Seguir explorando el demo
+      </button>
+    </div>
+
+  </div>
+</div>

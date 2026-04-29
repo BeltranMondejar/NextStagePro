@@ -46,16 +46,48 @@
 
   <!-- FORM CONTAINER -->
   <div class="contact-form-wrapper">
-    <form class="contact-form">
-      <input type="text" placeholder="First Name" />
-      <input type="text" placeholder="Last Name" />
 
-      <input type="email" placeholder="Email" />
-      <input type="text" placeholder="Discord" />
+    <div *ngIf="success" class="form-success">
+      ✅ Mensaje enviado correctamente. ¡Nos pondremos en contacto pronto!
+    </div>
 
-      <textarea placeholder="Hi, I am Jane. I want help with..."></textarea>
+    <div *ngIf="error" class="form-error">
+      ⚠️ {{ error }}
+    </div>
 
-      <button type="submit">Submit Form</button>
+    <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submit()">
+      <input
+        type="text"
+        placeholder="First Name"
+        formControlName="firstName"
+        [class.invalid]="contactForm.get('firstName')?.invalid && contactForm.get('firstName')?.touched"
+      />
+      <input
+        type="text"
+        placeholder="Last Name"
+        formControlName="lastName"
+        [class.invalid]="contactForm.get('lastName')?.invalid && contactForm.get('lastName')?.touched"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+        [class.invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+      />
+      <input
+        type="text"
+        placeholder="Discord (opcional)"
+        formControlName="discord"
+      />
+      <textarea
+        placeholder="Hi, I am Jane. I want help with..."
+        formControlName="message"
+        [class.invalid]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+      ></textarea>
+
+      <button type="submit" [disabled]="contactForm.invalid || sending">
+        {{ sending ? 'Enviando…' : 'Submit Form' }}
+      </button>
     </form>
   </div>
 </section>
