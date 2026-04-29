@@ -2,10 +2,10 @@
   "name": "nextstagepro-backend",
   "version": "1.0.0",
   "description": "NextStagePro.gg REST API — Node.js + Express + Neon PostgreSQL",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
