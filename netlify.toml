@@ -1,6 +1,6 @@
 [build]
+  command = "npm ci && npx ng build"
   publish = "dist/NextStagePro-gg/browser"
-  command = "npm run build"
 
 [[redirects]]
   from = "/*"
