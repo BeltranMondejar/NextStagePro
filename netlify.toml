@@ -1,6 +1,6 @@
 [build]
   command = "npm install && npx ng build --configuration production"
-  publish = "dist/NextStagePro-gg/browser"
+  publish = "dist/NextStagePro-gg"
 
 [build.environment]
   NODE_ENV = "development"
