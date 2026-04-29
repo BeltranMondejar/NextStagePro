@@ -358,12 +358,7 @@
               *ngFor="let exp of profile.experience; let i = index; trackBy: trackByExp"
             >
               <ng-container *ngIf="editingExpIdx !== i">
-                <div class="exp-logo"><img
-                    *ngIf="getCurrentTeamLogoUrl()"
-                    class="team-logo-mini"
-                    [src]="getCurrentTeamLogoUrl()!"
-                    alt="logo"
-                  /></div>
+                <div class="exp-logo">🛡️</div>
                 <div class="exp-details">
                   <strong>{{ exp.team_name }}</strong>
                   <span>{{ exp.role || '' }}</span>
