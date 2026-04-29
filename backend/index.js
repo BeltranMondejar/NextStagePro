@@ -1,7 +1,3 @@
-// src/index.js — NextStagePro.gg
-// FIX: Webhook de Stripe montado una sola vez con express.raw() inline.
-//      El router general de subscriptions ya NO se monta dos veces.
-
 require('dotenv').config();
 
 const express     = require('express');
@@ -21,9 +17,6 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 const isDevelopment = (process.env.NODE_ENV || 'development') !== 'production';
 
-// ════════════════════════════════════════════════════════════
-//  SEGURIDAD
-// ════════════════════════════════════════════════════════════
 app.use(helmet());
 
 app.use(cors({
@@ -51,10 +44,6 @@ const authLimiter = rateLimit({
   skip: (req) => isDevelopment || req.path === '/me' || req.path === '/refresh',
 });
 
-// ════════════════════════════════════════════════════════════
-//  WEBHOOK DE STRIPE — ANTES del parser JSON
-//  FIX: montado UNA sola vez aquí, NO dentro de subscriptionRoutes
-// ════════════════════════════════════════════════════════════
 app.post(
   '/api/subscriptions/webhook',
   express.raw({ type: 'application/json' }),
@@ -156,22 +145,15 @@ app.post(
   }
 );
 
-// ════════════════════════════════════════════════════════════
-//  PARSERS (después del webhook)
-// ════════════════════════════════════════════════════════════
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// ════════════════════════════════════════════════════════════
-//  RUTAS
-// ════════════════════════════════════════════════════════════
 app.use('/api/auth',          authLimiter, authRoutes);
 app.use('/api/players',       playerRoutes);
 app.use('/api/teams',         teamRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/contact',       contactRoutes);
 
-// ── Health check ─────────────────────────────────────────────
 app.get('/health', (req, res) => {
   res.json({
     status:      'ok',
@@ -181,12 +163,8 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ════════════════════════════════════════════════════════════
-//  SERVIR FRONTEND EN PRODUCCIÓN
-// ════════════════════════════════════════════════════════════
 const path = require('path');
 
-// Solo servir frontend si NO estamos en desarrollo
 if (!isDevelopment) {
   const frontendPath = path.join(__dirname, 'frontend', 'angular', 'dist', 'nextstagepro-gg', 'browser');
   
@@ -201,25 +179,19 @@ if (!isDevelopment) {
   });
 }
 
-// ── 404 ──────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.path}` });
 });
 
-// ── 404 ──────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.path}` });
 });
 
-// ── Error handler global ──────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// ════════════════════════════════════════════════════════════
-//  ARRANQUE
-// ════════════════════════════════════════════════════════════
 app.listen(PORT, () => {
   console.log(`
   ╔══════════════════════════════════════╗

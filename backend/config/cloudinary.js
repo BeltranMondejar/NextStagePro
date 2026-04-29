@@ -1,6 +1,4 @@
-// src/config/cloudinary.js
 const cloudinary = require('cloudinary').v2;
-// cloudinary v1 — compatible con multer-storage-cloudinary@4
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 require('dotenv').config();
@@ -11,7 +9,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// ── Storage para avatares y covers ──────────────────────────
 const profileStorage = new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
@@ -26,7 +23,6 @@ const profileStorage = new CloudinaryStorage({
   },
 });
 
-// ── Storage para highlights (fotos y vídeos) ────────────────
 const highlightStorage = new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
@@ -42,7 +38,6 @@ const highlightStorage = new CloudinaryStorage({
   },
 });
 
-// ── Storage para logos de equipos ───────────────────────────
 const logoStorage = new CloudinaryStorage({
   cloudinary,
   params: {

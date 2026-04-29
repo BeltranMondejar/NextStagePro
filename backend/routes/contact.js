@@ -1,14 +1,7 @@
-// src/routes/contact.js
-// QoL: Añadido envío de email real con nodemailer cuando se recibe un mensaje.
-//      Configura CONTACT_EMAIL_USER y CONTACT_EMAIL_PASS en .env.
-// Endpoints:
-//   POST /api/contact  — enviar mensaje (público)
-
 const express   = require('express');
 const router    = express.Router();
 const { query } = require('../config/db');
 
-// Nodemailer — opcional: si no hay credenciales configuradas, solo guarda en BD
 let transporter = null;
 try {
   const nodemailer = require('nodemailer');
@@ -47,7 +40,6 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'El mensaje no puede superar 2000 caracteres' });
     }
 
-    // 1) Guardar en BD
     const { rows } = await query(
       `INSERT INTO contact_messages (first_name, last_name, email, discord, message)
        VALUES ($1, $2, $3, $4, $5) RETURNING id, created_at`,
@@ -60,7 +52,6 @@ router.post('/', async (req, res) => {
       ]
     );
 
-    // 2) Enviar email de notificación al equipo (si hay transporter)
     if (transporter && process.env.CONTACT_EMAIL_TO) {
       const mailOptions = {
         from:    `"NextStagePro Contacto" <${process.env.CONTACT_EMAIL_USER}>`,
@@ -84,8 +75,6 @@ router.post('/', async (req, res) => {
           </div>
         `,
       };
-
-      // Enviar sin bloquear la respuesta al cliente
       transporter.sendMail(mailOptions).catch(err =>
         console.error('Error enviando email de contacto:', err)
       );
