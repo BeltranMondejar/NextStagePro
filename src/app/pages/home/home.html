@@ -1,19 +1,19 @@
 <!-- HERO SECTION -->
 <section class="hero">
   <p class="hero-subtitle">CV ESPORTS NETWORK</p>
-  <h1>Escala tu carrera en <span>NextStagePro</span></h1>
+  <h1>Scale your career in <span>NextStagePro</span></h1>
   <p>
-    Conectamos el talento puro con la infraestructura profesional. El ecosistema definitivo para
-    jugadores, analistas y organizaciones.
+    We connect raw talent with professional infrastructure. The ultimate ecosystem for players,
+    analysts, and organizations.
   </p>
   <div class="hero-actions">
     <a *ngIf="isLogged()" routerLink="/team-profile" class="hero-btn hero-btn-primary"
-      >Crear equipo</a
+      >Create Team</a
     >
-    <a *ngIf="isLogged()" routerLink="/profile" class="hero-btn hero-btn-secondary">Mi perfil</a>
+    <a *ngIf="isLogged()" routerLink="/profile" class="hero-btn hero-btn-secondary">My Profile</a>
     <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="hero-btn hero-btn-primary">
       <img src="icons/discord.svg" style="width: 18px; vertical-align: middle; margin-right: 8px" />
-      Iniciar Sesión
+      Login with Discord
     </button>
   </div>
 
@@ -81,22 +81,18 @@
   <div class="process-grid">
     <div class="process-card">
       <div class="step-num">01</div>
-      <h3>Crea tu Perfil</h3>
-      <p>
-        Sincroniza tus estadísticas competitivas y genera un CV digital verificado por nuestra IA.
-      </p>
+      <h3>Create your Profile</h3>
+      <p>Synchronize your competitive statistics and generate a verified digital CV by our AI.</p>
     </div>
     <div class="process-card">
       <div class="step-num">02</div>
-      <h3>Conecta y Crece</h3>
-      <p>
-        Haz networking con managers y scouts. Participa en foros de debate exclusivos del sector.
-      </p>
+      <h3>Connect and Grow</h3>
+      <p>Build connections with managers and scouts. Participate in exclusive industry forums.</p>
     </div>
     <div class="process-card">
       <div class="step-num">03</div>
-      <h3>Logra el Fichaje</h3>
-      <p>Aplica a vacantes directas y recibe ofertas de clubes basadas en tu rendimiento real.</p>
+      <h3>Land the Signing</h3>
+      <p>Apply for direct opportunities and receive team offers based on your real performance.</p>
     </div>
   </div>
 </section>
@@ -104,25 +100,25 @@
 <!-- FEATURED PLAYERS SECTION -->
 <section class="featured-section">
   <h2>Featured Players</h2>
-  <p>Descubre el talento que está rompiendo el mercado esta semana.</p>
+  <p>Discover the talent that is dominating the market this week.</p>
   <div class="featured-grid">
     <div class="player-card">
       <div class="player-img"></div>
       <h3>Marcus "Nova"</h3>
       <p>Valorant - IGL | Radiant</p>
-      <a routerLink="/players" class="view-profile">VER PERFIL COMPLETO</a>
+      <a routerLink="/players" class="view-profile">VIEW FULL PROFILE</a>
     </div>
     <div class="player-card">
       <div class="player-img"></div>
       <h3>Sara "Ghost"</h3>
       <p>LoL - Midlane | Grandmaster</p>
-      <a routerLink="/players" class="view-profile">VER PERFIL COMPLETO</a>
+      <a routerLink="/players" class="view-profile">VIEW FULL PROFILE</a>
     </div>
     <div class="player-card">
       <div class="player-img"></div>
       <h3>Viktor K.</h3>
       <p>CS2 - AWPer | Faceit 10</p>
-      <a routerLink="/players" class="view-profile">VER PERFIL COMPLETO</a>
+      <a routerLink="/players" class="view-profile">VIEW FULL PROFILE</a>
     </div>
   </div>
 </section>
@@ -132,23 +128,22 @@
   <div class="engagement-box">
     <h2>Ready to Level Up?</h2>
     <p>
-      La mayor base de datos profesional de eSports te está esperando. No dejes pasar tu
-      oportunidad.
+      The largest professional eSports database is waiting for you. Don’t miss your opportunity.
     </p>
     <div class="btn-group">
       <!-- Si ya está logueado va al perfil, si no abre Discord OAuth -->
-      <a *ngIf="isLogged()" routerLink="/profile" class="btn btn-primary">Mi Perfil</a>
+      <a *ngIf="isLogged()" routerLink="/profile" class="btn btn-primary">My Profile</a>
       <a *ngIf="isLogged()" routerLink="/team-profile" class="btn btn-secondary btn-team"
-        >Crear equipo</a
+        >Create Team</a
       >
       <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="btn btn-primary">
         <img
           src="icons/discord.svg"
           style="width: 18px; vertical-align: middle; margin-right: 8px"
         />
-        Iniciar Sesión
+        Sign In
       </button>
-      <a routerLink="/about" class="btn btn-secondary">Sobre Nosotros</a>
+      <a routerLink="/about" class="btn btn-secondary">About Us</a>
     </div>
   </div>
 </section>
