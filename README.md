@@ -7,7 +7,7 @@
 ## Stack tecnológico
 
 ### Frontend
-- **Angular 18** con standalone components y lazy loading
+- **Angular 18** con standalone components
 - **TypeScript** con Angular Signals para gestión reactiva del estado
 - **SCSS** para estilos por componente
 - **Font Awesome** para iconografía
@@ -148,30 +148,6 @@ Los precios se gestionan íntegramente desde Stripe mediante los Price IDs confi
 
 ---
 
-## Modelos de datos principales
-
-### User
-```typescript
-{ id, email, discord_id, plan, account_type, is_verified, created_at, header_image_url? }
-```
-
-### PlayerProfile
-```typescript
-{ id, nickname, first_name?, last_name?, bio?, game?, main_role?, current_rank?,
-  peak_rank?, location?, current_team?, avatar_url?, cover_url?, is_visible,
-  profile_views, discord_tag?, twitter_url?, twitch_url?, liquipedia_url?, vlr_url?,
-  experience: PlayerExperience[], highlights: PlayerHighlight[] }
-```
-
-### TeamProfile
-```typescript
-{ id, name, abbreviation?, bio?, game?, location?, founded_date?, logo_url?, cover_url?,
-  is_visible, profile_views, competitions: TeamCompetition[],
-  active_competitions: TeamActiveCompetition[], highlights: TeamHighlight[], players: TeamMember[] }
-```
-
----
-
 ## Variables de entorno
 
 ### Backend (`.env`)
@@ -184,18 +160,18 @@ JWT_SECRET=
 JWT_EXPIRES_IN=7d
 DISCORD_CLIENT_ID=
 DISCORD_CLIENT_SECRET=
-DISCORD_REDIRECT_URI=https://tudominio.com/api/auth/discord/callback
+DISCORD_REDIRECT_URI=
 
 # URLs
-FRONTEND_URL=https://tudominio.com
+FRONTEND_URL=https://nextstagepro.netlify.app/
 
 # Stripe
 STRIPE_SECRET_KEY=sk_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_PRICE_PLAYER_PRO=price_...
 STRIPE_PRICE_TEAM_PRO=price_...
-STRIPE_SUCCESS_URL=https://tudominio.com/subscriptions?success=1
-STRIPE_CANCEL_URL=https://tudominio.com/subscriptions
+STRIPE_SUCCESS_URL=
+STRIPE_CANCEL_URL=
 
 # Cloudinary
 CLOUDINARY_CLOUD_NAME=
