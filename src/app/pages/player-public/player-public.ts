@@ -37,7 +37,7 @@ export class PlayerPublicComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.error = 'ID no válido';
+      this.error = 'ID not valid';
       this.loading = false;
       return;
     }
@@ -50,7 +50,7 @@ export class PlayerPublicComponent implements OnInit, OnDestroy {
         this.cdr.markForCheck();
       },
       error: () => {
-        this.error = 'Perfil no encontrado o no visible.';
+        this.error = 'Profile not found or not visible.';
         this.loading = false;
         this.cdr.markForCheck();
       },

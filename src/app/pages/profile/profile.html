@@ -14,7 +14,7 @@
         [style.backgroundImage]="getCoverImage() ? 'url(' + getCoverImage() + ')' : ''"
       >
         <label class="edit-cover-btn" title="Cambiar portada">
-          📷 Cambiar portada
+          Change Banner
           <input type="file" accept="image/*" (change)="onCoverChange($event)" hidden />
         </label>
       </div>
@@ -42,20 +42,20 @@
               <ng-template #noTeamLogo>
                 <span *ngIf="getCurrentTeamName()" class="team-icon-placeholder">🛡️</span>
               </ng-template>
-              {{ profile.current_team || 'Sin equipo' }}
+              {{ profile.current_team || 'Without Team' }}
               <span *ngIf="profile.location"> · {{ profile.location }}</span>
             </p>
           </div>
           <div class="header-stats">
-            <div class="stat-item">👁️ {{ profile.profile_views }} <span>Views</span></div>
-            <div class="stat-item">🎮 {{ profile.game || '—' }}</div>
+            <div class="stat-item">{{ profile.profile_views }} <span>Views</span></div>
+            <div class="stat-item">{{ profile.game || '—' }}</div>
             <div class="stat-item">
               <span
                 class="visibility-toggle"
                 [class.visible]="profile.is_visible"
                 (click)="toggleVisibility()"
               >
-                {{ profile.is_visible ? '✅ Visible' : '🚫 Oculto' }}
+                {{ profile.is_visible ? '✅ Visible' : '🚫 Hidden' }}
               </span>
             </div>
           </div>
@@ -68,24 +68,24 @@
         <!-- SOBRE MÍ -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Sobre mí</h3>
+            <h3>About Me</h3>
             <button class="btn-edit-section" (click)="startEdit('bio')" *ngIf="!editingBio">
-              ✏️ Editar
+              Edit
             </button>
           </div>
           <ng-container *ngIf="!editingBio">
-            <p class="body-text">{{ profile.bio || 'Añade una descripción sobre ti.' }}</p>
+            <p class="body-text">{{ profile.bio || 'Add a description about yourself.' }}</p>
           </ng-container>
           <ng-container *ngIf="editingBio">
             <textarea
               class="edit-textarea"
               [(ngModel)]="draftProfile['bio']"
               rows="5"
-              placeholder="Cuéntanos sobre ti…"
+              placeholder="Tell us about yourself…"
             ></textarea>
             <div class="edit-actions">
               <button class="btn-save" (click)="saveSection('bio')" [disabled]="saving">
-                {{ saving ? 'Guardando…' : 'Guardar' }}
+                {{ saving ? 'Saving…' : 'Save' }}
               </button>
               <button class="btn-cancel" (click)="cancelEdit('bio')">Cancelar</button>
             </div>
@@ -95,28 +95,28 @@
         <!-- INFORMACIÓN BÁSICA -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Información Básica</h3>
+            <h3>Basic Information</h3>
             <button class="btn-edit-section" (click)="startEdit('basic')" *ngIf="!editingBasic">
-              ✏️ Editar
+              Edit
             </button>
           </div>
           <ng-container *ngIf="!editingBasic">
             <ul class="info-list">
               <li>
-                <strong>Nombre:</strong> <span>{{ profile.first_name || '—' }}</span>
+                <strong>Name:</strong> <span>{{ profile.first_name || '—' }}</span>
               </li>
               <li>
-                <strong>Apellido:</strong> <span>{{ profile.last_name || '—' }}</span>
+                <strong>Last Name:</strong> <span>{{ profile.last_name || '—' }}</span>
               </li>
               <li>
                 <strong>Nickname:</strong> <span>{{ profile.nickname }}</span>
               </li>
               <li>
-                <strong>Fecha de Nacimiento:</strong>
+                <strong>Birth Date:</strong>
                 <span>{{ (profile.birthdate | date: 'dd/MM/yyyy') || '—' }}</span>
               </li>
               <li class="team-row">
-                <strong>Equipo Actual:</strong>
+                <strong>Current Team:</strong>
                 <span class="team-value">
                   <img
                     *ngIf="getCurrentTeamLogoUrl()"
@@ -128,7 +128,7 @@
                 </span>
               </li>
               <li>
-                <strong>Localización:</strong> <span>{{ profile.location || '—' }}</span>
+                <strong>Location:</strong> <span>{{ profile.location || '—' }}</span>
               </li>
               <li>
                 <strong>Discord:</strong> <span>{{ profile.discord_tag || '—' }}</span>
@@ -160,23 +160,23 @@
           <ng-container *ngIf="editingBasic">
             <div class="edit-grid">
               <div class="field">
-                <label>Nombre</label>
-                <input [(ngModel)]="draftProfile['first_name']" placeholder="Nombre" />
+                <label>Name</label>
+                <input [(ngModel)]="draftProfile['first_name']" placeholder="Name" />
               </div>
               <div class="field">
-                <label>Apellido</label>
-                <input [(ngModel)]="draftProfile['last_name']" placeholder="Apellido" />
+                <label>Last Name</label>
+                <input [(ngModel)]="draftProfile['last_name']" placeholder="Last Name" />
               </div>
               <div class="field">
                 <label>Nickname</label>
                 <input [(ngModel)]="draftProfile['nickname']" placeholder="Nickname" />
               </div>
               <div class="field">
-                <label>Equipo Actual</label>
+                <label>Current Team</label>
                 <input [(ngModel)]="draftProfile['current_team']" placeholder="Team Liquid…" />
               </div>
               <div class="field">
-                <label>Localización</label>
+                <label>Location</label>
                 <input [(ngModel)]="draftProfile['location']" placeholder="Madrid, España" />
               </div>
               <div class="field">
@@ -210,7 +210,7 @@
               <button class="btn-save" (click)="saveSection('basic')" [disabled]="saving">
                 {{ saving ? 'Guardando…' : 'Guardar' }}
               </button>
-              <button class="btn-cancel" (click)="cancelEdit('basic')">Cancelar</button>
+              <button class="btn-cancel" (click)="cancelEdit('basic')">Cancel</button>
             </div>
           </ng-container>
         </div>
@@ -220,7 +220,7 @@
           <div class="card-header">
             <h3>Highlights</h3>
             <label class="btn-edit-section upload-label" title="Añadir highlight">
-              ➕ Subir
+              Upload
               <input
                 type="file"
                 accept="image/*,video/*"
@@ -251,7 +251,7 @@
             </div>
           </div>
           <ng-template #noHighlights>
-            <p class="body-text">Sube fotos o vídeos para mostrar tu mejor juego.</p>
+            <p class="body-text">Upload photos or videos to showcase your best gameplay.</p>
           </ng-template>
         </div>
       </div>
@@ -260,25 +260,25 @@
         <!-- INFO VIDEOJUEGO -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Información Videojuego</h3>
+            <h3>Game Information</h3>
             <button class="btn-edit-section" (click)="startEdit('game')" *ngIf="!editingGame">
-              🎮 Editar
+              Edit
             </button>
           </div>
           <ng-container *ngIf="!editingGame">
             <ul class="info-list compact">
               <li>
-                <strong>Videojuego:</strong> <span>{{ profile.game || '—' }}</span>
+                <strong>Game:</strong> <span>{{ profile.game || '—' }}</span>
               </li>
               <li>
-                <strong>Rol Principal:</strong> <span>{{ profile.main_role || '—' }}</span>
+                <strong>Main Role:</strong> <span>{{ profile.main_role || '—' }}</span>
               </li>
               <li>
-                <strong>Rango Actual:</strong>
+                <strong>Current Rank:</strong>
                 <span class="rank-badge">{{ profile.current_rank || '—' }}</span>
               </li>
               <li>
-                <strong>Rango Peak:</strong>
+                <strong>Peak Rank:</strong>
                 <span class="rank-badge">{{ profile.peak_rank || '—' }}</span>
               </li>
             </ul>
@@ -286,27 +286,27 @@
           <ng-container *ngIf="editingGame">
             <div class="edit-grid">
               <div class="field">
-                <label>Juego</label>
+                <label>Game</label>
                 <input [(ngModel)]="draftProfile['game']" placeholder="Valorant, LoL, CS2…" />
               </div>
               <div class="field">
-                <label>Rol Principal</label>
+                <label>Main Role</label>
                 <input [(ngModel)]="draftProfile['main_role']" placeholder="IGL, Duelist…" />
               </div>
               <div class="field">
-                <label>Rango Actual</label>
+                <label>Current Rank</label>
                 <input [(ngModel)]="draftProfile['current_rank']" placeholder="Radiant, Diamond…" />
               </div>
               <div class="field">
-                <label>Rango Peak</label>
+                <label>Peak Rank</label>
                 <input [(ngModel)]="draftProfile['peak_rank']" placeholder="Radiant #47…" />
               </div>
             </div>
             <div class="edit-actions">
               <button class="btn-save" (click)="saveSection('game')" [disabled]="saving">
-                {{ saving ? 'Guardando…' : 'Guardar' }}
+                {{ saving ? 'Saving…' : 'Save' }}
               </button>
-              <button class="btn-cancel" (click)="cancelEdit('game')">Cancelar</button>
+              <button class="btn-cancel" (click)="cancelEdit('game')">Cancel</button>
             </div>
           </ng-container>
         </div>
@@ -314,10 +314,8 @@
         <!-- EXPERIENCIA -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Experiencia</h3>
-            <button class="btn-edit-section" (click)="startAddExp()" title="Añadir">
-              ➕ Añadir
-            </button>
+            <h3>Experience</h3>
+            <button class="btn-edit-section" (click)="startAddExp()" title="Add">Add</button>
           </div>
 
           <div class="exp-form" *ngIf="addingExp">
@@ -326,22 +324,22 @@
               <input [(ngModel)]="draftExp['team_name']" placeholder="Team Liquid" />
             </div>
             <div class="field">
-              <label>Rol</label> <input [(ngModel)]="draftExp['role']" placeholder="IGL" />
+              <label>Role</label> <input [(ngModel)]="draftExp['role']" placeholder="IGL" />
             </div>
             <div class="field">
-              <label>Logros</label>
+              <label>Achievements</label>
               <input [(ngModel)]="draftExp['achievements']" placeholder="VCT Champion…" />
             </div>
             <div class="field">
-              <label>Inicio</label> <input type="date" [(ngModel)]="draftExp['start_date']" />
+              <label>Start Date</label> <input type="date" [(ngModel)]="draftExp['start_date']" />
             </div>
             <div class="field">
-              <label>Fin (vacío = actual)</label>
+              <label>End Date (empty = current)</label>
               <input type="date" [(ngModel)]="draftExp['end_date']" />
             </div>
             <div class="edit-actions">
-              <button class="btn-save" (click)="saveExp()">Guardar</button>
-              <button class="btn-cancel" (click)="cancelExp()">Cancelar</button>
+              <button class="btn-save" (click)="saveExp()">Save</button>
+              <button class="btn-cancel" (click)="cancelExp()">Cancel</button>
             </div>
           </div>
 
@@ -365,8 +363,8 @@
                       >Equipo actual</span
                     >
                     <ng-container *ngIf="!exp.synthetic_current_team">
-                      <button class="btn-link" (click)="startEditExp(i)">Editar</button>
-                      <button class="btn-link danger" (click)="deleteExp(i)">Borrar</button>
+                      <button class="btn-link" (click)="startEditExp(i)">Edit</button>
+                      <button class="btn-link danger" (click)="deleteExp(i)">Delete</button>
                     </ng-container>
                   </div>
                 </div>
@@ -374,23 +372,24 @@
               <ng-container *ngIf="editingExpIdx === i && !exp.synthetic_current_team">
                 <div class="exp-form">
                   <div class="field">
-                    <label>Equipo *</label> <input [(ngModel)]="draftExp['team_name']" />
+                    <label>Team *</label> <input [(ngModel)]="draftExp['team_name']" />
                   </div>
                   <div class="field">
-                    <label>Rol</label> <input [(ngModel)]="draftExp['role']" />
+                    <label>Role</label> <input [(ngModel)]="draftExp['role']" />
                   </div>
                   <div class="field">
-                    <label>Logros</label> <input [(ngModel)]="draftExp['achievements']" />
+                    <label>Achievements</label> <input [(ngModel)]="draftExp['achievements']" />
                   </div>
                   <div class="field">
-                    <label>Inicio</label> <input type="date" [(ngModel)]="draftExp['start_date']" />
+                    <label>Start Date</label>
+                    <input type="date" [(ngModel)]="draftExp['start_date']" />
                   </div>
                   <div class="field">
-                    <label>Fin</label> <input type="date" [(ngModel)]="draftExp['end_date']" />
+                    <label>End Date</label> <input type="date" [(ngModel)]="draftExp['end_date']" />
                   </div>
                   <div class="edit-actions">
-                    <button class="btn-save" (click)="updateExp(i)">Guardar</button>
-                    <button class="btn-cancel" (click)="cancelExp()">Cancelar</button>
+                    <button class="btn-save" (click)="updateExp(i)">Save</button>
+                    <button class="btn-cancel" (click)="cancelExp()">Cancel</button>
                   </div>
                 </div>
               </ng-container>
@@ -398,7 +397,7 @@
           </ng-container>
 
           <ng-template #noExp>
-            <p class="body-text" *ngIf="!addingExp">Añade tus equipos anteriores.</p>
+            <p class="body-text" *ngIf="!addingExp">Add your previous teams.</p>
           </ng-template>
         </div>
 
@@ -406,16 +405,14 @@
         <div class="glass-panel card">
           <div class="card-header"><h3>Redes Sociales</h3></div>
           <div class="social-links">
-            <span *ngIf="profile.discord_tag" class="social-item"
-              >🎮 {{ profile.discord_tag }}</span
-            >
+            <span *ngIf="profile.discord_tag" class="social-item">{{ profile.discord_tag }}</span>
             <a
               *ngIf="profile.twitter_url"
               [href]="profile.twitter_url"
               target="_blank"
               rel="noopener"
               class="social-item"
-              >🐦 Twitter</a
+              >Twitter</a
             >
             <a
               *ngIf="profile.liquipedia_url"
@@ -423,7 +420,7 @@
               target="_blank"
               rel="noopener"
               class="social-item"
-              >🏆 Liquipedia</a
+              >Liquipedia</a
             >
             <a
               *ngIf="profile.vlr_url"
@@ -431,7 +428,7 @@
               target="_blank"
               rel="noopener"
               class="social-item"
-              >🎯 VLR.gg</a
+              >VLR.gg</a
             >
             <a
               *ngIf="profile.twitch_url"
@@ -439,7 +436,7 @@
               target="_blank"
               rel="noopener"
               class="social-item"
-              >📺 Twitch</a
+              >Twitch</a
             >
             <p
               *ngIf="
@@ -451,7 +448,7 @@
               "
               class="body-text"
             >
-              Añade tus redes en "Información Básica".
+              Add your social links in "Basic Information".
             </p>
           </div>
         </div>
