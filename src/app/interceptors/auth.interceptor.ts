@@ -14,13 +14,13 @@ export function showToast(message: string, type: 'error' | 'success' | 'info' = 
 function friendlyError(err: HttpErrorResponse): string {
   if (!navigator.onLine) return 'Sin conexión a internet.';
   switch (err.status) {
-    case 0:   return 'No se puede conectar al servidor. ¿Está el backend arrancado?';
-    case 400: return err.error?.error || 'Datos incorrectos en la petición.';
-    case 401: return 'Sesión expirada. Por favor, inicia sesión de nuevo.';
-    case 403: return 'No tienes permiso para realizar esta acción.';
-    case 404: return err.error?.error || 'Recurso no encontrado.';
-    case 429: return 'Demasiadas peticiones. Espera un momento.';
-    case 500: return 'Error interno del servidor. Inténtalo más tarde.';
+    case 0:   return 'Unable to connect to the server. Is the backend running?';
+    case 400: return err.error?.error || 'Invalid data in the request.';
+    case 401: return 'Session expired. Please log in again.';
+    case 403: return 'You do not have permission to perform this action.';
+    case 404: return err.error?.error || 'Resource not found.';
+    case 429: return 'Too many requests. Please wait a moment.';
+    case 500: return 'Internal server error. Please try again later.';
     default:  return err.error?.error || `Error inesperado (${err.status}).`;
   }
 }
