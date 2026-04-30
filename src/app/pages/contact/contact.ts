@@ -48,24 +48,23 @@ export class ContactComponent {
 
     const v = this.contactForm.value;
 
-    this.contact
-      .send({
-        first_name: v.firstName,
-        last_name: v.lastName,
-        email: v.email,
-        discord: v.discord || undefined,
-        message: v.message,
-      })
-      .subscribe({
-        next: () => {
-          this.success = true;
-          this.sending = false;
-          this.contactForm.reset();
-        },
-        error: (err) => {
-          this.error = err?.error?.error ?? 'Error enviando el mensaje. Inténtalo de nuevo.';
-          this.sending = false;
-        },
-      });
+    this.contact.send({
+      first_name: v.firstName,
+      last_name: v.lastName,
+      email: v.email,
+      discord: v.discord || '',
+      message: v.message,
+    }).subscribe({
+      next: () => {
+        this.success = true;
+        this.sending = false;
+        this.contactForm.reset();
+      },
+      error: (err) => {
+        console.error('EMAILJS ERROR:', err);
+        this.error = 'Error enviando el mensaje';
+        this.sending = false;
+      }
+    });
   }
 }
