@@ -1,7 +1,3 @@
-// src/middleware/auth.js
-// Middleware que verifica el JWT en la cabecera Authorization.
-// Añade req.user = { id, plan, account_type } si el token es válido.
-
 const jwt = require('jsonwebtoken');
 
 function requireAuth(req, res, next) {
@@ -15,7 +11,7 @@ function requireAuth(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // { id, plan, account_type, iat, exp }
+    req.user = decoded;
     next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
@@ -25,7 +21,6 @@ function requireAuth(req, res, next) {
   }
 }
 
-// Verifica que el usuario tenga un plan pro activo
 function requirePro(req, res, next) {
   if (!req.user || req.user.plan === 'free') {
     return res.status(403).json({ error: 'Se requiere un plan Pro para esta acción' });

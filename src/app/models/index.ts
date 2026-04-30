@@ -1,6 +1,3 @@
-// src/app/models/index.ts
-// Interfaces que mapean 1:1 con las respuestas del backend
-
 export interface User {
   id: string;
   email: string;
@@ -64,7 +61,6 @@ export interface PlayerProfile {
   profile_views: number;
   created_at: string;
   updated_at: string;
-  // Relaciones incluidas en GET /me y GET /:id
   experience?: PlayerExperience[];
   highlights?: PlayerHighlight[];
 }
@@ -179,5 +175,5 @@ export interface PlayerSearchFilters {
   search?: string;
   page?: number;
   limit?: number;
-  plan?: 'pro' | 'all';   // filtro por plan enviado al backend
+  plan?: 'pro' | 'all';
 }

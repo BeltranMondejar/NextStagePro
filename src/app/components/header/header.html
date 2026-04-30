@@ -5,44 +5,50 @@
   </div>
 
   <nav class="menu">
-    <a routerLink="/about"         routerLinkActive="active"><fa-icon [icon]="faCircleInfo"></fa-icon> About us</a>
-    <a *ngIf="isLogged()" routerLink="/profile" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon> Profile</a>
-    <a *ngIf="isLogged()" routerLink="/team-profile" routerLinkActive="active"><fa-icon [icon]="faUser"></fa-icon> Team</a>
-    <a routerLink="/players"       routerLinkActive="active"><fa-icon [icon]="faSearch"></fa-icon> Search Players</a>
-    <a routerLink="/subscriptions" routerLinkActive="active"><fa-icon [icon]="faSketch"></fa-icon> Subscriptions</a>
-    <a routerLink="/contact"       routerLinkActive="active"><fa-icon [icon]="faEnvelope"></fa-icon> Contact</a>
+    <a routerLink="/about" routerLinkActive="active"
+      ><fa-icon [icon]="faCircleInfo"></fa-icon> About us</a
+    >
+    <a *ngIf="isLogged()" routerLink="/profile" routerLinkActive="active"
+      ><fa-icon [icon]="faUser"></fa-icon> Profile</a
+    >
+    <a *ngIf="isLogged()" routerLink="/team-profile" routerLinkActive="active"
+      ><fa-icon [icon]="faUser"></fa-icon> Team</a
+    >
+    <a routerLink="/players" routerLinkActive="active"
+      ><fa-icon [icon]="faSearch"></fa-icon> Search Players</a
+    >
+    <a routerLink="/subscriptions" routerLinkActive="active"
+      ><fa-icon [icon]="faSketch"></fa-icon> Subscriptions</a
+    >
+    <a routerLink="/contact" routerLinkActive="active"
+      ><fa-icon [icon]="faEnvelope"></fa-icon> Contact</a
+    >
   </nav>
 
   <div class="right">
     <ng-container *ngIf="!isLogged()">
-      <!-- Botón Demo — visible solo en desktop cuando no hay sesión -->
-      <button class="demo-btn desktop-only" (click)="enterDemo()" title="Probar sin cuenta">
-        🧪 Demo
-      </button>
       <button class="discord-btn desktop-only" (click)="loginWithDiscord()">
         <img src="icons/discord.svg" class="icon" /> Login with Discord
       </button>
     </ng-container>
 
     <ng-container *ngIf="isLogged()">
-      <!-- Banner demo -->
-      <span *ngIf="demoMode()" class="demo-badge desktop-only">DEMO</span>
-
-      <div class="user-menu-wrapper desktop-only" style="position:relative">
+      <div class="user-menu-wrapper desktop-only" style="position: relative">
         <img
           class="avatar"
           [src]="getHeaderAvatar()"
           [alt]="user()?.email"
           (click)="toggleUserMenu()"
-          style="cursor:pointer"
+          style="cursor: pointer"
         />
         <div class="user-dropdown" *ngIf="userMenuOpen">
-          <a routerLink="/profile" (click)="userMenuOpen = false">👤 Mi perfil</a>
-          <a routerLink="/team-profile" (click)="userMenuOpen = false">🛡️ Mi equipo</a>
-          <a routerLink="/subscriptions" (click)="userMenuOpen = false">💎 Mi plan</a>
+          <a routerLink="/profile" (click)="userMenuOpen = false">👤 My profile</a>
+          <a routerLink="/team-profile" (click)="userMenuOpen = false">🛡️ My team</a>
+          <a routerLink="/subscriptions" (click)="userMenuOpen = false">💎 My plan</a>
           <hr />
-          <a *ngIf="demoMode()" (click)="exitDemo()" style="cursor:pointer; color:#f59e0b">🧪 Salir del Demo</a>
-          <a *ngIf="!demoMode()" (click)="logout()" style="cursor:pointer; color:#ff4d4d">🚪 Cerrar sesión</a>
+          <a (click)="logout()" style="cursor: pointer; color: #ff4d4d"
+            >🚪 Logout</a
+          >
         </div>
       </div>
     </ng-container>
@@ -55,27 +61,48 @@
   <!-- Mobile dropdown -->
   <div class="mobile-dropdown" [class.open]="menuOpen">
     <nav class="mobile-nav-list">
-      <a routerLink="/about"         (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faCircleInfo"></fa-icon><span>About us</span></div></a>
-      <a *ngIf="isLogged()" routerLink="/profile" (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faUser"></fa-icon><span>Profile</span></div></a>
-      <a *ngIf="isLogged()" routerLink="/team-profile" (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faUser"></fa-icon><span>Team</span></div></a>
-      <a routerLink="/players"       (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faSearch"></fa-icon><span>Search Players</span></div></a>
-      <a routerLink="/subscriptions" (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faSketch"></fa-icon><span>Subscriptions</span></div></a>
-      <a routerLink="/contact"       (click)="toggleMenu()"><div class="link-item"><fa-icon [icon]="faEnvelope"></fa-icon><span>Contact</span></div></a>
+      <a routerLink="/about" (click)="toggleMenu()"
+        ><div class="link-item">
+          <fa-icon [icon]="faCircleInfo"></fa-icon><span>About us</span>
+        </div></a
+      >
+      <a *ngIf="isLogged()" routerLink="/profile" (click)="toggleMenu()"
+        ><div class="link-item"><fa-icon [icon]="faUser"></fa-icon><span>Profile</span></div></a
+      >
+      <a *ngIf="isLogged()" routerLink="/team-profile" (click)="toggleMenu()"
+        ><div class="link-item"><fa-icon [icon]="faUser"></fa-icon><span>Team</span></div></a
+      >
+      <a routerLink="/players" (click)="toggleMenu()"
+        ><div class="link-item">
+          <fa-icon [icon]="faSearch"></fa-icon><span>Search Players</span>
+        </div></a
+      >
+      <a routerLink="/subscriptions" (click)="toggleMenu()"
+        ><div class="link-item">
+          <fa-icon [icon]="faSketch"></fa-icon><span>Subscriptions</span>
+        </div></a
+      >
+      <a routerLink="/contact" (click)="toggleMenu()"
+        ><div class="link-item"><fa-icon [icon]="faEnvelope"></fa-icon><span>Contact</span></div></a
+      >
     </nav>
 
     <div class="mobile-actions">
       <ng-container *ngIf="!isLogged()">
-        <button class="demo-btn-mobile" (click)="enterDemo(); toggleMenu()">🧪 Probar en Demo</button>
         <button class="discord-btn-mobile" (click)="loginWithDiscord()">
           <img src="icons/discord.svg" class="icon" /> Login with Discord
         </button>
       </ng-container>
-      <div *ngIf="isLogged()" style="display:flex; flex-direction:column; gap:8px; padding: 0 16px">
-        <a routerLink="/profile"       (click)="toggleMenu()" style="color:#fff">👤 Mi perfil</a>
-        <a routerLink="/team-profile"  (click)="toggleMenu()" style="color:#fff">🛡️ Mi equipo</a>
-        <a routerLink="/subscriptions" (click)="toggleMenu()" style="color:#fff">💎 Mi plan</a>
-        <button *ngIf="demoMode()" class="demo-exit-btn-mobile" (click)="exitDemo()">🧪 Salir del Demo</button>
-        <button *ngIf="!demoMode()" class="logout-btn-mobile" (click)="logout()">🚪 Cerrar sesión</button>
+      <div
+        *ngIf="isLogged()"
+        style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px"
+      >
+        <a routerLink="/profile" (click)="toggleMenu()" style="color: #fff">👤 My profile</a>
+        <a routerLink="/team-profile" (click)="toggleMenu()" style="color: #fff">🛡️ My team</a>
+        <a routerLink="/subscriptions" (click)="toggleMenu()" style="color: #fff">💎 My plan</a>
+        <button class="logout-btn-mobile" (click)="logout()">
+          🚪 Logout
+        </button>
       </div>
     </div>
   </div>

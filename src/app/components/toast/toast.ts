@@ -1,8 +1,3 @@
-// src/app/components/toast/toast.ts
-// QoL: Componente de notificaciones toast globales.
-//      Se conecta al toastBus del auth.interceptor para mostrar errores automáticos.
-//      Añadir <app-toast></app-toast> en app.html una sola vez.
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { toastBus } from '../../interceptors/auth.interceptor';
@@ -35,49 +30,83 @@ interface Toast {
       </div>
     </div>
   `,
-  styles: [`
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 380px;
-    }
-    .toast {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 18px;
-      border-radius: 14px;
-      border: 1px solid #1E293B;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      cursor: pointer;
-      animation: slideIn 0.25s ease;
-      font-size: 0.9rem;
-      color: #fff;
-    }
-    .toast-error   { background: rgba(239,68,68,0.18);  border-color: rgba(239,68,68,0.35); }
-    .toast-success { background: rgba(34,197,94,0.18);  border-color: rgba(34,197,94,0.35); }
-    .toast-info    { background: rgba(59,130,246,0.18); border-color: rgba(59,130,246,0.35); }
-    .toast-icon  { font-size: 1.1rem; flex-shrink: 0; }
-    .toast-msg   { flex: 1; line-height: 1.4; }
-    .toast-close {
-      background: none; border: none; color: rgba(255,255,255,0.5);
-      cursor: pointer; font-size: 0.9rem; padding: 0; flex-shrink: 0;
-    }
-    .toast-close:hover { color: #fff; }
-    @keyframes slideIn {
-      from { transform: translateX(110%); opacity: 0; }
-      to   { transform: translateX(0);   opacity: 1; }
-    }
-    @media (max-width: 480px) {
-      .toast-container { right: 12px; left: 12px; max-width: 100%; }
-    }
-  `],
+  styles: [
+    `
+      .toast-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 380px;
+      }
+      .toast {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 18px;
+        border-radius: 14px;
+        border: 1px solid #1e293b;
+        backdrop-filter: blur(14px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+        animation: slideIn 0.25s ease;
+        font-size: 0.9rem;
+        color: #fff;
+      }
+      .toast-error {
+        background: rgba(239, 68, 68, 0.18);
+        border-color: rgba(239, 68, 68, 0.35);
+      }
+      .toast-success {
+        background: rgba(34, 197, 94, 0.18);
+        border-color: rgba(34, 197, 94, 0.35);
+      }
+      .toast-info {
+        background: rgba(59, 130, 246, 0.18);
+        border-color: rgba(59, 130, 246, 0.35);
+      }
+      .toast-icon {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .toast-msg {
+        flex: 1;
+        line-height: 1.4;
+      }
+      .toast-close {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        font-size: 0.9rem;
+        padding: 0;
+        flex-shrink: 0;
+      }
+      .toast-close:hover {
+        color: #fff;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateX(110%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @media (max-width: 480px) {
+        .toast-container {
+          right: 12px;
+          left: 12px;
+          max-width: 100%;
+        }
+      }
+    `,
+  ],
 })
 export class ToastComponent implements OnInit, OnDestroy {
   toasts: Toast[] = [];
@@ -103,6 +132,6 @@ export class ToastComponent implements OnInit, OnDestroy {
   }
 
   dismiss(id: number): void {
-    this.toasts = this.toasts.filter(t => t.id !== id);
+    this.toasts = this.toasts.filter((t) => t.id !== id);
   }
 }

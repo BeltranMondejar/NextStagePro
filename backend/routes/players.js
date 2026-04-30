@@ -1,4 +1,3 @@
-// src/routes/players.js
 const express = require('express');
 const router  = express.Router();
 const { query } = require('../config/db');
@@ -29,9 +28,6 @@ function withManagedTeamExperience(profile, experienceRows = []) {
   ];
 }
 
-// ══════════════════════════════════════════════════════════════
-//  GET /api/players — búsqueda pública con filtros
-// ══════════════════════════════════════════════════════════════
 router.get('/', async (req, res) => {
   try {
     const { game, role, rank, location, search, plan, page = 1, limit = 20 } = req.query;
@@ -53,7 +49,6 @@ router.get('/', async (req, res) => {
       );
       params.push(`%${search}%`); idx++;
     }
-    // FIX: filtro plan enviado por el frontend
     if (plan === 'pro') {
       conditions.push(`u.plan != 'free'`);
     }
@@ -119,11 +114,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ══════════════════════════════════════════════════════════════
-//  RUTAS /me  — todas ANTES de /:id
-// ══════════════════════════════════════════════════════════════
-
-// GET /api/players/me
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const { rows: profiles } = await query(
@@ -143,7 +133,6 @@ router.get('/me', requireAuth, async (req, res) => {
     );
 
     if (!profiles.length) {
-      // FIX: si no existe perfil, crearlo automáticamente en lugar de 404
       const { rows: newProfile } = await query(
         `INSERT INTO player_profiles (user_id, nickname)
          VALUES ($1, $2) RETURNING *`,
@@ -172,7 +161,6 @@ router.get('/me', requireAuth, async (req, res) => {
   }
 });
 
-// PATCH /api/players/me — FIX: cambiado de PUT a PATCH para ser compatible con el frontend
 router.patch('/me', requireAuth, async (req, res) => {
   try {
     const allowed = [
@@ -181,7 +169,6 @@ router.patch('/me', requireAuth, async (req, res) => {
       'discord_tag', 'twitter_url', 'liquipedia_url', 'vlr_url', 'twitch_url', 'is_visible',
     ];
 
-    // Construir SET dinámico solo con los campos enviados
     const fields = Object.keys(req.body).filter(k => allowed.includes(k));
     if (!fields.length) return res.status(400).json({ error: 'No hay campos válidos para actualizar' });
 
@@ -197,7 +184,6 @@ router.patch('/me', requireAuth, async (req, res) => {
 
     if (!rows.length) return res.status(404).json({ error: 'Perfil no encontrado' });
 
-    // Devolver con experiencia y highlights para que el frontend no los pierda
     const [experience, highlights] = await Promise.all([
       query(`SELECT * FROM player_experience WHERE player_id = $1 ORDER BY start_date DESC NULLS LAST`, [rows[0].id]),
       query(`SELECT * FROM player_highlights WHERE player_id = $1 ORDER BY display_order`, [rows[0].id]),
@@ -210,13 +196,11 @@ router.patch('/me', requireAuth, async (req, res) => {
   }
 });
 
-// Mantener también PUT para compatibilidad
 router.put('/me', requireAuth, async (req, res) => {
   req.method = 'PATCH';
   router.handle(req, res, () => {});
 });
 
-// POST /api/players/me/avatar
 router.post('/me/avatar', requireAuth, uploadProfile.single('avatar'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
@@ -235,7 +219,6 @@ router.post('/me/avatar', requireAuth, uploadProfile.single('avatar'), async (re
   }
 });
 
-// POST /api/players/me/cover
 router.post('/me/cover', requireAuth, uploadProfile.single('cover'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No se recibió imagen' });
@@ -254,9 +237,6 @@ router.post('/me/cover', requireAuth, uploadProfile.single('cover'), async (req,
   }
 });
 
-// ══════════════════════════════════════════════════════════════
-//  EXPERIENCIA
-// ══════════════════════════════════════════════════════════════
 
 async function getPlayerId(userId) {
   const { rows } = await query(
@@ -265,7 +245,6 @@ async function getPlayerId(userId) {
   return rows[0]?.id || null;
 }
 
-// GET /api/players/me/experience
 router.get('/me/experience', requireAuth, async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -282,7 +261,6 @@ router.get('/me/experience', requireAuth, async (req, res) => {
   }
 });
 
-// POST /api/players/me/experience
 router.post('/me/experience', requireAuth, async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -304,7 +282,6 @@ router.post('/me/experience', requireAuth, async (req, res) => {
   }
 });
 
-// PATCH /api/players/me/experience/:id — FIX: también PATCH además de PUT
 router.patch('/me/experience/:id', requireAuth, async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -333,7 +310,6 @@ router.patch('/me/experience/:id', requireAuth, async (req, res) => {
   }
 });
 
-// PUT /api/players/me/experience/:id (alias de PATCH)
 router.put('/me/experience/:id', requireAuth, async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -362,7 +338,6 @@ router.put('/me/experience/:id', requireAuth, async (req, res) => {
   }
 });
 
-// DELETE /api/players/me/experience/:id
 router.delete('/me/experience/:id', requireAuth, async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -381,11 +356,6 @@ router.delete('/me/experience/:id', requireAuth, async (req, res) => {
   }
 });
 
-// ══════════════════════════════════════════════════════════════
-//  HIGHLIGHTS
-// ══════════════════════════════════════════════════════════════
-
-// GET /api/players/me/highlights
 router.get('/me/highlights', requireAuth, async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -402,7 +372,6 @@ router.get('/me/highlights', requireAuth, async (req, res) => {
   }
 });
 
-// POST /api/players/me/highlights
 router.post('/me/highlights', requireAuth, uploadHighlight.single('media'), async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -413,14 +382,12 @@ router.post('/me/highlights', requireAuth, uploadHighlight.single('media'), asyn
     const mediaType = isVideo ? 'video' : 'photo';
     const { title } = req.body;
 
-    // FIX: thumbnail más robusto para vídeos de Cloudinary
     const thumbnailUrl = isVideo
       ? req.file.path
           .replace('/upload/', '/upload/so_1,w_480,h_270,c_fill,f_jpg/')
           .replace(/\.\w+$/, '.jpg')
       : null;
 
-    // FIX: calcular display_order como max actual + 1
     const { rows: orderRow } = await query(
       `SELECT COALESCE(MAX(display_order), -1) + 1 AS next_order
        FROM player_highlights WHERE player_id = $1`,
@@ -441,7 +408,6 @@ router.post('/me/highlights', requireAuth, uploadHighlight.single('media'), asyn
   }
 });
 
-// DELETE /api/players/me/highlights/:id
 router.delete('/me/highlights/:id', requireAuth, async (req, res) => {
   try {
     const playerId = await getPlayerId(req.user.id);
@@ -454,7 +420,6 @@ router.delete('/me/highlights/:id', requireAuth, async (req, res) => {
 
     if (!rows.length) return res.status(404).json({ error: 'Highlight no encontrado' });
 
-    // FIX: extracción de publicId más robusta para Cloudinary
     try {
       const url     = rows[0].media_url;
       const match   = url.match(/\/upload\/(?:v\d+\/)?(.+?)(?:\.\w+)?$/);
@@ -472,12 +437,8 @@ router.delete('/me/highlights/:id', requireAuth, async (req, res) => {
   }
 });
 
-// ══════════════════════════════════════════════════════════════
-//  GET /api/players/:id — perfil público  ← siempre AL FINAL
-// ══════════════════════════════════════════════════════════════
 router.get('/:id', async (req, res) => {
   try {
-    // FIX: validar que el id sea un UUID válido para evitar errores de Postgres
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!uuidRegex.test(req.params.id)) {
       return res.status(400).json({ error: 'ID de perfil no válido' });
@@ -501,7 +462,6 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Perfil no encontrado o no visible' });
     }
 
-    // Incrementar vistas de forma no bloqueante
     query(
       `UPDATE player_profiles SET profile_views = profile_views + 1 WHERE id = $1`,
       [req.params.id]
@@ -520,7 +480,6 @@ router.get('/:id', async (req, res) => {
       ),
     ]);
 
-    // No exponer user_id en el perfil público
     delete profile.user_id;
 
     res.json({ ...profile, experience: withManagedTeamExperience(profile, experience.rows), highlights: highlights.rows });

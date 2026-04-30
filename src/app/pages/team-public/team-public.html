@@ -1,5 +1,4 @@
 <section class="profile">
-
   <div *ngIf="error" class="state-message error">{{ error }}</div>
 
   <!-- SKELETON -->
@@ -10,9 +9,9 @@
         <div class="logo-container">
           <div class="skeleton-circle"></div>
         </div>
-        <div class="header-info" style="flex:1">
+        <div class="header-info" style="flex: 1">
           <div class="skeleton-line w-300"></div>
-          <div class="skeleton-line w-180" style="margin-top:10px"></div>
+          <div class="skeleton-line w-180" style="margin-top: 10px"></div>
         </div>
       </div>
     </div>
@@ -20,9 +19,11 @@
 
   <!-- PERFIL REAL -->
   <ng-container *ngIf="!loading && team">
-
     <div class="profile-cover-wrapper">
-      <div class="cover-image" [style.backgroundImage]="team.cover_url ? 'url(' + team.cover_url + ')' : ''"></div>
+      <div
+        class="cover-image"
+        [style.backgroundImage]="team.cover_url ? 'url(' + team.cover_url + ')' : ''"
+      ></div>
 
       <div class="glass-panel profile-header">
         <div class="logo-container">
@@ -41,10 +42,13 @@
             </p>
           </div>
           <div class="header-stats">
-            <div class="stat-item">👁️ {{ team.profile_views }} <span>Views</span></div>
-            <div class="stat-item" *ngIf="team.game">🎮 {{ team.game }}</div>
+            <div class="stat-item">{{ team.profile_views }} <span>Views</span></div>
+            <div class="stat-item" *ngIf="team.game">{{ team.game }}</div>
             <div class="stat-item" *ngIf="team.active_competitions?.length">
-              🏆 {{ team.active_competitions!.length }} competición{{ team.active_competitions!.length !== 1 ? 'es' : '' }} activa{{ team.active_competitions!.length !== 1 ? 's' : '' }}
+              {{ team.active_competitions!.length }} competition{{
+                team.active_competitions!.length !== 1 ? 's' : ''
+              }}
+              active{{ team.active_competitions!.length !== 1 ? 's' : '' }}
             </div>
           </div>
         </div>
@@ -52,41 +56,44 @@
     </div>
 
     <div class="profile-grid">
-
       <div class="main-column">
-
         <!-- BIO -->
         <div class="glass-panel card" *ngIf="team.bio">
-          <div class="card-header"><h3>Sobre el equipo</h3></div>
+          <div class="card-header"><h3>About the team</h3></div>
           <p class="body-text">{{ team.bio }}</p>
         </div>
 
         <!-- JUGADORES -->
-        <!-- JUGADORES -->
-<div class="glass-panel card" *ngIf="team.players && team.players.length">
-  <div class="card-header"><h3>Jugadores del equipo</h3></div>
-  <div class="team-members-grid">
-    <a class="team-member-card" 
-       *ngFor="let player of team.players" 
-       [routerLink]="['/players', player.id]">
-      <img class="team-member-avatar" 
-           [src]="getPlayerAvatarUrl(player)" 
-           [alt]="player.nickname" 
-           loading="lazy" />
-      <div class="team-member-info">
-        <strong>{{ player.nickname }}</strong>
-        <div class="member-meta">
-          <span *ngIf="player.current_rank" class="rank-badge">{{ player.current_rank }}</span>
-          <small>{{ player.main_role || 'Sin rol' }}</small>
+        <div class="glass-panel card" *ngIf="team.players && team.players.length">
+          <div class="card-header"><h3>Team Members</h3></div>
+          <div class="team-members-grid">
+            <a
+              class="team-member-card"
+              *ngFor="let player of team.players"
+              [routerLink]="['/players', player.id]"
+            >
+              <img
+                class="team-member-avatar"
+                [src]="getPlayerAvatarUrl(player)"
+                [alt]="player.nickname"
+                loading="lazy"
+              />
+              <div class="team-member-info">
+                <strong>{{ player.nickname }}</strong>
+                <div class="member-meta">
+                  <span *ngIf="player.current_rank" class="rank-badge">{{
+                    player.current_rank
+                  }}</span>
+                  <small>{{ player.main_role || 'No role' }}</small>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
-      </div>
-    </a>
-  </div>
-</div>
 
         <!-- HISTORIAL COMPETITIVO -->
         <div class="glass-panel card" *ngIf="team.competitions && team.competitions.length">
-          <div class="card-header"><h3>Historial competitivo</h3></div>
+          <div class="card-header"><h3>Competitive History</h3></div>
           <div class="comp-item" *ngFor="let comp of team.competitions">
             <div class="comp-icon">🏆</div>
             <div class="comp-details">
@@ -102,37 +109,65 @@
           <div class="card-header"><h3>Highlights</h3></div>
           <div class="highlight-grid">
             <div class="highlight-item" *ngFor="let h of team.highlights">
-              <img *ngIf="h.media_type === 'photo'" [src]="h.media_url" [alt]="h.title || 'Highlight'" loading="lazy" />
-              <video *ngIf="h.media_type === 'video'" [src]="h.media_url" [poster]="h.thumbnail_url || ''" controls preload="metadata"></video>
+              <img
+                *ngIf="h.media_type === 'photo'"
+                [src]="h.media_url"
+                [alt]="h.title || 'Highlight'"
+                loading="lazy"
+              />
+              <video
+                *ngIf="h.media_type === 'video'"
+                [src]="h.media_url"
+                [poster]="h.thumbnail_url || ''"
+                controls
+                preload="metadata"
+              ></video>
               <div *ngIf="h.title" class="highlight-title">{{ h.title }}</div>
             </div>
           </div>
         </div>
 
-        <div class="glass-panel card empty-state"
-             *ngIf="!team.bio && (!team.players || !team.players.length) && (!team.competitions || !team.competitions.length)">
-          <p>Este equipo aún no ha completado su perfil público.</p>
+        <div
+          class="glass-panel card empty-state"
+          *ngIf="
+            !team.bio &&
+            (!team.players || !team.players.length) &&
+            (!team.competitions || !team.competitions.length)
+          "
+        >
+          <p>This team hasn't completed their public profile yet.</p>
         </div>
-
       </div>
 
       <div class="side-column">
-
         <!-- INFO JUEGO -->
         <div class="glass-panel card">
-          <div class="card-header"><h3>Información</h3></div>
+          <div class="card-header"><h3>Game Information</h3></div>
           <ul class="info-list compact">
-            <li><strong>Juego:</strong>         <span class="rank-badge">{{ team.game || '—' }}</span></li>
-            <li *ngIf="team.abbreviation"><strong>Abreviación:</strong> <span>{{ team.abbreviation }}</span></li>
-            <li *ngIf="team.founded_date"><strong>Fundación:</strong>   <span>{{ team.founded_date | date:'dd/MM/yyyy' }}</span></li>
-            <li *ngIf="team.location"><strong>Ubicación:</strong>       <span>{{ team.location }}</span></li>
-            <li *ngIf="team.discord_tag"><strong>Discord:</strong>      <span>{{ team.discord_tag }}</span></li>
+            <li>
+              <strong>Game:</strong> <span class="rank-badge">{{ team.game || '—' }}</span>
+            </li>
+            <li *ngIf="team.abbreviation">
+              <strong>Abbreviation:</strong> <span>{{ team.abbreviation }}</span>
+            </li>
+            <li *ngIf="team.founded_date">
+              <strong>Foundation:</strong> <span>{{ team.founded_date | date: 'dd/MM/yyyy' }}</span>
+            </li>
+            <li *ngIf="team.location">
+              <strong>Location:</strong> <span>{{ team.location }}</span>
+            </li>
+            <li *ngIf="team.discord_tag">
+              <strong>Discord:</strong> <span>{{ team.discord_tag }}</span>
+            </li>
           </ul>
         </div>
 
         <!-- COMPETICIONES ACTIVAS -->
-        <div class="glass-panel card" *ngIf="team.active_competitions && team.active_competitions.length">
-          <div class="card-header"><h3>Competiciones activas</h3></div>
+        <div
+          class="glass-panel card"
+          *ngIf="team.active_competitions && team.active_competitions.length"
+        >
+          <div class="card-header"><h3>Active Competitions</h3></div>
           <div class="active-comp-item" *ngFor="let ac of team.active_competitions">
             <div class="active-comp-dot"></div>
             <div class="active-comp-info">
@@ -144,26 +179,54 @@
 
         <!-- REDES SOCIALES -->
         <div class="glass-panel card">
-          <div class="card-header"><h3>Redes Sociales</h3></div>
+          <div class="card-header"><h3>Social Media</h3></div>
           <div class="social-links">
-            <a *ngIf="team.twitter_url"    [href]="team.twitter_url"    target="_blank" rel="noopener" class="social-item">🐦 Twitter / X</a>
-            <a *ngIf="team.twitch_url"     [href]="team.twitch_url"     target="_blank" rel="noopener" class="social-item">📺 Twitch</a>
-            <a *ngIf="team.liquipedia_url" [href]="team.liquipedia_url" target="_blank" rel="noopener" class="social-item">🏆 Liquipedia</a>
-            <a *ngIf="team.vlr_url"        [href]="team.vlr_url"        target="_blank" rel="noopener" class="social-item">🎯 VLR.gg</a>
-            <p class="no-socials"
-               *ngIf="!team.twitter_url && !team.twitch_url && !team.liquipedia_url && !team.vlr_url">
-              Sin redes sociales añadidas.
+            <a
+              *ngIf="team.twitter_url"
+              [href]="team.twitter_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >Twitter / X</a
+            >
+            <a
+              *ngIf="team.twitch_url"
+              [href]="team.twitch_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >Twitch</a
+            >
+            <a
+              *ngIf="team.liquipedia_url"
+              [href]="team.liquipedia_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >Liquipedia</a
+            >
+            <a
+              *ngIf="team.vlr_url"
+              [href]="team.vlr_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >VLR.gg</a
+            >
+            <p
+              class="no-socials"
+              *ngIf="!team.twitter_url && !team.twitch_url && !team.liquipedia_url && !team.vlr_url"
+            >
+              No social media links added.
             </p>
           </div>
         </div>
 
         <!-- VOLVER -->
         <div class="back-link">
-          <a routerLink="/players">← Volver a la búsqueda</a>
+          <a routerLink="/players">← Back to search</a>
         </div>
-
       </div>
     </div>
   </ng-container>
-
 </section>

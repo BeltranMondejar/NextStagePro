@@ -1,33 +1,26 @@
-// src/app/interceptors/auth.interceptor.ts
-// QoL: Interceptor combinado:
-//   1. Añade Authorization header a todas las peticiones a nuestra API
-//   2. Captura errores HTTP y emite un evento global para mostrar toasts
-//   3. Si recibe 401, limpia la sesión automáticamente
-
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-// Bus de eventos para toasts — simple EventTarget global
 export const toastBus = new EventTarget();
 
 export function showToast(message: string, type: 'error' | 'success' | 'info' = 'error'): void {
   toastBus.dispatchEvent(new CustomEvent('toast', { detail: { message, type } }));
 }
 
-// Mensajes amigables por código de error
+// Mensajes por código de error
 function friendlyError(err: HttpErrorResponse): string {
   if (!navigator.onLine) return 'Sin conexión a internet.';
   switch (err.status) {
-    case 0:   return 'No se puede conectar al servidor. ¿Está el backend arrancado?';
-    case 400: return err.error?.error || 'Datos incorrectos en la petición.';
-    case 401: return 'Sesión expirada. Por favor, inicia sesión de nuevo.';
-    case 403: return 'No tienes permiso para realizar esta acción.';
-    case 404: return err.error?.error || 'Recurso no encontrado.';
-    case 429: return 'Demasiadas peticiones. Espera un momento.';
-    case 500: return 'Error interno del servidor. Inténtalo más tarde.';
+    case 0:   return 'Unable to connect to the server. Is the backend running?';
+    case 400: return err.error?.error || 'Invalid data in the request.';
+    case 401: return 'Session expired. Please log in again.';
+    case 403: return 'You do not have permission to perform this action.';
+    case 404: return err.error?.error || 'Resource not found.';
+    case 429: return 'Too many requests. Please wait a moment.';
+    case 500: return 'Internal server error. Please try again later.';
     default:  return err.error?.error || `Error inesperado (${err.status}).`;
   }
 }
@@ -49,13 +42,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((err: HttpErrorResponse) => {
       const message = friendlyError(err);
 
-      // 401 → limpiar sesión y redirigir
       if (err.status === 401) {
         localStorage.removeItem('nsp_token');
         router.navigate(['/'], { queryParams: { login: 'required' } });
       }
 
-      // Emitir toast (excepto 401 que ya tiene su propio flujo)
+      // Emitir toast para errores distintos de 401
       if (err.status !== 401) {
         showToast(message, 'error');
       }

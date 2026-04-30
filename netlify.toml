@@ -1,6 +1,9 @@
 [build]
+  command = "npm install && npx ng build --configuration production"
   publish = "dist/NextStagePro-gg/browser"
-  command = "npm run build"
+
+[build.environment]
+  NODE_ENV = "development"
 
 [[redirects]]
   from = "/*"

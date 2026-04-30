@@ -3,8 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
-  faUser, faUserPlus, faUsers,
-  faCircleCheck, faCircleXmark, faTimes,
+  faUser,
+  faUserPlus,
+  faUsers,
+  faCircleCheck,
+  faCircleXmark,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { SubscriptionService } from '../../services/subscription.service';
@@ -20,57 +24,43 @@ import { Subscription } from '../../models';
 })
 export class SubscriptionsComponent implements OnInit {
   private subService = inject(SubscriptionService);
-  private auth       = inject(AuthService);
-  private route      = inject(ActivatedRoute);
+  private auth = inject(AuthService);
+  private route = inject(ActivatedRoute);
 
-  faUser        = faUser;
-  faUserPlus    = faUserPlus;
-  faUsers       = faUsers;
+  faUser = faUser;
+  faUserPlus = faUserPlus;
+  faUsers = faUsers;
   faCircleCheck = faCircleCheck;
   faCircleXmark = faCircleXmark;
-  faTimes       = faTimes;
+  faTimes = faTimes;
 
-  readonly isLoggedIn  = this.auth.isLoggedIn;
+  readonly isLoggedIn = this.auth.isLoggedIn;
   readonly currentUser = this.auth.user;
-  readonly demoMode    = this.auth.demoMode;
 
   subscription: Subscription | null = null;
-  successMessage   = '';
+  successMessage = '';
   cancelledMessage = '';
-
-  // Modal demo
-  showDemoModal    = false;
-  demoSelectedPlan = '';
 
   ngOnInit(): void {
     if (this.route.snapshot.queryParamMap.get('success') === 'true') {
-      this.successMessage = '¡Suscripción activada correctamente! 🎉';
+      this.successMessage = 'Payment successful! Your subscription is now active.';
     }
     if (this.route.snapshot.queryParamMap.get('cancelled') === 'true') {
-      this.cancelledMessage = 'Pago cancelado. Puedes intentarlo de nuevo cuando quieras.';
+      this.cancelledMessage = 'Payment cancelled. You can try again at any time.';
     }
 
-    // En demo no llamamos al backend
-    if (this.auth.isLoggedIn() && !this.auth.demoMode()) {
-      this.subService.getMe().subscribe(sub => (this.subscription = sub));
+    if (this.auth.isLoggedIn()) {
+      this.subService.getMe().subscribe((sub) => (this.subscription = sub));
     }
   }
 
   choosePlan(plan: 'player_pro' | 'team_pro'): void {
-    // Sin sesión → redirigir a Discord
     if (!this.auth.isLoggedIn()) {
       this.auth.loginWithDiscord();
       return;
     }
 
-    // En demo → mostrar modal informativo en lugar de llamar a Stripe
-    if (this.auth.demoMode()) {
-      this.demoSelectedPlan = plan === 'player_pro' ? 'Player PRO — 5€/mes' : 'Team Pro — 10€/mes';
-      this.showDemoModal = true;
-      return;
-    }
-
-    // Usuario real con suscripción activa → portal de Stripe
+    // Usuario real con suscripción activa a portal de Stripe
     if (this.subscription?.status === 'active') {
       this.subService.openPortal();
       return;
@@ -79,14 +69,6 @@ export class SubscriptionsComponent implements OnInit {
     this.subService.checkout(plan);
   }
 
-  closeDemoModal(): void {
-    this.showDemoModal = false;
-  }
-
-  loginAndCheckout(): void {
-    this.auth.exitDemoMode();
-    this.auth.loginWithDiscord();
-  }
 
   manageSubscription(): void {
     this.subService.openPortal();

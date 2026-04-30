@@ -655,7 +655,6 @@
   }
 }
 
-// ── Tabs ─────────────────────────────────────────────────────
 .tab-bar {
   display: flex;
   gap: 8px;
@@ -665,7 +664,7 @@
 .tab-btn {
   padding: 10px 24px;
   border-radius: 20px;
-  border: 1px solid #1E293B;
+  border: 1px solid #1e293b;
   background: rgba(20, 20, 35, 0.75);
   color: #aab2c5;
   font-size: 0.9rem;
@@ -674,24 +673,26 @@
   transition: all 0.2s;
   backdrop-filter: blur(10px);
 
-  &:hover { background: rgba(40, 40, 60, 0.9); color: #fff; }
+  &:hover {
+    background: rgba(40, 40, 60, 0.9);
+    color: #fff;
+  }
 
   &.active {
-    background: linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%);
+    background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
     border-color: transparent;
     color: #fff;
     box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
   }
 }
 
-// ── Team card specifics ───────────────────────────────────────
 .team-card .team-logo-wrapper {
   border-radius: 14px !important;
 
   img.team-logo-img {
     border-radius: 12px;
     object-fit: contain;
-    background: rgba(20,20,35,0.5);
+    background: rgba(20, 20, 35, 0.5);
   }
 }
 

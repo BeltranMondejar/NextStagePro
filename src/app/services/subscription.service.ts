@@ -1,4 +1,3 @@
-// src/app/services/subscription.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -24,7 +23,7 @@ export class SubscriptionService {
       });
   }
 
-  // Abre el portal de cliente de Stripe (cancelar, cambiar tarjeta…)
+  // Abre el portal de cliente de Stripe
   openPortal(): void {
     this.http
       .post<{ url: string }>(`${this.base}/portal`, {})

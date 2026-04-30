@@ -1,9 +1,7 @@
 <section class="pricing-wrapper">
-
-  <!-- TABLE -->
+  <!-- TABLA DE PRECIOS -->
   <div class="pricing-table">
-
-    <!-- LEFT INFO COLUMN -->
+    <!-- COLUMNA DE INFORMACIÓN -->
     <div class="col info">
       <div class="plan-header">
         <div class="logo vertical">
@@ -68,70 +66,40 @@
       <div class="row"><fa-icon [icon]="faCircleXmark"></fa-icon></div>
       <div class="row"><fa-icon [icon]="faCircleCheck"></fa-icon></div>
     </div>
-
   </div>
 
   <!-- MENSAJES DE ESTADO -->
-  <div *ngIf="successMessage"   class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
   <div *ngIf="cancelledMessage" class="alert alert-warning">{{ cancelledMessage }}</div>
 
-  <!-- GESTIÓN SUSCRIPCIÓN ACTIVA (solo usuarios reales) -->
-  <div *ngIf="subscription?.status === 'active' && !demoMode()" class="manage-sub-bar">
-    <span>Plan activo: <strong>{{ currentUser()?.plan | titlecase }}</strong></span>
-    <button class="btn-manage" (click)="manageSubscription()">Gestionar suscripción</button>
+  <!-- GESTIÓN SUSCRIPCIÓN ACTIVA -->
+  <div *ngIf="subscription?.status === 'active'" class="manage-sub-bar">
+    <span
+      >Active plan: <strong>{{ currentUser()?.plan | titlecase }}</strong></span
+    >
+    <button class="btn-manage" (click)="manageSubscription()">Manage subscription</button>
   </div>
 
-  <!-- BUTTONS -->
+  <!-- BOTONES DE SELECCIÓN DE PLAN -->
   <div class="pricing-buttons">
     <div></div>
     <button class="btn" disabled>
-      {{ isCurrentPlan('free') ? 'Plan actual' : 'Free' }}
+      {{ isCurrentPlan('free') ? 'Current plan' : 'Free' }}
     </button>
     <button
       class="btn popular-btn"
       [class.current]="isCurrentPlan('player_pro')"
       (click)="choosePlan('player_pro')"
     >
-      {{ isCurrentPlan('player_pro') ? 'Plan actual' : 'Choose plan' }}
+      {{ isCurrentPlan('player_pro') ? 'Current plan' : 'Choose plan' }}
     </button>
     <button
       class="btn"
       [class.current]="isCurrentPlan('team_pro')"
       (click)="choosePlan('team_pro')"
     >
-      {{ isCurrentPlan('team_pro') ? 'Plan actual' : 'Choose plan' }}
+      {{ isCurrentPlan('team_pro') ? 'Current plan' : 'Choose plan' }}
     </button>
   </div>
-
 </section>
 
-<!-- ── MODAL DEMO ─────────────────────────────────────────── -->
-<div class="demo-modal-overlay" *ngIf="showDemoModal" (click)="closeDemoModal()">
-  <div class="demo-modal" (click)="$event.stopPropagation()">
-
-    <button class="demo-modal-close" (click)="closeDemoModal()">
-      <fa-icon [icon]="faTimes"></fa-icon>
-    </button>
-
-    <div class="demo-modal-icon">🧪</div>
-    <h3>Estás en Modo Demo</h3>
-    <p>
-      Has seleccionado el plan <strong>{{ demoSelectedPlan }}</strong>.<br />
-      En modo demo no se procesan pagos reales.
-    </p>
-    <p class="demo-modal-sub">
-      Para suscribirte de verdad, inicia sesión con tu cuenta de Discord y repite el proceso.
-    </p>
-
-    <div class="demo-modal-actions">
-      <button class="btn-discord" (click)="loginAndCheckout()">
-        <img src="icons/discord.svg" style="width:18px;vertical-align:middle;margin-right:8px" />
-        Iniciar sesión y suscribirse
-      </button>
-      <button class="btn-cancel-modal" (click)="closeDemoModal()">
-        Seguir explorando el demo
-      </button>
-    </div>
-
-  </div>
-</div>

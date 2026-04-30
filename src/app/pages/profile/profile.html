@@ -1,25 +1,20 @@
 <section class="profile">
-
-  <!-- BANNER DEMO -->
-  <div *ngIf="isDemoMode" class="demo-banner">
-    🧪 <strong>Modo Demo activo</strong> — Los cambios se guardan localmente en tu navegador y no afectan a ninguna cuenta real.
-    <button (click)="auth.exitDemoMode()">Salir del demo</button>
-  </div>
-
   <div *ngIf="loading" class="state-message">Cargando perfil…</div>
-  <div *ngIf="error"   class="state-message error">{{ error }}</div>
+  <div *ngIf="error" class="state-message error">{{ error }}</div>
 
   <ng-container *ngIf="!loading && profile">
-
     <div *ngIf="saveMsg" class="save-toast" [class.error]="saveMsg.includes('Error')">
       {{ saveMsg }}
     </div>
 
-    <!-- COVER -->
+    <!-- BANNER PERFIL -->
     <div class="profile-cover-wrapper">
-      <div class="cover-image" [style.backgroundImage]="getCoverImage() ? 'url(' + getCoverImage() + ')' : ''">
+      <div
+        class="cover-image"
+        [style.backgroundImage]="getCoverImage() ? 'url(' + getCoverImage() + ')' : ''"
+      >
         <label class="edit-cover-btn" title="Cambiar portada">
-          📷 Cambiar portada
+          Change Banner
           <input type="file" accept="image/*" (change)="onCoverChange($event)" hidden />
         </label>
       </div>
@@ -40,7 +35,6 @@
               <span *ngIf="auth.isPro()" class="accent-text">· PRO</span>
             </h1>
 
-            <!-- Equipo actual con logo si existe -->
             <p class="sub-text team-sub">
               <ng-container *ngIf="getCurrentTeamLogoUrl(); else noTeamLogo">
                 <img class="team-logo-inline" [src]="getCurrentTeamLogoUrl()!" alt="Logo equipo" />
@@ -48,16 +42,20 @@
               <ng-template #noTeamLogo>
                 <span *ngIf="getCurrentTeamName()" class="team-icon-placeholder">🛡️</span>
               </ng-template>
-              {{ profile.current_team || 'Sin equipo' }}
+              {{ profile.current_team || 'Without Team' }}
               <span *ngIf="profile.location"> · {{ profile.location }}</span>
             </p>
           </div>
           <div class="header-stats">
-            <div class="stat-item">👁️ {{ profile.profile_views }} <span>Views</span></div>
-            <div class="stat-item">🎮 {{ profile.game || '—' }}</div>
+            <div class="stat-item">{{ profile.profile_views }} <span>Views</span></div>
+            <div class="stat-item">{{ profile.game || '—' }}</div>
             <div class="stat-item">
-              <span class="visibility-toggle" [class.visible]="profile.is_visible" (click)="toggleVisibility()">
-                {{ profile.is_visible ? '✅ Visible' : '🚫 Oculto' }}
+              <span
+                class="visibility-toggle"
+                [class.visible]="profile.is_visible"
+                (click)="toggleVisibility()"
+              >
+                {{ profile.is_visible ? '✅ Visible' : '🚫 Hidden' }}
               </span>
             </div>
           </div>
@@ -65,24 +63,30 @@
       </div>
     </div>
 
-    <!-- GRID -->
     <div class="profile-grid">
-
       <div class="main-column">
-
         <!-- SOBRE MÍ -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Sobre mí</h3>
-            <button class="btn-edit-section" (click)="startEdit('bio')" *ngIf="!editingBio">✏️ Editar</button>
+            <h3>About Me</h3>
+            <button class="btn-edit-section" (click)="startEdit('bio')" *ngIf="!editingBio">
+              Edit
+            </button>
           </div>
           <ng-container *ngIf="!editingBio">
-            <p class="body-text">{{ profile.bio || 'Añade una descripción sobre ti.' }}</p>
+            <p class="body-text">{{ profile.bio || 'Add a description about yourself.' }}</p>
           </ng-container>
           <ng-container *ngIf="editingBio">
-            <textarea class="edit-textarea" [(ngModel)]="draftProfile['bio']" rows="5" placeholder="Cuéntanos sobre ti…"></textarea>
+            <textarea
+              class="edit-textarea"
+              [(ngModel)]="draftProfile['bio']"
+              rows="5"
+              placeholder="Tell us about yourself…"
+            ></textarea>
             <div class="edit-actions">
-              <button class="btn-save" (click)="saveSection('bio')" [disabled]="saving">{{ saving ? 'Guardando…' : 'Guardar' }}</button>
+              <button class="btn-save" (click)="saveSection('bio')" [disabled]="saving">
+                {{ saving ? 'Saving…' : 'Save' }}
+              </button>
               <button class="btn-cancel" (click)="cancelEdit('bio')">Cancelar</button>
             </div>
           </ng-container>
@@ -91,46 +95,122 @@
         <!-- INFORMACIÓN BÁSICA -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Información Básica</h3>
-            <button class="btn-edit-section" (click)="startEdit('basic')" *ngIf="!editingBasic">✏️ Editar</button>
+            <h3>Basic Information</h3>
+            <button class="btn-edit-section" (click)="startEdit('basic')" *ngIf="!editingBasic">
+              Edit
+            </button>
           </div>
           <ng-container *ngIf="!editingBasic">
             <ul class="info-list">
-              <li><strong>Nombre:</strong>        <span>{{ profile.first_name || '—' }}</span></li>
-              <li><strong>Apellido:</strong>       <span>{{ profile.last_name  || '—' }}</span></li>
-              <li><strong>Nickname:</strong>       <span>{{ profile.nickname }}</span></li>
-              <li><strong>Fecha de Nacimiento:</strong> <span>{{ (profile.birthdate | date:'dd/MM/yyyy') || '—' }}</span></li>
+              <li>
+                <strong>Name:</strong> <span>{{ profile.first_name || '—' }}</span>
+              </li>
+              <li>
+                <strong>Last Name:</strong> <span>{{ profile.last_name || '—' }}</span>
+              </li>
+              <li>
+                <strong>Nickname:</strong> <span>{{ profile.nickname }}</span>
+              </li>
+              <li>
+                <strong>Birth Date:</strong>
+                <span>{{ (profile.birthdate | date: 'dd/MM/yyyy') || '—' }}</span>
+              </li>
               <li class="team-row">
-                <strong>Equipo Actual:</strong>
+                <strong>Current Team:</strong>
                 <span class="team-value">
-                  <img *ngIf="getCurrentTeamLogoUrl()" class="team-logo-mini" [src]="getCurrentTeamLogoUrl()!" alt="logo" />
+                  <img
+                    *ngIf="getCurrentTeamLogoUrl()"
+                    class="team-logo-mini"
+                    [src]="getCurrentTeamLogoUrl()!"
+                    alt="logo"
+                  />
                   {{ profile.current_team || '—' }}
                 </span>
               </li>
-              <li><strong>Localización:</strong>   <span>{{ profile.location || '—' }}</span></li>
-              <li><strong>Discord:</strong>        <span>{{ profile.discord_tag || '—' }}</span></li>
-              <li *ngIf="profile.twitter_url"><strong>Twitter:</strong>    <a [href]="profile.twitter_url"    target="_blank" rel="noopener">{{ profile.twitter_url }}</a></li>
-              <li *ngIf="profile.twitch_url"><strong>Twitch:</strong>      <a [href]="profile.twitch_url"     target="_blank" rel="noopener">{{ profile.twitch_url }}</a></li>
-              <li *ngIf="profile.vlr_url"><strong>VLR:</strong>            <a [href]="profile.vlr_url"        target="_blank" rel="noopener">{{ profile.vlr_url }}</a></li>
-              <li *ngIf="profile.liquipedia_url"><strong>Liquipedia:</strong> <a [href]="profile.liquipedia_url" target="_blank" rel="noopener">{{ profile.liquipedia_url }}</a></li>
+              <li>
+                <strong>Location:</strong> <span>{{ profile.location || '—' }}</span>
+              </li>
+              <li>
+                <strong>Discord:</strong> <span>{{ profile.discord_tag || '—' }}</span>
+              </li>
+              <li *ngIf="profile.twitter_url">
+                <strong>Twitter:</strong>
+                <a [href]="profile.twitter_url" target="_blank" rel="noopener">{{
+                  profile.twitter_url
+                }}</a>
+              </li>
+              <li *ngIf="profile.twitch_url">
+                <strong>Twitch:</strong>
+                <a [href]="profile.twitch_url" target="_blank" rel="noopener">{{
+                  profile.twitch_url
+                }}</a>
+              </li>
+              <li *ngIf="profile.vlr_url">
+                <strong>VLR:</strong>
+                <a [href]="profile.vlr_url" target="_blank" rel="noopener">{{ profile.vlr_url }}</a>
+              </li>
+              <li *ngIf="profile.liquipedia_url">
+                <strong>Liquipedia:</strong>
+                <a [href]="profile.liquipedia_url" target="_blank" rel="noopener">{{
+                  profile.liquipedia_url
+                }}</a>
+              </li>
             </ul>
           </ng-container>
           <ng-container *ngIf="editingBasic">
             <div class="edit-grid">
-              <div class="field"><label>Nombre</label>         <input [(ngModel)]="draftProfile['first_name']"    placeholder="Nombre" /></div>
-              <div class="field"><label>Apellido</label>       <input [(ngModel)]="draftProfile['last_name']"     placeholder="Apellido" /></div>
-              <div class="field"><label>Nickname</label>       <input [(ngModel)]="draftProfile['nickname']"      placeholder="Nickname" /></div>
-              <div class="field"><label>Equipo Actual</label>  <input [(ngModel)]="draftProfile['current_team']"  placeholder="Team Liquid…" /></div>
-              <div class="field"><label>Localización</label>   <input [(ngModel)]="draftProfile['location']"      placeholder="Madrid, España" /></div>
-              <div class="field"><label>Discord Tag</label>    <input [(ngModel)]="draftProfile['discord_tag']"   placeholder="nick#1234" /></div>
-              <div class="field"><label>Twitter URL</label>    <input [(ngModel)]="draftProfile['twitter_url']"   placeholder="https://twitter.com/…" /></div>
-              <div class="field"><label>Twitch URL</label>     <input [(ngModel)]="draftProfile['twitch_url']"    placeholder="https://twitch.tv/…" /></div>
-              <div class="field"><label>VLR URL</label>        <input [(ngModel)]="draftProfile['vlr_url']"       placeholder="https://vlr.gg/…" /></div>
-              <div class="field"><label>Liquipedia URL</label> <input [(ngModel)]="draftProfile['liquipedia_url']" placeholder="https://liquipedia.net/…" /></div>
+              <div class="field">
+                <label>Name</label>
+                <input [(ngModel)]="draftProfile['first_name']" placeholder="Name" />
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input [(ngModel)]="draftProfile['last_name']" placeholder="Last Name" />
+              </div>
+              <div class="field">
+                <label>Nickname</label>
+                <input [(ngModel)]="draftProfile['nickname']" placeholder="Nickname" />
+              </div>
+              <div class="field">
+                <label>Current Team</label>
+                <input [(ngModel)]="draftProfile['current_team']" placeholder="Team Heretics…" />
+              </div>
+              <div class="field">
+                <label>Location</label>
+                <input [(ngModel)]="draftProfile['location']" placeholder="Madrid, Spain" />
+              </div>
+              <div class="field">
+                <label>Discord Tag</label>
+                <input [(ngModel)]="draftProfile['discord_tag']" placeholder="nick#1234" />
+              </div>
+              <div class="field">
+                <label>Twitter URL</label>
+                <input
+                  [(ngModel)]="draftProfile['twitter_url']"
+                  placeholder="https://twitter.com/…"
+                />
+              </div>
+              <div class="field">
+                <label>Twitch URL</label>
+                <input [(ngModel)]="draftProfile['twitch_url']" placeholder="https://twitch.tv/…" />
+              </div>
+              <div class="field">
+                <label>VLR URL</label>
+                <input [(ngModel)]="draftProfile['vlr_url']" placeholder="https://vlr.gg/…" />
+              </div>
+              <div class="field">
+                <label>Liquipedia URL</label>
+                <input
+                  [(ngModel)]="draftProfile['liquipedia_url']"
+                  placeholder="https://liquipedia.net/…"
+                />
+              </div>
             </div>
             <div class="edit-actions">
-              <button class="btn-save" (click)="saveSection('basic')" [disabled]="saving">{{ saving ? 'Guardando…' : 'Guardar' }}</button>
-              <button class="btn-cancel" (click)="cancelEdit('basic')">Cancelar</button>
+              <button class="btn-save" (click)="saveSection('basic')" [disabled]="saving">
+                {{ saving ? 'Guardando…' : 'Guardar' }}
+              </button>
+              <button class="btn-cancel" (click)="cancelEdit('basic')">Cancel</button>
             </div>
           </ng-container>
         </div>
@@ -140,51 +220,93 @@
           <div class="card-header">
             <h3>Highlights</h3>
             <label class="btn-edit-section upload-label" title="Añadir highlight">
-              ➕ Subir
-              <input type="file" accept="image/*,video/*" (change)="onHighlightAdd($event)" hidden />
+              Upload
+              <input
+                type="file"
+                accept="image/*,video/*"
+                (change)="onHighlightAdd($event)"
+                hidden
+              />
             </label>
           </div>
-          <div class="highlight-grid" *ngIf="profile.highlights && profile.highlights.length > 0; else noHighlights">
+          <div
+            class="highlight-grid"
+            *ngIf="profile.highlights && profile.highlights.length > 0; else noHighlights"
+          >
             <div class="highlight-item" *ngFor="let h of profile.highlights; let i = index">
-              <video *ngIf="h.media_type === 'video'" [src]="h.media_url" controls preload="metadata"></video>
-              <img   *ngIf="h.media_type === 'photo'" [src]="h.media_url" [alt]="h.title || 'Highlight'" loading="lazy" />
+              <video
+                *ngIf="h.media_type === 'video'"
+                [src]="h.media_url"
+                controls
+                preload="metadata"
+              ></video>
+              <img
+                *ngIf="h.media_type === 'photo'"
+                [src]="h.media_url"
+                [alt]="h.title || 'Highlight'"
+                loading="lazy"
+              />
               <p *ngIf="h.title" class="highlight-title">{{ h.title }}</p>
               <button class="btn-delete-small" (click)="deleteHighlight(i)">🗑️</button>
             </div>
           </div>
           <ng-template #noHighlights>
-            <p class="body-text">Sube fotos o vídeos para mostrar tu mejor juego.</p>
+            <p class="body-text">Upload photos or videos to showcase your best gameplay.</p>
           </ng-template>
         </div>
-
       </div>
 
       <div class="side-column">
-
         <!-- INFO VIDEOJUEGO -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Información Videojuego</h3>
-            <button class="btn-edit-section" (click)="startEdit('game')" *ngIf="!editingGame">🎮 Editar</button>
+            <h3>Game Information</h3>
+            <button class="btn-edit-section" (click)="startEdit('game')" *ngIf="!editingGame">
+              Edit
+            </button>
           </div>
           <ng-container *ngIf="!editingGame">
             <ul class="info-list compact">
-              <li><strong>Videojuego:</strong>   <span>{{ profile.game         || '—' }}</span></li>
-              <li><strong>Rol Principal:</strong> <span>{{ profile.main_role   || '—' }}</span></li>
-              <li><strong>Rango Actual:</strong>  <span class="rank-badge">{{ profile.current_rank || '—' }}</span></li>
-              <li><strong>Rango Peak:</strong>    <span class="rank-badge">{{ profile.peak_rank    || '—' }}</span></li>
+              <li>
+                <strong>Game:</strong> <span>{{ profile.game || '—' }}</span>
+              </li>
+              <li>
+                <strong>Main Role:</strong> <span>{{ profile.main_role || '—' }}</span>
+              </li>
+              <li>
+                <strong>Current Rank:</strong>
+                <span class="rank-badge">{{ profile.current_rank || '—' }}</span>
+              </li>
+              <li>
+                <strong>Peak Rank:</strong>
+                <span class="rank-badge">{{ profile.peak_rank || '—' }}</span>
+              </li>
             </ul>
           </ng-container>
           <ng-container *ngIf="editingGame">
             <div class="edit-grid">
-              <div class="field"><label>Juego</label>         <input [(ngModel)]="draftProfile['game']"         placeholder="Valorant, LoL, CS2…" /></div>
-              <div class="field"><label>Rol Principal</label> <input [(ngModel)]="draftProfile['main_role']"    placeholder="IGL, Duelist…" /></div>
-              <div class="field"><label>Rango Actual</label>  <input [(ngModel)]="draftProfile['current_rank']" placeholder="Radiant, Diamond…" /></div>
-              <div class="field"><label>Rango Peak</label>    <input [(ngModel)]="draftProfile['peak_rank']"    placeholder="Radiant #47…" /></div>
+              <div class="field">
+                <label>Game</label>
+                <input [(ngModel)]="draftProfile['game']" placeholder="Valorant, LoL, CS2…" />
+              </div>
+              <div class="field">
+                <label>Main Role</label>
+                <input [(ngModel)]="draftProfile['main_role']" placeholder="IGL, Duelist…" />
+              </div>
+              <div class="field">
+                <label>Current Rank</label>
+                <input [(ngModel)]="draftProfile['current_rank']" placeholder="Radiant, Diamond…" />
+              </div>
+              <div class="field">
+                <label>Peak Rank</label>
+                <input [(ngModel)]="draftProfile['peak_rank']" placeholder="Radiant #47…" />
+              </div>
             </div>
             <div class="edit-actions">
-              <button class="btn-save" (click)="saveSection('game')" [disabled]="saving">{{ saving ? 'Guardando…' : 'Guardar' }}</button>
-              <button class="btn-cancel" (click)="cancelEdit('game')">Cancelar</button>
+              <button class="btn-save" (click)="saveSection('game')" [disabled]="saving">
+                {{ saving ? 'Saving…' : 'Save' }}
+              </button>
+              <button class="btn-cancel" (click)="cancelEdit('game')">Cancel</button>
             </div>
           </ng-container>
         </div>
@@ -192,24 +314,40 @@
         <!-- EXPERIENCIA -->
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Experiencia</h3>
-            <button class="btn-edit-section" (click)="startAddExp()" title="Añadir">➕ Añadir</button>
+            <h3>Experience</h3>
+            <button class="btn-edit-section" (click)="startAddExp()" title="Add">Add</button>
           </div>
 
           <div class="exp-form" *ngIf="addingExp">
-            <div class="field"><label>Equipo *</label>            <input [(ngModel)]="draftExp['team_name']"   placeholder="Team Liquid" /></div>
-            <div class="field"><label>Rol</label>                  <input [(ngModel)]="draftExp['role']"         placeholder="IGL" /></div>
-            <div class="field"><label>Logros</label>               <input [(ngModel)]="draftExp['achievements']" placeholder="VCT Champion…" /></div>
-            <div class="field"><label>Inicio</label>               <input type="date" [(ngModel)]="draftExp['start_date']" /></div>
-            <div class="field"><label>Fin (vacío = actual)</label> <input type="date" [(ngModel)]="draftExp['end_date']" /></div>
+            <div class="field">
+              <label>Equipo *</label>
+              <input [(ngModel)]="draftExp['team_name']" placeholder="Team Heretics" />
+            </div>
+            <div class="field">
+              <label>Role</label> <input [(ngModel)]="draftExp['role']" placeholder="IGL" />
+            </div>
+            <div class="field">
+              <label>Achievements</label>
+              <input [(ngModel)]="draftExp['achievements']" placeholder="VCT Champion…" />
+            </div>
+            <div class="field">
+              <label>Start Date</label> <input type="date" [(ngModel)]="draftExp['start_date']" />
+            </div>
+            <div class="field">
+              <label>End Date (empty = current)</label>
+              <input type="date" [(ngModel)]="draftExp['end_date']" />
+            </div>
             <div class="edit-actions">
-              <button class="btn-save" (click)="saveExp()">Guardar</button>
-              <button class="btn-cancel" (click)="cancelExp()">Cancelar</button>
+              <button class="btn-save" (click)="saveExp()">Save</button>
+              <button class="btn-cancel" (click)="cancelExp()">Cancel</button>
             </div>
           </div>
 
           <ng-container *ngIf="profile.experience && profile.experience.length > 0; else noExp">
-            <div class="exp-item" *ngFor="let exp of profile.experience; let i = index; trackBy: trackByExp">
+            <div
+              class="exp-item"
+              *ngFor="let exp of profile.experience; let i = index; trackBy: trackByExp"
+            >
               <ng-container *ngIf="editingExpIdx !== i">
                 <div class="exp-logo">🛡️</div>
                 <div class="exp-details">
@@ -217,28 +355,41 @@
                   <span>{{ exp.role || '' }}</span>
                   <small *ngIf="exp.achievements">{{ exp.achievements }}</small>
                   <small class="date">
-                    {{ exp.start_date | date:'yyyy' }} –
-                    {{ exp.end_date ? (exp.end_date | date:'yyyy') : 'Presente' }}
+                    {{ exp.start_date | date: 'yyyy' }} –
+                    {{ exp.end_date ? (exp.end_date | date: 'yyyy') : 'Presente' }}
                   </small>
                   <div class="exp-actions">
-                    <span *ngIf="exp.synthetic_current_team" class="current-team-badge">Equipo actual</span>
+                    <span *ngIf="exp.synthetic_current_team" class="current-team-badge"
+                      >Equipo actual</span
+                    >
                     <ng-container *ngIf="!exp.synthetic_current_team">
-                      <button class="btn-link" (click)="startEditExp(i)">Editar</button>
-                      <button class="btn-link danger" (click)="deleteExp(i)">Borrar</button>
+                      <button class="btn-link" (click)="startEditExp(i)">Edit</button>
+                      <button class="btn-link danger" (click)="deleteExp(i)">Delete</button>
                     </ng-container>
                   </div>
                 </div>
               </ng-container>
               <ng-container *ngIf="editingExpIdx === i && !exp.synthetic_current_team">
                 <div class="exp-form">
-                  <div class="field"><label>Equipo *</label> <input [(ngModel)]="draftExp['team_name']"   /></div>
-                  <div class="field"><label>Rol</label>      <input [(ngModel)]="draftExp['role']"         /></div>
-                  <div class="field"><label>Logros</label>   <input [(ngModel)]="draftExp['achievements']" /></div>
-                  <div class="field"><label>Inicio</label>   <input type="date" [(ngModel)]="draftExp['start_date']" /></div>
-                  <div class="field"><label>Fin</label>      <input type="date" [(ngModel)]="draftExp['end_date']" /></div>
+                  <div class="field">
+                    <label>Team *</label> <input [(ngModel)]="draftExp['team_name']" />
+                  </div>
+                  <div class="field">
+                    <label>Role</label> <input [(ngModel)]="draftExp['role']" />
+                  </div>
+                  <div class="field">
+                    <label>Achievements</label> <input [(ngModel)]="draftExp['achievements']" />
+                  </div>
+                  <div class="field">
+                    <label>Start Date</label>
+                    <input type="date" [(ngModel)]="draftExp['start_date']" />
+                  </div>
+                  <div class="field">
+                    <label>End Date</label> <input type="date" [(ngModel)]="draftExp['end_date']" />
+                  </div>
                   <div class="edit-actions">
-                    <button class="btn-save" (click)="updateExp(i)">Guardar</button>
-                    <button class="btn-cancel" (click)="cancelExp()">Cancelar</button>
+                    <button class="btn-save" (click)="updateExp(i)">Save</button>
+                    <button class="btn-cancel" (click)="cancelExp()">Cancel</button>
                   </div>
                 </div>
               </ng-container>
@@ -246,7 +397,7 @@
           </ng-container>
 
           <ng-template #noExp>
-            <p class="body-text" *ngIf="!addingExp">Añade tus equipos anteriores.</p>
+            <p class="body-text" *ngIf="!addingExp">Add your previous teams.</p>
           </ng-template>
         </div>
 
@@ -254,20 +405,54 @@
         <div class="glass-panel card">
           <div class="card-header"><h3>Redes Sociales</h3></div>
           <div class="social-links">
-            <span *ngIf="profile.discord_tag" class="social-item">🎮 {{ profile.discord_tag }}</span>
-            <a *ngIf="profile.twitter_url"    [href]="profile.twitter_url"    target="_blank" rel="noopener" class="social-item">🐦 Twitter</a>
-            <a *ngIf="profile.liquipedia_url" [href]="profile.liquipedia_url" target="_blank" rel="noopener" class="social-item">🏆 Liquipedia</a>
-            <a *ngIf="profile.vlr_url"        [href]="profile.vlr_url"        target="_blank" rel="noopener" class="social-item">🎯 VLR.gg</a>
-            <a *ngIf="profile.twitch_url"     [href]="profile.twitch_url"     target="_blank" rel="noopener" class="social-item">📺 Twitch</a>
-            <p *ngIf="!profile.discord_tag && !profile.twitter_url && !profile.liquipedia_url && !profile.vlr_url && !profile.twitch_url" class="body-text">
-              Añade tus redes en "Información Básica".
+            <span *ngIf="profile.discord_tag" class="social-item">{{ profile.discord_tag }}</span>
+            <a
+              *ngIf="profile.twitter_url"
+              [href]="profile.twitter_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >Twitter</a
+            >
+            <a
+              *ngIf="profile.liquipedia_url"
+              [href]="profile.liquipedia_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >Liquipedia</a
+            >
+            <a
+              *ngIf="profile.vlr_url"
+              [href]="profile.vlr_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >VLR.gg</a
+            >
+            <a
+              *ngIf="profile.twitch_url"
+              [href]="profile.twitch_url"
+              target="_blank"
+              rel="noopener"
+              class="social-item"
+              >Twitch</a
+            >
+            <p
+              *ngIf="
+                !profile.discord_tag &&
+                !profile.twitter_url &&
+                !profile.liquipedia_url &&
+                !profile.vlr_url &&
+                !profile.twitch_url
+              "
+              class="body-text"
+            >
+              Add your social links in "Basic Information".
             </p>
           </div>
         </div>
-
       </div>
     </div>
-
   </ng-container>
-
 </section>

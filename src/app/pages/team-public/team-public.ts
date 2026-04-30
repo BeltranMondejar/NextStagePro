@@ -13,29 +13,33 @@ import { TeamProfile } from '../../models';
   styleUrls: ['./team-public.scss'],
 })
 export class TeamPublicComponent implements OnInit, OnDestroy {
-  private route       = inject(ActivatedRoute);
+  private route = inject(ActivatedRoute);
   private teamService = inject(TeamService);
-  private meta        = inject(Meta);
-  private titleSvc    = inject(Title);
+  private meta = inject(Meta);
+  private titleSvc = inject(Title);
 
   team: TeamProfile | null = null;
   loading = true;
-  error   = '';
+  error = '';
 
   skeletonItems = Array(3).fill(0);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) { this.error = 'ID no válido'; this.loading = false; return; }
+    if (!id) {
+      this.error = 'ID not valid';
+      this.loading = false;
+      return;
+    }
 
     this.teamService.getById(id).subscribe({
-      next: t => {
-        this.team    = t;
+      next: (t) => {
+        this.team = t;
         this.loading = false;
         this.setMetaTags(t);
       },
       error: () => {
-        this.error   = 'Perfil de equipo no encontrado o no visible.';
+        this.error = 'Team profile not found or not visible.';
         this.loading = false;
       },
     });
@@ -55,11 +59,11 @@ export class TeamPublicComponent implements OnInit, OnDestroy {
     const image = t.logo_url || 'https://nextstagepro.gg/logos/Logo_NSPro.gg_Oficial.png';
 
     this.titleSvc.setTitle(`${t.name} — NextStagePro.gg`);
-    this.meta.updateTag({ property: 'og:title',       content: `${t.name} — NextStagePro.gg` });
+    this.meta.updateTag({ property: 'og:title', content: `${t.name} — NextStagePro.gg` });
     this.meta.updateTag({ property: 'og:description', content: description });
-    this.meta.updateTag({ property: 'og:image',       content: image });
-    this.meta.updateTag({ property: 'og:type',        content: 'profile' });
-    this.meta.updateTag({ name: 'twitter:card',       content: 'summary_large_image' });
+    this.meta.updateTag({ property: 'og:image', content: image });
+    this.meta.updateTag({ property: 'og:type', content: 'profile' });
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
   }
 
   getLogoUrl(): string {

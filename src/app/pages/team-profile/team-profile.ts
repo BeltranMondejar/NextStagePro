@@ -1,4 +1,10 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -59,7 +65,7 @@ export class TeamProfileComponent implements OnInit {
           this.loading = false;
           this.error = 'NO_PROFILE';
         } else {
-          this.error = 'Error al cargar el perfil de equipo.';
+          this.error = 'Error loading team profile.';
           this.loading = false;
         }
         this.cdr.markForCheck();
@@ -81,7 +87,7 @@ export class TeamProfileComponent implements OnInit {
         this.cdr.markForCheck();
       },
       error: () => {
-        this.saveMsg = 'Error creando el perfil.';
+        this.saveMsg = 'Error creating the profile.';
         this.saving = false;
         this.cdr.markForCheck();
       },
@@ -111,13 +117,16 @@ export class TeamProfileComponent implements OnInit {
         this.profile = updated;
         this.cancelEdit(section);
         this.saving = false;
-        this.saveMsg = '¡Guardado!';
-        setTimeout(() => { this.saveMsg = ''; this.cdr.markForCheck(); }, 2500);
+        this.saveMsg = 'Saved!';
+        setTimeout(() => {
+          this.saveMsg = '';
+          this.cdr.markForCheck();
+        }, 2500);
         this.cdr.markForCheck();
       },
       error: () => {
         this.saving = false;
-        this.saveMsg = 'Error guardando. Inténtalo de nuevo.';
+        this.saveMsg = 'Error saving. Please try again.';
         this.cdr.markForCheck();
       },
     });
@@ -178,7 +187,7 @@ export class TeamProfileComponent implements OnInit {
   }
 
   deleteComp(i: number): void {
-    if (!confirm('¿Eliminar esta competición?')) return;
+    if (!confirm('¿Delete this competition?')) return;
     const id = this.profile!.competitions![i].id;
     this.teamService.deleteCompetition(id).subscribe(() => {
       this.profile!.competitions!.splice(i, 1);
@@ -207,7 +216,7 @@ export class TeamProfileComponent implements OnInit {
   }
 
   deleteActiveComp(i: number): void {
-    if (!confirm('¿Eliminar esta competición activa?')) return;
+    if (!confirm('¿Delete this active competition?')) return;
     const id = this.profile!.active_competitions![i].id;
     this.teamService.deleteActiveCompetition(id).subscribe(() => {
       this.profile!.active_competitions!.splice(i, 1);
@@ -234,42 +243,46 @@ export class TeamProfileComponent implements OnInit {
     });
   }
 
-// ── Visibilidad ───────────────────────────────────────────
-toggleVisibility(): void {
-  if (!this.profile || this.saving) return;
-  
-  this.saving = true;
-  const newVal = !this.profile.is_visible;
-  
-  // Actualización optimista - mutar directamente la propiedad
-  this.profile.is_visible = newVal;
-  this.cdr.markForCheck();
-  
-  this.teamService.updateMe({ is_visible: newVal } as any).subscribe({
-    next: () => {
-      this.saving = false;
-      this.saveMsg = newVal ? 'Perfil visible' : 'Perfil oculto';
-      setTimeout(() => { this.saveMsg = ''; this.cdr.markForCheck(); }, 2000);
-      this.cdr.markForCheck();
-    },
-    error: () => {
-      // Revertir si hay error
-      this.profile!.is_visible = !newVal;
-      this.saving = false;
-      this.cdr.markForCheck();
-    }
-  });
-}
+  toggleVisibility(): void {
+    if (!this.profile || this.saving) return;
+
+    this.saving = true;
+    const newVal = !this.profile.is_visible;
+
+    this.profile.is_visible = newVal;
+    this.cdr.markForCheck();
+
+    this.teamService.updateMe({ is_visible: newVal } as any).subscribe({
+      next: () => {
+        this.saving = false;
+        this.saveMsg = newVal ? 'Profile visible' : 'Profile hidden';
+        setTimeout(() => {
+          this.saveMsg = '';
+          this.cdr.markForCheck();
+        }, 2000);
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.profile!.is_visible = !newVal;
+        this.saving = false;
+        this.cdr.markForCheck();
+      },
+    });
+  }
   deleteTeamProfile(): void {
     if (!this.profile || this.saving) return;
 
     const teamName = this.profile.name.trim();
-    const confirmed = confirm(`Vas a eliminar el equipo "${teamName}". Esta acción borrará también competiciones e highlights.`);
+    const confirmed = confirm(
+      `You are about to delete the team "${teamName}". This action will also delete competitions and highlights.`,
+    );
     if (!confirmed) return;
 
-    const typedName = prompt(`Segunda confirmación: escribe exactamente "${teamName}" para eliminar el equipo.`);
+    const typedName = prompt(
+      `Second confirmation: type exactly "${teamName}" to delete the team.`,
+    );
     if (typedName !== teamName) {
-      this.saveMsg = 'La confirmación no coincide. No se eliminó el equipo.';
+      this.saveMsg = 'The confirmation does not match. The team was not deleted.';
       setTimeout(() => (this.saveMsg = ''), 3000);
       return;
     }
@@ -284,13 +297,16 @@ toggleVisibility(): void {
         this.saving = false;
         this.auth.setHeaderImage(null);
         this.auth.fetchMe();
-        this.saveMsg = 'Equipo eliminado.';
-        setTimeout(() => { this.saveMsg = ''; this.cdr.markForCheck(); }, 3000);
+        this.saveMsg = 'Team deleted.';
+        setTimeout(() => {
+          this.saveMsg = '';
+          this.cdr.markForCheck();
+        }, 3000);
         this.cdr.markForCheck();
       },
       error: () => {
         this.saving = false;
-        this.saveMsg = 'Error eliminando el equipo. Inténtalo de nuevo.';
+        this.saveMsg = 'Error deleting the team. Please try again.';
         this.cdr.markForCheck();
       },
     });
@@ -321,8 +337,16 @@ toggleVisibility(): void {
     return `https://ui-avatars.com/api/?name=${nickname}&background=3b82f6&color=fff&size=52`;
   }
 
-  trackByComp(_: number, c: TeamCompetition): string { return c.id; }
-  trackByPlayer(_: number, p: TeamMember): string { return p.id; }
-  trackByHighlight(_: number, h: TeamHighlight): string { return h.id; }
-  trackByActiveComp(_: number, ac: TeamActiveCompetition): string { return ac.id; }
+  trackByComp(_: number, c: TeamCompetition): string {
+    return c.id;
+  }
+  trackByPlayer(_: number, p: TeamMember): string {
+    return p.id;
+  }
+  trackByHighlight(_: number, h: TeamHighlight): string {
+    return h.id;
+  }
+  trackByActiveComp(_: number, ac: TeamActiveCompetition): string {
+    return ac.id;
+  }
 }

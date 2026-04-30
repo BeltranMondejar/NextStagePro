@@ -1,12 +1,5 @@
--- ============================================================
--- NextStagePro.gg — Schema SQL completo
--- Ejecutar en Neon: Settings > SQL Editor
--- ============================================================
-
--- ── Extensión UUID ───────────────────────────────────────────
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- ── USERS ────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
   id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email        TEXT UNIQUE NOT NULL,
@@ -20,7 +13,6 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at   TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── PLAYER_PROFILES ──────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS player_profiles (
   id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id        UUID UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -48,7 +40,6 @@ CREATE TABLE IF NOT EXISTS player_profiles (
   updated_at     TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── PLAYER_EXPERIENCE ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS player_experience (
   id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   player_id    UUID NOT NULL REFERENCES player_profiles(id) ON DELETE CASCADE,
@@ -60,7 +51,6 @@ CREATE TABLE IF NOT EXISTS player_experience (
   created_at   TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── PLAYER_HIGHLIGHTS ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS player_highlights (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   player_id     UUID NOT NULL REFERENCES player_profiles(id) ON DELETE CASCADE,
@@ -72,7 +62,6 @@ CREATE TABLE IF NOT EXISTS player_highlights (
   created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── TEAM_PROFILES ────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS team_profiles (
   id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id        UUID UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -96,7 +85,6 @@ CREATE TABLE IF NOT EXISTS team_profiles (
   updated_at     TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── TEAM_COMPETITIONS ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS team_competitions (
   id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   team_id          UUID NOT NULL REFERENCES team_profiles(id) ON DELETE CASCADE,
@@ -106,7 +94,6 @@ CREATE TABLE IF NOT EXISTS team_competitions (
   created_at       TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── TEAM_ACTIVE_COMPETITIONS ─────────────────────────────────
 CREATE TABLE IF NOT EXISTS team_active_competitions (
   id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   team_id          UUID NOT NULL REFERENCES team_profiles(id) ON DELETE CASCADE,
@@ -115,7 +102,6 @@ CREATE TABLE IF NOT EXISTS team_active_competitions (
   created_at       TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── TEAM_HIGHLIGHTS ──────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS team_highlights (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   team_id       UUID NOT NULL REFERENCES team_profiles(id) ON DELETE CASCADE,
@@ -127,7 +113,6 @@ CREATE TABLE IF NOT EXISTS team_highlights (
   created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── SUBSCRIPTIONS ────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS subscriptions (
   id                   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id              UUID UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -144,7 +129,6 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   updated_at           TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── CONTACT_MESSAGES ─────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS contact_messages (
   id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   first_name TEXT NOT NULL,
@@ -155,7 +139,6 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ── ÍNDICES (QoL: mejora velocidad de búsquedas) ─────────────
 CREATE INDEX IF NOT EXISTS idx_player_profiles_game       ON player_profiles(game);
 CREATE INDEX IF NOT EXISTS idx_player_profiles_main_role  ON player_profiles(main_role);
 CREATE INDEX IF NOT EXISTS idx_player_profiles_current_rank ON player_profiles(current_rank);
