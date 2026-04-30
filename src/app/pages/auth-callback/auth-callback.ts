@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
     <div class="callback-wrapper">
       <div class="callback-card">
         <img src="logos/Logo_NSPro.gg_Oficial_SF.png" alt="NextStagePro" class="logo" />
-        <p *ngIf="!error">Iniciando sesión con Discord…</p>
+        <p *ngIf="!error">Starting login with Discord…</p>
         <p *ngIf="error" class="error">{{ error }}</p>
       </div>
     </div>
@@ -71,11 +71,11 @@ export class AuthCallbackComponent implements OnInit {
 
   private mapError(code: string): string {
     const map: Record<string, string> = {
-      discord_cancelled: 'Cancelaste el login con Discord.',
-      discord_token: 'Error obteniendo token de Discord.',
-      discord_user: 'No se pudo obtener tu usuario de Discord.',
-      server: 'Error del servidor. Inténtalo de nuevo.',
+      discord_cancelled: 'You canceled the login with Discord.',
+      discord_token: 'Error obtaining Discord token.',
+      discord_user: 'Could not obtain your Discord user.',
+      server: 'Server error. Please try again.',
     };
-    return map[code] ?? 'Error desconocido.';
+    return map[code] ?? 'Unknown error.';
   }
 }
