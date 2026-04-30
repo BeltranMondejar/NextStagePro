@@ -178,6 +178,7 @@ h2 {
       align-items: center;
       justify-content: center;
       box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+      font-size: 25px;
 
       svg {
         width: 30px;
@@ -272,6 +273,8 @@ h2 {
     justify-content: center;
     transition: 0.3s;
     cursor: pointer;
+    text-decoration: none;
+    color: white;
 
     &:hover {
       background: var(--accent-blue);

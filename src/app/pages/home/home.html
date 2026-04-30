@@ -7,12 +7,10 @@
     analysts, and organizations.
   </p>
   <div class="hero-actions">
-    <a *ngIf="isLogged()" routerLink="/team-profile" class="hero-btn hero-btn-primary"
-      >Create Team</a
-    >
+    <a *ngIf="isLogged()" routerLink="/team-profile" class="hero-btn hero-btn-primary">Create Team</a>
     <a *ngIf="isLogged()" routerLink="/profile" class="hero-btn hero-btn-secondary">My Profile</a>
     <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="hero-btn hero-btn-primary">
-      <img src="icons/discord.svg" style="width: 18px; vertical-align: middle; margin-right: 8px" />
+      <img src="icons/discord.svg" class="icon" style="width: 18px; vertical-align: middle; margin-right: 8px;" />
       Login with Discord
     </button>
   </div>
@@ -133,14 +131,9 @@
     <div class="btn-group">
       <!-- Si ya está logueado va al perfil, si no abre Discord OAuth -->
       <a *ngIf="isLogged()" routerLink="/profile" class="btn btn-primary">My Profile</a>
-      <a *ngIf="isLogged()" routerLink="/team-profile" class="btn btn-secondary btn-team"
-        >Create Team</a
-      >
+      <a *ngIf="isLogged()" routerLink="/team-profile" class="btn btn-secondary btn-team">Create Team</a>
       <button *ngIf="!isLogged()" (click)="loginWithDiscord()" class="btn btn-primary">
-        <img
-          src="icons/discord.svg"
-          style="width: 18px; vertical-align: middle; margin-right: 8px"
-        />
+        <img src="icons/discord.svg" class="icon" style="width: 18px; vertical-align: middle; margin-right: 8px" />
         Sign In
       </button>
       <a routerLink="/about" class="btn btn-secondary">About Us</a>

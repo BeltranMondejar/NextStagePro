@@ -57,10 +57,6 @@ img {
   content-visibility: auto;
 }
 
-img:not([width]):not([height]) {
-  aspect-ratio: 16/9;
-}
-
 html {
   scroll-behavior: smooth;
 }
