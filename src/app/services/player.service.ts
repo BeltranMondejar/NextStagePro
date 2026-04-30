@@ -1,4 +1,3 @@
-// src/app/services/player.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +13,6 @@ export class PlayerService {
 
   private get api() { return environment.apiUrl; }
 
-  // ── Perfil propio ─────────────────────────────────────────
   getMe(): Observable<PlayerProfile> {
     return this.http.get<PlayerProfile>(`${this.api}/players/me`);
   }
@@ -35,7 +33,6 @@ export class PlayerService {
     return this.http.post<{ cover_url: string }>(`${this.api}/players/me/cover`, fd);
   }
 
-  // ── Experiencia ───────────────────────────────────────────
   addExperience(data: Partial<PlayerExperience>): Observable<PlayerExperience> {
     return this.http.post<PlayerExperience>(`${this.api}/players/me/experience`, data);
   }
@@ -48,7 +45,6 @@ export class PlayerService {
     return this.http.delete<void>(`${this.api}/players/me/experience/${id}`);
   }
 
-  // ── Highlights ────────────────────────────────────────────
   addHighlight(file: File): Observable<PlayerHighlight> {
     const fd = new FormData();
     fd.append('media', file);
@@ -59,7 +55,6 @@ export class PlayerService {
     return this.http.delete<void>(`${this.api}/players/me/highlights/${id}`);
   }
 
-  // ── Búsqueda pública ──────────────────────────────────────
   search(filters: PlayerSearchFilters = {}): Observable<PlayerSearchResponse> {
     let params = new HttpParams();
     Object.entries(filters).forEach(([k, v]) => {

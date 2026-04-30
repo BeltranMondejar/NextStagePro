@@ -27,7 +27,7 @@ export class TeamPublicComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.error = 'ID no válido';
+      this.error = 'ID not valid';
       this.loading = false;
       return;
     }
@@ -39,7 +39,7 @@ export class TeamPublicComponent implements OnInit, OnDestroy {
         this.setMetaTags(t);
       },
       error: () => {
-        this.error = 'Perfil de equipo no encontrado o no visible.';
+        this.error = 'Team profile not found or not visible.';
         this.loading = false;
       },
     });

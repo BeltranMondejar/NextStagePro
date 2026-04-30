@@ -1,4 +1,3 @@
-// app.ts — QoL: importar ToastComponent para notificaciones globales
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header';

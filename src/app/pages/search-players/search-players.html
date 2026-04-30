@@ -2,10 +2,9 @@
   <section class="search-hero">
     <div class="search-hero-copy">
       <span class="eyebrow">Scouting</span>
-      <h1>Busca jugadores y equipos</h1>
+      <h1>Search players and teams</h1>
       <p>
-        Filtra por juego, rol y rango, o escribe el nombre del jugador o equipo para encontrar
-        perfiles más rápido.
+        Filter by game, role, and rank, or type the player or team name to find profiles faster.
       </p>
     </div>
   </section>
@@ -13,10 +12,10 @@
   <!-- TABS -->
   <div class="tab-bar">
     <button class="tab-btn" [class.active]="activeTab === 'players'" (click)="switchTab('players')">
-      🎮 Jugadores
+      Players
     </button>
     <button class="tab-btn" [class.active]="activeTab === 'teams'" (click)="switchTab('teams')">
-      🛡️ Equipos
+      Teams
     </button>
   </div>
 
@@ -27,14 +26,14 @@
         [class.active]="typeFilter === 'all'"
         (click)="setTypeFilter('all')"
       >
-        Todos
+        All
       </button>
       <button
         class="filter-pill"
         [class.active]="typeFilter === 'pro'"
         (click)="setTypeFilter('pro')"
       >
-        Solo PRO
+        Pro Only
       </button>
 
       <div class="filter-dropdown">
@@ -89,7 +88,7 @@
                 [class.open]="openSelect === 'role'"
                 (click)="toggleSelect('role', $event)"
               >
-                <span>{{ selectedRole || 'Todos' }}</span>
+                <span>{{ selectedRole || 'All' }}</span>
                 <svg width="12" height="8" viewBox="0 0 12 8">
                   <path
                     d="M1 1l5 5 5-5"
@@ -126,7 +125,7 @@
                 [class.open]="openSelect === 'rank'"
                 (click)="toggleSelect('rank', $event)"
               >
-                <span>{{ selectedRank || 'Todos' }}</span>
+                <span>{{ selectedRank || 'All' }}</span>
                 <svg width="12" height="8" viewBox="0 0 12 8">
                   <path
                     d="M1 1l5 5 5-5"
@@ -159,9 +158,9 @@
 
           <div class="dropdown-footer">
             <button class="btn-reset" *ngIf="hasActiveFilters" (click)="resetFilters()">
-              Limpiar
+              Clear
             </button>
-            <button class="btn-close-dropdown" (click)="closeFull()">Cerrar</button>
+            <button class="btn-close-dropdown" (click)="closeFull()">Close</button>
           </div>
         </div>
       </div>
@@ -172,8 +171,8 @@
         type="text"
         [placeholder]="
           activeTab === 'players'
-            ? 'Buscar por jugador o equipo...'
-            : 'Buscar por nombre de equipo...'
+            ? 'Search by player or team...'
+            : 'Search by team name or game...'
         "
         class="search-input"
         [(ngModel)]="searchText"
@@ -181,7 +180,7 @@
       />
       <p class="search-help">
         {{
-          activeTab === 'players' ? 'También busca por equipo actual.' : 'Busca por nombre o juego.'
+          activeTab === 'players' ? 'Also search by current team.' : 'Search by team name or game.'
         }}
       </p>
     </div>
@@ -191,8 +190,8 @@
   <ng-container *ngIf="activeTab === 'players'">
     <div class="results-meta" *ngIf="!loading && !error">
       <ng-container *ngIf="total > 0">
-        {{ total }} jugador{{ total !== 1 ? 'es' : '' }} encontrado{{ total !== 1 ? 's' : '' }}
-        <span *ngIf="totalPages > 1"> - Pagina {{ page }} de {{ totalPages }}</span>
+        {{ total }} player{{ total !== 1 ? 'es' : '' }} found{{ total !== 1 ? 's' : '' }}
+        <span *ngIf="totalPages > 1"> - Page {{ page }} of {{ totalPages }}</span>
       </ng-container>
       <span *ngIf="hasActiveFilters" class="filter-tag">
         {{ activeFilterLabel }}
@@ -203,14 +202,14 @@
     <div *ngIf="error && !loading" class="state-message error">{{ error }}</div>
 
     <div *ngIf="!loading && !error && players.length === 0" class="state-message empty">
-      <h3>No encontramos jugadores con esos filtros.</h3>
-      <p>Prueba a buscar por nickname, nombre del equipo o limpia los filtros activos.</p>
+      <h3>We couldn't find players with those filters.</h3>
+      <p>Try searching by nickname, team name, or clear the active filters.</p>
       <button
         class="btn-reset-inline"
         *ngIf="hasActiveFilters || typeFilter === 'pro' || searchText"
         (click)="resetAll()"
       >
-        Limpiar y ver todos
+        Clear and view all
       </button>
     </div>
 
@@ -242,15 +241,15 @@
             <span *ngIf="player.current_rank" class="rank">{{ player.current_rank }}</span>
           </div>
           <div class="player-tags">
-            <span class="info-chip role">{{ player.main_role || 'Sin rol' }}</span>
-            <span class="info-chip game">{{ player.game || 'Sin juego' }}</span>
+            <span class="info-chip role">{{ player.main_role || 'No Role' }}</span>
+            <span class="info-chip game">{{ player.game || 'No Game' }}</span>
           </div>
           <p *ngIf="player.location" class="location">{{ player.location }}</p>
         </div>
 
         <div class="player-meta">
           <span class="views">{{ player.profile_views }} views</span>
-          <button class="view-profile" [routerLink]="['/players', player.id]">Ver perfil</button>
+          <button class="view-profile" [routerLink]="['/players', player.id]">View Profile</button>
         </div>
       </article>
     </div>
@@ -260,12 +259,12 @@
         class="page-btn nav-btn"
         (click)="goToPage(1)"
         [disabled]="page === 1"
-        title="Primera"
+        title="First"
       >
         &lt;&lt;
       </button>
       <button class="page-btn nav-btn" (click)="goToPage(page - 1)" [disabled]="page === 1">
-        Anterior
+        Previous
       </button>
       <button
         class="page-btn"
@@ -280,13 +279,13 @@
         (click)="goToPage(page + 1)"
         [disabled]="page === totalPages"
       >
-        Siguiente
+        Next
       </button>
       <button
         class="page-btn nav-btn"
         (click)="goToPage(totalPages)"
         [disabled]="page === totalPages"
-        title="Ultima"
+        title="Last"
       >
         &gt;&gt;
       </button>
@@ -297,10 +296,10 @@
   <ng-container *ngIf="activeTab === 'teams'">
     <div class="results-meta" *ngIf="!teamsLoading && !teamsError">
       <ng-container *ngIf="teamsTotal > 0">
-        {{ teamsTotal }} equipo{{ teamsTotal !== 1 ? 's' : '' }} encontrado{{
+        {{ teamsTotal }} team{{ teamsTotal !== 1 ? 's' : '' }} found{{
           teamsTotal !== 1 ? 's' : ''
         }}
-        <span *ngIf="teamsTotalPages > 1"> - Pagina {{ teamsPage }} de {{ teamsTotalPages }}</span>
+        <span *ngIf="teamsTotalPages > 1"> - Page {{ teamsPage }} of {{ teamsTotalPages }}</span>
       </ng-container>
       <span *ngIf="hasActiveFilters" class="filter-tag">
         {{ activeFilterLabel }}
@@ -311,10 +310,10 @@
     <div *ngIf="teamsError && !teamsLoading" class="state-message error">{{ teamsError }}</div>
 
     <div *ngIf="!teamsLoading && !teamsError && teams.length === 0" class="state-message empty">
-      <h3>No encontramos equipos con esos filtros.</h3>
-      <p>Prueba a buscar por nombre de equipo o limpia los filtros activos.</p>
+      <h3>We couldn't find teams with those filters.</h3>
+      <p>Try searching by team name or clear the active filters.</p>
       <button class="btn-reset-inline" *ngIf="hasActiveFilters || searchText" (click)="resetAll()">
-        Limpiar y ver todos
+        Clear and view all
       </button>
     </div>
 
@@ -348,14 +347,14 @@
           </div>
           <div class="player-tags">
             <span class="info-chip game" *ngIf="team.game">{{ team.game }}</span>
-            <span class="info-chip role" *ngIf="!team.game">Sin juego</span>
+            <span class="info-chip role" *ngIf="!team.game">No Game</span>
           </div>
           <p *ngIf="team.location" class="location">{{ team.location }}</p>
         </div>
 
         <div class="player-meta">
           <span class="views">{{ team.profile_views }} views</span>
-          <button class="view-profile" [routerLink]="['/teams', team.id]">Ver equipo</button>
+          <button class="view-profile" [routerLink]="['/teams', team.id]">View Team</button>
         </div>
       </article>
     </div>
@@ -365,7 +364,7 @@
         class="page-btn nav-btn"
         (click)="goToTeamsPage(1)"
         [disabled]="teamsPage === 1"
-        title="Primera"
+        title="First"
       >
         &lt;&lt;
       </button>
@@ -374,7 +373,7 @@
         (click)="goToTeamsPage(teamsPage - 1)"
         [disabled]="teamsPage === 1"
       >
-        Anterior
+        Previous
       </button>
       <button
         class="page-btn"
@@ -389,13 +388,13 @@
         (click)="goToTeamsPage(teamsPage + 1)"
         [disabled]="teamsPage === teamsTotalPages"
       >
-        Siguiente
+        Next
       </button>
       <button
         class="page-btn nav-btn"
         (click)="goToTeamsPage(teamsTotalPages)"
         [disabled]="teamsPage === teamsTotalPages"
-        title="Ultima"
+        title="Last"
       >
         &gt;&gt;
       </button>

@@ -115,7 +115,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
         this.cdr.markForCheck();
       },
       error: () => {
-        this.error = 'Error cargando jugadores.';
+        this.error = 'Error loading players. Please try again.';
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -139,7 +139,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
         this.cdr.markForCheck();
       },
       error: () => {
-        this.teamsError = 'Error cargando equipos.';
+        this.teamsError = 'Error loading teams. Please try again.';
         this.teamsLoading = false;
         this.cdr.markForCheck();
       },

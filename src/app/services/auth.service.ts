@@ -1,4 +1,3 @@
-// src/app/services/auth.service.ts
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -51,7 +50,6 @@ export class AuthService {
     this._headerImageUrl.set(url);
   }
 
-  // ── Auth ────────────────────────────────────────────
   loginWithDiscord(): void {
     window.location.href = `${environment.apiUrl.replace('/api', '')}/api/auth/discord`;
   }
@@ -106,7 +104,6 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  // ── Helpers ──────────────────────────────────────────────
   private tokenExpiresWithin(token: string, seconds: number): boolean {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));

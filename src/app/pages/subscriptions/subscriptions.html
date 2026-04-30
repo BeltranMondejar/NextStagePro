@@ -75,30 +75,30 @@
   <!-- GESTIÓN SUSCRIPCIÓN ACTIVA -->
   <div *ngIf="subscription?.status === 'active'" class="manage-sub-bar">
     <span
-      >Plan activo: <strong>{{ currentUser()?.plan | titlecase }}</strong></span
+      >Active plan: <strong>{{ currentUser()?.plan | titlecase }}</strong></span
     >
-    <button class="btn-manage" (click)="manageSubscription()">Gestionar suscripción</button>
+    <button class="btn-manage" (click)="manageSubscription()">Manage subscription</button>
   </div>
 
   <!-- BOTONES DE SELECCIÓN DE PLAN -->
   <div class="pricing-buttons">
     <div></div>
     <button class="btn" disabled>
-      {{ isCurrentPlan('free') ? 'Plan actual' : 'Free' }}
+      {{ isCurrentPlan('free') ? 'Current plan' : 'Free' }}
     </button>
     <button
       class="btn popular-btn"
       [class.current]="isCurrentPlan('player_pro')"
       (click)="choosePlan('player_pro')"
     >
-      {{ isCurrentPlan('player_pro') ? 'Plan actual' : 'Choose plan' }}
+      {{ isCurrentPlan('player_pro') ? 'Current plan' : 'Choose plan' }}
     </button>
     <button
       class="btn"
       [class.current]="isCurrentPlan('team_pro')"
       (click)="choosePlan('team_pro')"
     >
-      {{ isCurrentPlan('team_pro') ? 'Plan actual' : 'Choose plan' }}
+      {{ isCurrentPlan('team_pro') ? 'Current plan' : 'Choose plan' }}
     </button>
   </div>
 </section>

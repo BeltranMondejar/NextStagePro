@@ -1,4 +1,3 @@
-// src/app/services/team.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -70,7 +69,6 @@ export class TeamService {
     return this.http.post<{ cover_url: string }>(`${this.base}/me/cover`, fd);
   }
 
-  // ── Competiciones ────────────────────────────────────────
   addCompetition(data: Partial<TeamCompetition>): Observable<TeamCompetition> {
     return this.http.post<TeamCompetition>(`${this.base}/me/competitions`, data);
   }
@@ -91,7 +89,6 @@ export class TeamService {
     return this.http.delete<void>(`${this.base}/me/active-competitions/${id}`);
   }
 
-  // ── Highlights ───────────────────────────────────────────
   addHighlight(file: File, title?: string): Observable<TeamHighlight> {
     const fd = new FormData();
     fd.append('media', file);

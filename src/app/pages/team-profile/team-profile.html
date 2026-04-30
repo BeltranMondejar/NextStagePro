@@ -1,5 +1,5 @@
 <section class="profile">
-  <div *ngIf="loading" class="state-message">Cargando perfil de equipo...</div>
+  <div *ngIf="loading" class="state-message">Loading team profile...</div>
 
   <div *ngIf="!loading && error && error !== 'NO_PROFILE'" class="state-message error">
     {{ error }}
@@ -12,28 +12,28 @@
           <div class="create-hero">
             <div class="create-icon">T</div>
             <div class="create-copy">
-              <h2>Crea tu perfil de equipo</h2>
-              <p>Aun no tienes un perfil de equipo. Completa los datos basicos para comenzar.</p>
+              <h2>Create your team profile</h2>
+              <p>You don't have a team profile yet. Complete the basic information to get started.</p>
             </div>
           </div>
 
           <div class="card-header create-section-header">
-            <h3>Informacion del equipo</h3>
+            <h3>Team Information</h3>
           </div>
 
           <div class="edit-grid">
             <div class="field full-width">
-              <label>Nombre del equipo *</label>
-              <input type="text" [(ngModel)]="draftProfile['name']" placeholder="Ej: Team Liquid" />
+              <label>Team Name *</label>
+              <input type="text" [(ngModel)]="draftProfile['name']" placeholder="Ej: Team Heretics" />
             </div>
             <div class="field">
-              <label>Abreviacion</label>
-              <input type="text" [(ngModel)]="draftProfile['abbreviation']" placeholder="Ej: TL" />
+              <label>Abbreviation</label>
+              <input type="text" [(ngModel)]="draftProfile['abbreviation']" placeholder="Ej: TH" />
             </div>
             <div class="field">
-              <label>Juego</label>
+              <label>Game</label>
               <select [(ngModel)]="draftProfile['game']">
-                <option value="">Seleccionar...</option>
+                <option value="">Select...</option>
                 <option>Valorant</option>
                 <option>League of Legends</option>
                 <option>CS2</option>
@@ -41,23 +41,23 @@
                 <option>Rainbow Six Siege</option>
                 <option>Apex Legends</option>
                 <option>Fortnite</option>
-                <option>Otro</option>
+                <option>Other</option>
               </select>
             </div>
             <div class="field">
-              <label>Localizacion</label>
+              <label>Location</label>
               <input
                 type="text"
                 [(ngModel)]="draftProfile['location']"
-                placeholder="Madrid, Espana"
+                placeholder="Madrid, Spain"
               />
             </div>
             <div class="field full-width">
-              <label>Descripcion</label>
+              <label>Bio</label>
               <textarea
                 [(ngModel)]="draftProfile['bio']"
                 rows="4"
-                placeholder="Cuentanos sobre vuestro equipo..."
+                placeholder="Tell us about your team..."
               ></textarea>
             </div>
           </div>
@@ -68,7 +68,7 @@
               (click)="createProfile()"
               [disabled]="saving || !draftProfile['name']"
             >
-              {{ saving ? 'Creando...' : 'Crear perfil' }}
+              {{ saving ? 'Creating...' : 'Create Profile' }}
             </button>
           </div>
 
@@ -88,8 +88,8 @@
         class="cover-image"
         [style.backgroundImage]="profile.cover_url ? 'url(' + profile.cover_url + ')' : ''"
       >
-        <label class="edit-cover-btn" title="Cambiar portada">
-          Cambiar portada
+        <label class="edit-cover-btn" title="Change cover">
+          Change banner
           <input type="file" accept="image/*" (change)="onCoverChange($event)" hidden />
         </label>
       </div>
@@ -97,7 +97,7 @@
       <div class="glass-panel profile-header">
         <div class="logo-container">
           <img [src]="getLogoUrl()" [alt]="profile.name" />
-          <label class="logo-edit" title="Cambiar logo">
+          <label class="logo-edit" title="Change logo">
             +
             <input type="file" accept="image/*" (change)="onLogoChange($event)" hidden />
           </label>
@@ -113,20 +113,20 @@
               <span *ngIf="isPro" class="accent-text">PRO</span>
             </h1>
             <p class="sub-text">
-              {{ profile.game || 'Sin juego definido' }}
+              {{ profile.game || 'No game defined' }}
               <span *ngIf="profile.location"> - {{ profile.location }}</span>
               <span *ngIf="profile.founded_date">
-                - Fundado {{ profile.founded_date | date: 'yyyy' }}</span
+                - Founded {{ profile.founded_date | date: 'yyyy' }}</span
               >
             </p>
           </div>
           <div class="header-stats">
-            <div class="stat-item">👁️ {{ profile.profile_views }} <span>Views</span></div>
+            <div class="stat-item">{{ profile.profile_views }} <span>Views</span></div>
             <div class="stat-item" *ngIf="profile.active_competitions?.length">
-              🏆 {{ profile.active_competitions!.length }} competicion{{
-                profile.active_competitions!.length > 1 ? 'es' : ''
+              {{ profile.active_competitions!.length }} competition{{
+                profile.active_competitions!.length > 1 ? 's' : ''
               }}
-              activa{{ profile.active_competitions!.length > 1 ? 's' : '' }}
+              active{{ profile.active_competitions!.length > 1 ? 's' : '' }}
             </div>
             <button
               class="visibility-toggle"
@@ -135,7 +135,7 @@
               type="button"
               [disabled]="saving"
             >
-              {{ profile.is_visible ? '👁️ Visible' : '🔒 Oculto' }}
+              {{ profile.is_visible ? 'Visible' : 'Hidden' }}
             </button>
           </div>
         </div>
@@ -146,12 +146,12 @@
       <div class="main-column">
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Sobre el equipo</h3>
-            <i class="edit-icon" (click)="startEdit('bio')" *ngIf="!editingBio">Editar</i>
+            <h3>About Team</h3>
+            <i class="edit-icon" (click)="startEdit('bio')" *ngIf="!editingBio">Edit</i>
           </div>
           <ng-container *ngIf="!editingBio">
             <p class="body-text">
-              {{ profile.bio || 'Anade una descripcion sobre vuestro equipo.' }}
+              {{ profile.bio || 'Add a description about your team.' }}
             </p>
           </ng-container>
           <ng-container *ngIf="editingBio">
@@ -159,36 +159,36 @@
               class="edit-textarea"
               [(ngModel)]="draftProfile['bio']"
               rows="5"
-              placeholder="Cuentanos sobre el equipo..."
+              placeholder="Tell us about your team..."
             ></textarea>
             <div class="edit-actions">
               <button class="btn-save" (click)="saveSection('bio')" [disabled]="saving">
-                {{ saving ? 'Guardando...' : 'Guardar' }}
+                {{ saving ? 'Saving...' : 'Save' }}
               </button>
-              <button class="btn-cancel" (click)="cancelEdit('bio')">Cancelar</button>
+              <button class="btn-cancel" (click)="cancelEdit('bio')">Cancel</button>
             </div>
           </ng-container>
         </div>
 
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Informacion del equipo</h3>
-            <i class="edit-icon" (click)="startEdit('basic')" *ngIf="!editingBasic">Editar</i>
+            <h3>Team Information</h3>
+            <i class="edit-icon" (click)="startEdit('basic')" *ngIf="!editingBasic">Edit</i>
           </div>
           <ng-container *ngIf="!editingBasic">
             <ul class="info-list">
               <li>
-                <strong>Nombre:</strong> <span>{{ profile.name }}</span>
+                <strong>Team Name:</strong> <span>{{ profile.name }}</span>
               </li>
               <li>
-                <strong>Abreviacion:</strong> <span>{{ profile.abbreviation || '-' }}</span>
+                <strong>Abbreviation:</strong> <span>{{ profile.abbreviation || '-' }}</span>
               </li>
               <li>
-                <strong>Fundacion:</strong>
+                <strong>Foundation Date:</strong>
                 <span>{{ (profile.founded_date | date: 'dd/MM/yyyy') || '-' }}</span>
               </li>
               <li>
-                <strong>Localizacion:</strong> <span>{{ profile.location || '-' }}</span>
+                <strong>Location:</strong> <span>{{ profile.location || '-' }}</span>
               </li>
               <li>
                 <strong>Discord:</strong> <span>{{ profile.discord_tag || '-' }}</span>
@@ -201,38 +201,38 @@
               </li>
               <li *ngIf="profile.liquipedia_url">
                 <strong>Liquipedia:</strong>
-                <a [href]="profile.liquipedia_url" target="_blank" rel="noopener">Ver pagina</a>
+                <a [href]="profile.liquipedia_url" target="_blank" rel="noopener">View Page</a>
               </li>
               <li *ngIf="profile.vlr_url">
                 <strong>VLR.gg:</strong>
-                <a [href]="profile.vlr_url" target="_blank" rel="noopener">Ver pagina</a>
+                <a [href]="profile.vlr_url" target="_blank" rel="noopener">View Page</a>
               </li>
             </ul>
           </ng-container>
           <ng-container *ngIf="editingBasic">
             <div class="edit-grid">
               <div class="field">
-                <label>Nombre del equipo</label>
+                <label>Team Name</label>
                 <input type="text" [(ngModel)]="draftProfile['name']" />
               </div>
               <div class="field">
-                <label>Abreviacion</label>
+                <label>Abbreviation</label>
                 <input
                   type="text"
                   [(ngModel)]="draftProfile['abbreviation']"
-                  placeholder="Ej: TL"
+                  placeholder="Ej: TH"
                 />
               </div>
               <div class="field">
-                <label>Fecha de fundacion</label>
+                <label>Foundation Date</label>
                 <input type="date" [(ngModel)]="draftProfile['founded_date']" />
               </div>
               <div class="field">
-                <label>Localizacion</label>
+                <label>Location</label>
                 <input
                   type="text"
                   [(ngModel)]="draftProfile['location']"
-                  placeholder="Madrid, Espana"
+                  placeholder="Madrid, Spain"
                 />
               </div>
               <div class="field">
@@ -270,23 +270,23 @@
             </div>
             <div class="edit-actions">
               <button class="btn-save" (click)="saveSection('basic')" [disabled]="saving">
-                {{ saving ? 'Guardando...' : 'Guardar' }}
+                {{ saving ? 'Saving...' : 'Save' }}
               </button>
-              <button class="btn-cancel" (click)="cancelEdit('basic')">Cancelar</button>
+              <button class="btn-cancel" (click)="cancelEdit('basic')">Cancel</button>
             </div>
           </ng-container>
         </div>
 
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Historial competitivo</h3>
-            <i class="edit-icon" (click)="startAddComp()" *ngIf="!addingComp">Anadir</i>
+            <h3>Competitive History</h3>
+            <i class="edit-icon" (click)="startAddComp()" *ngIf="!addingComp">Add</i>
           </div>
 
           <div *ngIf="addingComp" class="comp-form">
             <div class="edit-grid">
               <div class="field full-width">
-                <label>Nombre del torneo o liga *</label>
+                <label>Competition Name *</label>
                 <input
                   type="text"
                   [(ngModel)]="draftComp['competition_name']"
@@ -294,15 +294,15 @@
                 />
               </div>
               <div class="field">
-                <label>Clasificacion o resultado</label>
+                <label>Placement</label>
                 <input
                   type="text"
                   [(ngModel)]="draftComp['placement']"
-                  placeholder="Top 8, Campeon..."
+                  placeholder="Top 8, Champion..."
                 />
               </div>
               <div class="field">
-                <label>Anio</label>
+                <label>Year</label>
                 <input
                   type="number"
                   [(ngModel)]="draftComp['year']"
@@ -318,15 +318,15 @@
                 (click)="saveComp()"
                 [disabled]="!draftComp['competition_name']"
               >
-                Guardar
+                Save
               </button>
-              <button class="btn-cancel" (click)="cancelComp()">Cancelar</button>
+              <button class="btn-cancel" (click)="cancelComp()">Cancel</button>
             </div>
           </div>
 
           <div *ngIf="!profile.competitions?.length && !addingComp" class="empty-state">
-            Sin historial competitivo.
-            <span (click)="startAddComp()">Anade tu primera competicion -></span>
+            No competitive history yet.
+            <span (click)="startAddComp()">Add your first competition -></span>
           </div>
 
           <div *ngFor="let comp of profile.competitions; let i = index">
@@ -334,21 +334,21 @@
               <div class="comp-form">
                 <div class="edit-grid">
                   <div class="field full-width">
-                    <label>Nombre del torneo *</label>
+                    <label>Competition Name *</label>
                     <input type="text" [(ngModel)]="draftComp['competition_name']" />
                   </div>
                   <div class="field">
-                    <label>Clasificacion</label>
+                    <label>Placement</label>
                     <input type="text" [(ngModel)]="draftComp['placement']" />
                   </div>
                   <div class="field">
-                    <label>Anio</label>
+                    <label>Year</label>
                     <input type="number" [(ngModel)]="draftComp['year']" />
                   </div>
                 </div>
                 <div class="edit-actions">
-                  <button class="btn-save" (click)="updateComp(i)">Guardar</button>
-                  <button class="btn-cancel" (click)="cancelComp()">Cancelar</button>
+                  <button class="btn-save" (click)="updateComp(i)">Save</button>
+                  <button class="btn-cancel" (click)="cancelComp()">Cancel</button>
                 </div>
               </div>
             </ng-container>
@@ -362,8 +362,8 @@
                   <small *ngIf="comp.year">{{ comp.year }}</small>
                 </div>
                 <div class="comp-actions">
-                  <button class="btn-link" (click)="startEditComp(i)">Editar</button>
-                  <button class="btn-link danger" (click)="deleteComp(i)">Eliminar</button>
+                  <button class="btn-link" (click)="startEditComp(i)">Edit</button>
+                  <button class="btn-link danger" (click)="deleteComp(i)">Delete</button>
                 </div>
               </div>
             </ng-container>
@@ -372,12 +372,12 @@
 
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Jugadores del equipo</h3>
+            <h3>Team Players</h3>
           </div>
 
           <div *ngIf="!profile.players?.length" class="empty-state">
-            Todavia no hay jugadores vinculados a este equipo.
-          </div>
+              There are no players linked to this team yet.
+            </div>
 
           <div class="team-members-grid" *ngIf="profile.players?.length">
             <a
@@ -405,7 +405,7 @@
                 <span *ngIf="player.current_rank" class="rank-badge">{{
                   player.current_rank
                 }}</span>
-                <small>{{ player.main_role || 'Sin rol' }}</small>
+                <small>{{ player.main_role || 'No role' }}</small>
               </div>
             </a>
           </div>
@@ -415,7 +415,7 @@
           <div class="card-header">
             <h3>Highlights</h3>
             <label class="edit-icon" style="cursor: pointer">
-              Subir
+              Upload
               <input
                 type="file"
                 accept="image/*,video/*"
@@ -426,7 +426,7 @@
           </div>
 
           <div *ngIf="!profile.highlights?.length" class="empty-state">
-            Sin highlights todavia. Sube fotos o videos de vuestros mejores momentos.
+            No highlights yet. Upload photos or videos of your best moments.
           </div>
 
           <div class="highlight-grid" *ngIf="profile.highlights?.length">
@@ -452,13 +452,13 @@
       <div class="side-column">
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Juego y competicion</h3>
-            <i class="edit-icon" (click)="startEdit('game')" *ngIf="!editingGame">Editar</i>
+            <h3>Game and competitions</h3>
+            <i class="edit-icon" (click)="startEdit('game')" *ngIf="!editingGame">Edit</i>
           </div>
           <ng-container *ngIf="!editingGame">
             <ul class="info-list compact">
               <li>
-                <strong>Juego:</strong> <span class="rank-badge">{{ profile.game || '-' }}</span>
+                <strong>Game:</strong> <span class="rank-badge">{{ profile.game || '-' }}</span>
               </li>
               <li>
                 <strong>Twitch:</strong>
@@ -467,7 +467,7 @@
                   [href]="profile.twitch_url"
                   target="_blank"
                   rel="noopener"
-                  >Ver canal</a
+                  >View channel</a
                 >
                 <span *ngIf="!profile.twitch_url">-</span>
               </li>
@@ -475,9 +475,9 @@
           </ng-container>
           <ng-container *ngIf="editingGame">
             <div class="field" style="margin-bottom: 12px">
-              <label>Juego principal</label>
+              <label>Primary game</label>
               <select [(ngModel)]="draftProfile['game']">
-                <option value="">Seleccionar...</option>
+                <option value="">Select...</option>
                 <option>Valorant</option>
                 <option>League of Legends</option>
                 <option>CS2</option>
@@ -485,7 +485,7 @@
                 <option>Rainbow Six Siege</option>
                 <option>Apex Legends</option>
                 <option>Fortnite</option>
-                <option>Otro</option>
+                <option>Other</option>
               </select>
             </div>
             <div class="field" style="margin-bottom: 12px">
@@ -498,22 +498,22 @@
             </div>
             <div class="edit-actions">
               <button class="btn-save" (click)="saveSection('game')" [disabled]="saving">
-                {{ saving ? 'Guardando...' : 'Guardar' }}
+                {{ saving ? 'Saving...' : 'Save' }}
               </button>
-              <button class="btn-cancel" (click)="cancelEdit('game')">Cancelar</button>
+              <button class="btn-cancel" (click)="cancelEdit('game')">Cancel</button>
             </div>
           </ng-container>
         </div>
 
         <div class="glass-panel card">
           <div class="card-header">
-            <h3>Competiciones activas</h3>
-            <i class="edit-icon" (click)="startAddActiveComp()" *ngIf="!addingActiveComp">Anadir</i>
+            <h3>Active competitions</h3>
+            <i class="edit-icon" (click)="startAddActiveComp()" *ngIf="!addingActiveComp">Add</i>
           </div>
 
           <div *ngIf="addingActiveComp" class="comp-form">
             <div class="field" style="margin-bottom: 10px">
-              <label>Nombre de la competicion *</label>
+              <label>Competition name *</label>
               <input
                 type="text"
                 [(ngModel)]="draftActiveComp['competition_name']"
@@ -521,7 +521,7 @@
               />
             </div>
             <div class="field" style="margin-bottom: 12px">
-              <label>Temporada</label>
+              <label>Season</label>
               <input
                 type="text"
                 [(ngModel)]="draftActiveComp['season']"
@@ -534,9 +534,9 @@
                 (click)="saveActiveComp()"
                 [disabled]="!draftActiveComp['competition_name']"
               >
-                Guardar
+                Save
               </button>
-              <button class="btn-cancel" (click)="cancelActiveComp()">Cancelar</button>
+              <button class="btn-cancel" (click)="cancelActiveComp()">Cancel</button>
             </div>
           </div>
 
@@ -544,7 +544,7 @@
             *ngIf="!profile.active_competitions?.length && !addingActiveComp"
             class="empty-state small"
           >
-            Sin competiciones activas.
+            No active competitions.
           </div>
 
           <div
@@ -561,7 +561,7 @@
         </div>
 
         <div class="glass-panel card">
-          <div class="card-header"><h3>Redes sociales</h3></div>
+          <div class="card-header"><h3>Social media</h3></div>
           <div class="social-links">
             <a
               *ngIf="profile.twitter_url"
@@ -604,20 +604,20 @@
               "
               class="empty-state small"
             >
-              Anade redes desde "Informacion del equipo".
+              Add social links from "Team Information".
             </p>
           </div>
         </div>
 
         <div class="glass-panel card danger-card">
-          <div class="card-header"><h3>Gestionar equipo</h3></div>
+          <div class="card-header"><h3>Manage team</h3></div>
           <p class="body-text">
-            Eliminar el equipo borrara tambien competiciones, highlights y el resto de datos del
-            perfil.
+            Deleting the team will also remove competitions, highlights and the rest of the data from
+            the profile.
           </p>
           <div class="danger-actions">
             <button class="btn-danger" (click)="deleteTeamProfile()" [disabled]="saving">
-              {{ saving ? 'Eliminando...' : 'Eliminar equipo' }}
+              {{ saving ? 'Deleting...' : 'Delete team' }}
             </button>
           </div>
         </div>

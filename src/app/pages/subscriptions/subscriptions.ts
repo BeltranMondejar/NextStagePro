@@ -43,10 +43,10 @@ export class SubscriptionsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.route.snapshot.queryParamMap.get('success') === 'true') {
-      this.successMessage = '¡Suscripción activada correctamente! 🎉';
+      this.successMessage = 'Payment successful! Your subscription is now active.';
     }
     if (this.route.snapshot.queryParamMap.get('cancelled') === 'true') {
-      this.cancelledMessage = 'Pago cancelado. Puedes intentarlo de nuevo cuando quieras.';
+      this.cancelledMessage = 'Payment cancelled. You can try again at any time.';
     }
 
     if (this.auth.isLoggedIn()) {
@@ -55,7 +55,6 @@ export class SubscriptionsComponent implements OnInit {
   }
 
   choosePlan(plan: 'player_pro' | 'team_pro'): void {
-    // Sin sesión, redirigir a Discord
     if (!this.auth.isLoggedIn()) {
       this.auth.loginWithDiscord();
       return;

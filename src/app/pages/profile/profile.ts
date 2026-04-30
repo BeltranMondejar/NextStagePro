@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
         this.loadCurrentTeam();
       },
       error: () => {
-        this.error = 'No se pudo cargar el perfil.';
+        this.error = 'Error loading profile.';
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit {
         this.profile = updated;
         this.cancelEdit(section);
         this.saving = false;
-        this.saveMsg = '¡Guardado!';
+        this.saveMsg = 'Saved!';
         setTimeout(() => {
           this.saveMsg = '';
           this.cdr.markForCheck();
@@ -106,7 +106,7 @@ export class ProfileComponent implements OnInit {
       },
       error: () => {
         this.saving = false;
-        this.saveMsg = 'Error guardando. Inténtalo de nuevo.';
+        this.saveMsg = 'Error saving. Please try again.';
         this.cdr.markForCheck();
       },
     });
@@ -213,12 +213,10 @@ export class ProfileComponent implements OnInit {
     return this.profile?.cover_url || this.profile?.avatar_url || null;
   }
 
-  /** URL del logo del equipo actual (si el jugador tiene equipo vinculado) */
+  /** URL del logo del equipo actual */
   getCurrentTeamLogoUrl(): string | null {
-    // Primero intentar la exp con synthetic_current_team
     const syntheticExp = this.profile?.experience?.find((e) => e.synthetic_current_team);
     if (syntheticExp?.team_logo_url) return syntheticExp.team_logo_url;
-    // Luego el perfil de equipo propio
     if (this.currentTeamProfile?.logo_url) return this.currentTeamProfile.logo_url;
     return null;
   }
