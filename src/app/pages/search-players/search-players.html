@@ -38,19 +38,19 @@
 
       <div class="filter-dropdown">
         <span (click)="toggleDropdown($event)" [class.active]="dropdownOpen || hasActiveFilters">
-          Filtros
+          Filters
           <span *ngIf="hasActiveFilters" class="filter-dot">*</span>
         </span>
 
         <div class="dropdown-menu" *ngIf="dropdownOpen" (click)="$event.stopPropagation()">
-          <label>Juego</label>
+          <label>Game</label>
           <div class="custom-select-wrapper">
             <div
               class="custom-select"
               [class.open]="openSelect === 'game'"
               (click)="toggleSelect('game', $event)"
             >
-              <span>{{ selectedGame || 'Todos' }}</span>
+              <span>{{ selectedGame || 'All' }}</span>
               <svg width="12" height="8" viewBox="0 0 12 8">
                 <path
                   d="M1 1l5 5 5-5"
@@ -67,7 +67,7 @@
                 [class.selected]="selectedGame === ''"
                 (click)="selectOption('game', '', $event)"
               >
-                Todos
+                All
               </div>
               <div
                 class="custom-option"
@@ -81,7 +81,7 @@
           </div>
 
           <ng-container *ngIf="activeTab === 'players'">
-            <label>Rol</label>
+            <label>Role</label>
             <div class="custom-select-wrapper">
               <div
                 class="custom-select"
@@ -105,7 +105,7 @@
                   [class.selected]="selectedRole === ''"
                   (click)="selectOption('role', '', $event)"
                 >
-                  Todos
+                  All
                 </div>
                 <div
                   class="custom-option"
@@ -118,7 +118,7 @@
               </div>
             </div>
 
-            <label>Rango</label>
+            <label>Rank</label>
             <div class="custom-select-wrapper">
               <div
                 class="custom-select"
@@ -142,7 +142,7 @@
                   [class.selected]="selectedRank === ''"
                   (click)="selectOption('rank', '', $event)"
                 >
-                  Todos
+                  All
                 </div>
                 <div
                   class="custom-option"
