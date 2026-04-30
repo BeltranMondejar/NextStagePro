@@ -95,6 +95,10 @@
   background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
 }
 
+.icon {
+  filter: brightness(0) invert(1);
+}
+
 .hero-btn-secondary {
   background: rgba(255, 255, 255, 0.04);
 }
