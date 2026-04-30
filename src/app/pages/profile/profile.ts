@@ -44,9 +44,6 @@ export class ProfileComponent implements OnInit {
 
   currentTeamProfile: TeamProfile | null = null;
 
-  get isDemoMode(): boolean {
-    return this.auth.demoMode();
-  }
 
   ngOnInit(): void {
     this.playerService.getMe().subscribe({

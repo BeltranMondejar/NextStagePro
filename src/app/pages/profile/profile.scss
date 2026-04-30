@@ -613,22 +613,6 @@
   }
 }
 
-.demo-banner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  border-radius: 14px;
-  padding: 12px 20px;
-  margin-bottom: 20px;
-  color: #fcd34d;
-  font-size: 0.88rem;
-  flex-wrap: wrap;
-
-  strong {
-    color: #f59e0b;
-  }
 
   button {
     margin-left: auto;
@@ -647,7 +631,6 @@
       background: rgba(245, 158, 11, 0.2);
     }
   }
-}
 
 @media (max-width: 900px) {
   .profile-grid {

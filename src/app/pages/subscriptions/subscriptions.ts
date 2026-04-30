@@ -36,15 +36,10 @@ export class SubscriptionsComponent implements OnInit {
 
   readonly isLoggedIn = this.auth.isLoggedIn;
   readonly currentUser = this.auth.user;
-  readonly demoMode = this.auth.demoMode;
 
   subscription: Subscription | null = null;
   successMessage = '';
   cancelledMessage = '';
-
-  // Modal demo
-  showDemoModal = false;
-  demoSelectedPlan = '';
 
   ngOnInit(): void {
     if (this.route.snapshot.queryParamMap.get('success') === 'true') {
@@ -54,8 +49,7 @@ export class SubscriptionsComponent implements OnInit {
       this.cancelledMessage = 'Pago cancelado. Puedes intentarlo de nuevo cuando quieras.';
     }
 
-    // En demo no llamamos al backend
-    if (this.auth.isLoggedIn() && !this.auth.demoMode()) {
+    if (this.auth.isLoggedIn()) {
       this.subService.getMe().subscribe((sub) => (this.subscription = sub));
     }
   }
@@ -76,14 +70,6 @@ export class SubscriptionsComponent implements OnInit {
     this.subService.checkout(plan);
   }
 
-  closeDemoModal(): void {
-    this.showDemoModal = false;
-  }
-
-  loginAndCheckout(): void {
-    this.auth.exitDemoMode();
-    this.auth.loginWithDiscord();
-  }
 
   manageSubscription(): void {
     this.subService.openPortal();

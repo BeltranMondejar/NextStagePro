@@ -10,7 +10,6 @@ import {
   faEnvelope,
   faBars,
   faTimes,
-  faFlask,
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord, faSketch } from '@fortawesome/free-brands-svg-icons';
 import { AuthService } from '../../services/auth.service';
@@ -36,14 +35,12 @@ export class HeaderComponent {
   faDiscord = faDiscord;
   faBars = faBars;
   faTimes = faTimes;
-  faFlask = faFlask;
 
   menuOpen = false;
   userMenuOpen = false;
 
   readonly isLogged = this.auth.isLoggedIn;
   readonly user = this.auth.user;
-  readonly demoMode = this.auth.demoMode;
   readonly headerImageUrl = this.auth.headerImageUrl;
 
   getHeaderAvatar(): string {
@@ -55,15 +52,6 @@ export class HeaderComponent {
 
   loginWithDiscord(): void {
     this.auth.loginWithDiscord();
-  }
-  enterDemo(): void {
-    this.auth.enterDemoMode();
-    this.menuOpen = false;
-    this.userMenuOpen = false;
-    this.router.navigate(['/profile']);
-  }
-  exitDemo(): void {
-    this.auth.exitDemoMode();
   }
 
   logout(): void {

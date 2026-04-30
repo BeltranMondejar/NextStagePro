@@ -27,19 +27,12 @@
 
   <div class="right">
     <ng-container *ngIf="!isLogged()">
-      <!-- Botón Demo — visible solo en desktop cuando no hay sesión -->
-      <button class="demo-btn desktop-only" (click)="enterDemo()" title="Probar sin cuenta">
-        🧪 Demo
-      </button>
       <button class="discord-btn desktop-only" (click)="loginWithDiscord()">
         <img src="icons/discord.svg" class="icon" /> Login with Discord
       </button>
     </ng-container>
 
     <ng-container *ngIf="isLogged()">
-      <!-- Banner demo -->
-      <span *ngIf="demoMode()" class="demo-badge desktop-only">DEMO</span>
-
       <div class="user-menu-wrapper desktop-only" style="position: relative">
         <img
           class="avatar"
@@ -53,10 +46,7 @@
           <a routerLink="/team-profile" (click)="userMenuOpen = false">🛡️ Mi equipo</a>
           <a routerLink="/subscriptions" (click)="userMenuOpen = false">💎 Mi plan</a>
           <hr />
-          <a *ngIf="demoMode()" (click)="exitDemo()" style="cursor: pointer; color: #f59e0b"
-            >🧪 Salir del Demo</a
-          >
-          <a *ngIf="!demoMode()" (click)="logout()" style="cursor: pointer; color: #ff4d4d"
+          <a (click)="logout()" style="cursor: pointer; color: #ff4d4d"
             >🚪 Cerrar sesión</a
           >
         </div>
@@ -99,9 +89,6 @@
 
     <div class="mobile-actions">
       <ng-container *ngIf="!isLogged()">
-        <button class="demo-btn-mobile" (click)="enterDemo(); toggleMenu()">
-          🧪 Probar en Demo
-        </button>
         <button class="discord-btn-mobile" (click)="loginWithDiscord()">
           <img src="icons/discord.svg" class="icon" /> Login with Discord
         </button>
@@ -113,10 +100,7 @@
         <a routerLink="/profile" (click)="toggleMenu()" style="color: #fff">👤 Mi perfil</a>
         <a routerLink="/team-profile" (click)="toggleMenu()" style="color: #fff">🛡️ Mi equipo</a>
         <a routerLink="/subscriptions" (click)="toggleMenu()" style="color: #fff">💎 Mi plan</a>
-        <button *ngIf="demoMode()" class="demo-exit-btn-mobile" (click)="exitDemo()">
-          🧪 Salir del Demo
-        </button>
-        <button *ngIf="!demoMode()" class="logout-btn-mobile" (click)="logout()">
+        <button class="logout-btn-mobile" (click)="logout()">
           🚪 Cerrar sesión
         </button>
       </div>

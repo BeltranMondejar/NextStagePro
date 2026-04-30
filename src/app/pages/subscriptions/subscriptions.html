@@ -73,7 +73,7 @@
   <div *ngIf="cancelledMessage" class="alert alert-warning">{{ cancelledMessage }}</div>
 
   <!-- GESTIÓN SUSCRIPCIÓN ACTIVA -->
-  <div *ngIf="subscription?.status === 'active' && !demoMode()" class="manage-sub-bar">
+  <div *ngIf="subscription?.status === 'active'" class="manage-sub-bar">
     <span
       >Plan activo: <strong>{{ currentUser()?.plan | titlecase }}</strong></span
     >
@@ -103,33 +103,3 @@
   </div>
 </section>
 
-<!-- ── MODAL DEMO ─────────────────────────────────────────── -->
-<div class="demo-modal-overlay" *ngIf="showDemoModal" (click)="closeDemoModal()">
-  <div class="demo-modal" (click)="$event.stopPropagation()">
-    <button class="demo-modal-close" (click)="closeDemoModal()">
-      <fa-icon [icon]="faTimes"></fa-icon>
-    </button>
-
-    <div class="demo-modal-icon">🧪</div>
-    <h3>Estás en Modo Demo</h3>
-    <p>
-      Has seleccionado el plan <strong>{{ demoSelectedPlan }}</strong
-      >.<br />
-      En modo demo no se procesan pagos reales.
-    </p>
-    <p class="demo-modal-sub">
-      Para suscribirte de verdad, inicia sesión con tu cuenta de Discord y repite el proceso.
-    </p>
-
-    <div class="demo-modal-actions">
-      <button class="btn-discord" (click)="loginAndCheckout()">
-        <img
-          src="icons/discord.svg"
-          style="width: 18px; vertical-align: middle; margin-right: 8px"
-        />
-        Iniciar sesión y suscribirse
-      </button>
-      <button class="btn-cancel-modal" (click)="closeDemoModal()">Seguir explorando el demo</button>
-    </div>
-  </div>
-</div>

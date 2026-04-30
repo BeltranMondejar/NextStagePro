@@ -1,11 +1,4 @@
 <section class="profile">
-  <!-- BANNER DEMO -->
-  <div *ngIf="isDemoMode" class="demo-banner">
-    🧪 <strong>Modo Demo activo</strong> — Los cambios se guardan localmente en tu navegador y no
-    afectan a ninguna cuenta real.
-    <button (click)="auth.exitDemoMode()">Salir del demo</button>
-  </div>
-
   <div *ngIf="loading" class="state-message">Cargando perfil…</div>
   <div *ngIf="error" class="state-message error">{{ error }}</div>
 
