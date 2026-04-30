@@ -81,14 +81,14 @@
               <span *ngIf="player.plan !== 'free'" class="accent-text">· PRO</span>
             </h1>
             <p class="sub-text">
-              {{ player.current_team || 'Sin equipo' }}
+              {{ player.current_team || 'Without a team' }}
               <span *ngIf="player.location"> · {{ player.location }}</span>
             </p>
           </div>
           <div class="header-stats">
-            <div class="stat-item">👁️ {{ player.profile_views }} <span>Views</span></div>
-            <div class="stat-item">🎮 {{ player.game || '—' }}</div>
-            <div class="stat-item" *ngIf="player.main_role">🎯 {{ player.main_role }}</div>
+            <div class="stat-item">{{ player.profile_views }} <span>Views</span></div>
+            <div class="stat-item">{{ player.game || '—' }}</div>
+            <div class="stat-item" *ngIf="player.main_role">{{ player.main_role }}</div>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
       <div class="main-column">
         <!-- BIO -->
         <div class="glass-panel card" *ngIf="player.bio">
-          <div class="card-header"><h3>Sobre mí</h3></div>
+          <div class="card-header"><h3>About me</h3></div>
           <p class="body-text">{{ player.bio }}</p>
         </div>
 
@@ -128,7 +128,7 @@
 
         <!-- EXPERIENCIA -->
         <div class="glass-panel card" *ngIf="player.experience && player.experience.length">
-          <div class="card-header"><h3>Experiencia</h3></div>
+          <div class="card-header"><h3>Experience</h3></div>
           <div class="exp-item" *ngFor="let exp of player.experience">
             <div class="exp-logo">🛡️</div>
             <div class="exp-details">
@@ -137,7 +137,7 @@
               <small *ngIf="exp.achievements">{{ exp.achievements }}</small>
               <small class="date">
                 {{ exp.start_date | date: 'yyyy' }} –
-                {{ exp.end_date ? (exp.end_date | date: 'yyyy') : 'Presente' }}
+                {{ exp.end_date ? (exp.end_date | date: 'yyyy') : 'Present' }}
               </small>
             </div>
           </div>
@@ -160,43 +160,43 @@
       <div class="side-column">
         <!-- INFO JUEGO -->
         <div class="glass-panel card">
-          <div class="card-header"><h3>Información</h3></div>
+          <div class="card-header"><h3>Information</h3></div>
           <ul class="info-list compact">
             <li>
-              <strong>Juego:</strong> <span>{{ player.game || '—' }}</span>
+              <strong>Videogame:</strong> <span>{{ player.game || '—' }}</span>
             </li>
             <li>
-              <strong>Rol:</strong> <span>{{ player.main_role || '—' }}</span>
+              <strong>Role:</strong> <span>{{ player.main_role || '—' }}</span>
             </li>
             <li>
-              <strong>Rango Actual:</strong>
+              <strong>Current Rank:</strong>
               <span class="rank-badge">{{ player.current_rank || '—' }}</span>
             </li>
             <li>
-              <strong>Rango Peak:</strong>
+              <strong>Peak Rank:</strong>
               <span class="rank-badge peak">{{ player.peak_rank || '—' }}</span>
             </li>
             <li *ngIf="player.current_team">
-              <strong>Equipo:</strong> <span>{{ player.current_team }}</span>
+              <strong>Team:</strong> <span>{{ player.current_team }}</span>
             </li>
             <li *ngIf="player.location">
-              <strong>Ubicación:</strong> <span>{{ player.location }}</span>
+              <strong>Location:</strong> <span>{{ player.location }}</span>
             </li>
           </ul>
         </div>
 
         <!-- REDES SOCIALES -->
         <div class="glass-panel card">
-          <div class="card-header"><h3>Redes Sociales</h3></div>
+          <div class="card-header"><h3>Social Media</h3></div>
           <div class="social-links">
-            <span *ngIf="player.discord_tag" class="social-item">🎮 {{ player.discord_tag }}</span>
+            <span *ngIf="player.discord_tag" class="social-item">{{ player.discord_tag }}</span>
             <a
               *ngIf="player.twitter_url"
               [href]="player.twitter_url"
               target="_blank"
               rel="noopener"
               class="social-item"
-              >🐦 Twitter / X</a
+              >Twitter / X</a
             >
             <a
               *ngIf="player.twitch_url"
@@ -204,7 +204,7 @@
               target="_blank"
               rel="noopener"
               class="social-item"
-              >📺 Twitch</a
+              >Twitch</a
             >
             <a
               *ngIf="player.liquipedia_url"
@@ -212,7 +212,7 @@
               target="_blank"
               rel="noopener"
               class="social-item"
-              >🏆 Liquipedia</a
+              >Liquipedia</a
             >
             <a
               *ngIf="player.vlr_url"
@@ -220,7 +220,7 @@
               target="_blank"
               rel="noopener"
               class="social-item"
-              >🎯 VLR.gg</a
+              >VLR.gg</a
             >
             <p
               class="no-socials"
@@ -232,14 +232,14 @@
                 !player.twitch_url
               "
             >
-              Sin redes sociales añadidas.
+              No social media links added.
             </p>
           </div>
         </div>
 
         <!-- VOLVER -->
         <div class="back-link">
-          <a routerLink="/players">← Volver a la búsqueda</a>
+          <a routerLink="/players">← Back to Search</a>
         </div>
       </div>
     </div>
