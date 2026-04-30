@@ -42,12 +42,12 @@
           style="cursor: pointer"
         />
         <div class="user-dropdown" *ngIf="userMenuOpen">
-          <a routerLink="/profile" (click)="userMenuOpen = false">👤 Mi perfil</a>
-          <a routerLink="/team-profile" (click)="userMenuOpen = false">🛡️ Mi equipo</a>
-          <a routerLink="/subscriptions" (click)="userMenuOpen = false">💎 Mi plan</a>
+          <a routerLink="/profile" (click)="userMenuOpen = false">👤 My profile</a>
+          <a routerLink="/team-profile" (click)="userMenuOpen = false">🛡️ My team</a>
+          <a routerLink="/subscriptions" (click)="userMenuOpen = false">💎 My plan</a>
           <hr />
           <a (click)="logout()" style="cursor: pointer; color: #ff4d4d"
-            >🚪 Cerrar sesión</a
+            >🚪 Logout</a
           >
         </div>
       </div>
@@ -97,11 +97,11 @@
         *ngIf="isLogged()"
         style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px"
       >
-        <a routerLink="/profile" (click)="toggleMenu()" style="color: #fff">👤 Mi perfil</a>
-        <a routerLink="/team-profile" (click)="toggleMenu()" style="color: #fff">🛡️ Mi equipo</a>
-        <a routerLink="/subscriptions" (click)="toggleMenu()" style="color: #fff">💎 Mi plan</a>
+        <a routerLink="/profile" (click)="toggleMenu()" style="color: #fff">👤 My profile</a>
+        <a routerLink="/team-profile" (click)="toggleMenu()" style="color: #fff">🛡️ My team</a>
+        <a routerLink="/subscriptions" (click)="toggleMenu()" style="color: #fff">💎 My plan</a>
         <button class="logout-btn-mobile" (click)="logout()">
-          🚪 Cerrar sesión
+          🚪 Logout
         </button>
       </div>
     </div>
